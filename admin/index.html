@@ -4,7 +4,7 @@
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Admin Login — Barefoot Gifting</title>
-<link rel="stylesheet" href="./admin.css">
+<link rel="stylesheet" href="/admin/admin.css">
 </head>
 <body>
 <div class="login-wrap">
@@ -25,7 +25,7 @@
     </form>
   </div>
 </div>
-<script src="./admin-api.js"></script>
+<script src="/admin/admin-api.js"></script>
 <script>
 document.getElementById('login-form').addEventListener('submit', async e => {
   e.preventDefault();
@@ -44,7 +44,7 @@ document.getElementById('login-form').addEventListener('submit', async e => {
     if (!res.ok) throw new Error(data.error || 'Login failed');
     if (data.user.role !== 'admin') throw new Error('This account does not have admin access');
     AdminAPI.login(data.token, data.user);
-    location.href = './dashboard.html';
+    location.href = '/admin/dashboard.html';
   } catch (e2) {
     err.textContent = e2.message;
     err.classList.add('show');
@@ -52,7 +52,7 @@ document.getElementById('login-form').addEventListener('submit', async e => {
 });
 
 // already logged in? skip straight to dashboard
-if (AdminAPI.getToken() && AdminAPI.getUser()?.role === 'admin') location.href = './dashboard.html';
+if (AdminAPI.getToken() && AdminAPI.getUser()?.role === 'admin') location.href = '/admin/dashboard.html';
 </script>
 </body>
 </html>
