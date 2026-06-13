@@ -1,0 +1,152 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Settings — Barefoot Gifting Admin</title>
+<link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">Barefoot<span>.</span> Admin</div>
+    <nav>
+      <a href="./dashboard.html" data-nav="dashboard">📊 Dashboard</a>
+      <a href="./products.html" data-nav="products">🎁 Products</a>
+      <a href="./media.html" data-nav="media">🖼️ Media Library</a>
+      <a href="./orders.html" data-nav="orders">📦 Orders</a>
+      <a href="./comments.html" data-nav="comments">💬 Comments &amp; Reviews</a>
+      <a href="./customers.html" data-nav="customers">👤 Customers</a>
+      <a href="./settings.html" data-nav="settings">⚙️ Settings &amp; Paystack</a>
+    </nav>
+    <div class="foot">
+      <div data-who>—</div>
+      <button class="btn btn-o btn-sm btn-block" data-logout>Log Out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h1>Settings</h1>
+      <div class="who" data-who>—</div>
+    </div>
+    <div class="content">
+
+      <div class="panel">
+        <h2>Store Settings</h2>
+        <div class="error-msg" id="store-err"></div>
+        <div class="row" style="display:grid;grid-template-columns:1fr 1fr;gap:12px">
+          <div class="field"><label>Store Name</label><input id="s-store-name"></div>
+          <div class="field"><label>Delivery Fee (₦)</label><input id="s-delivery-fee" type="number" min="0"></div>
+          <div class="field"><label>Free Delivery Threshold (₦)</label><input id="s-free-threshold" type="number" min="0"></div>
+        </div>
+        <button class="btn btn-p" id="save-store">Save Store Settings</button>
+      </div>
+
+      <div class="panel">
+        <h2>Paystack Payment Gateway</h2>
+        <p class="muted" style="font-size:13px">
+          To accept card / bank / transfer payments, get your API keys from
+          <a href="https://dashboard.paystack.com/#/settings/developers" target="_blank" style="color:var(--red);text-decoration:underline">Paystack → Settings → API Keys</a>.
+        </p>
+        <div class="error-msg" id="paystack-err"></div>
+
+        <div class="field">
+          <label>Paystack Public Key</label>
+          <input id="s-paystack-public" placeholder="pk_test_xxxxxxxxxxxxxxxx">
+        </div>
+
+        <div class="field">
+          <label>Paystack Secret Key</label>
+          <input value="Configured via PAYSTACK_SECRET_KEY environment variable on Vercel (not editable here for security)" disabled>
+          <p class="muted" style="font-size:12px;margin-top:6px" id="secret-status">Checking…</p>
+        </div>
+
+        <div class="field">
+          <label>Enable Paystack at Checkout</label>
+          <select id="s-paystack-enabled">
+            <option value="false">Off</option>
+            <option value="true">On</option>
+          </select>
+        </div>
+
+        <div class="field">
+          <label>Webhook URL (paste this into Paystack → Settings → API Keys &amp; Webhooks)</label>
+          <input id="webhook-url" readonly>
+        </div>
+
+        <button class="btn btn-p" id="save-paystack">Save Paystack Settings</button>
+      </div>
+
+      <div class="panel">
+        <h2>API &amp; Integrations</h2>
+        <p class="muted" style="font-size:13px">This dashboard is backed by a REST API at <code>/api/*</code>, secured with a JWT bearer token. Use these endpoints to connect other tools (e.g. inventory software, a mobile app):</p>
+        <table>
+          <thead><tr><th>Endpoint</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>POST /api/auth/login</code></td><td>Authenticate, returns JWT</td></tr>
+            <tr><td><code>GET/POST /api/products</code></td><td>List / create products</td></tr>
+            <tr><td><code>GET/PUT/DELETE /api/products/:id</code></td><td>Manage a single product + images</td></tr>
+            <tr><td><code>GET/POST /api/media</code></td><td>Media library (Vercel Blob storage)</td></tr>
+            <tr><td><code>GET/POST /api/orders</code></td><td>Order history / create order</td></tr>
+            <tr><td><code>PATCH /api/orders/:id</code></td><td>Update order status</td></tr>
+            <tr><td><code>GET/POST /api/comments</code></td><td>Reviews &amp; blog comments</td></tr>
+            <tr><td><code>POST /api/paystack/initialize</code></td><td>Start a Paystack transaction</td></tr>
+            <tr><td><code>GET /api/paystack/verify</code></td><td>Verify payment after redirect</td></tr>
+            <tr><td><code>POST /api/paystack/webhook</code></td><td>Paystack server-to-server webhook</td></tr>
+          </tbody>
+        </table>
+      </div>
+
+    </div>
+  </div>
+</div>
+
+<script src="./admin-api.js"></script>
+<script>
+if (AdminAPI.requireAuth()) {
+  renderAdminShell('settings');
+
+  document.getElementById('webhook-url').value = location.origin + '/api/paystack/webhook';
+
+  AdminAPI.get('/settings').then(s => {
+    document.getElementById('s-store-name').value = s.store_name || '';
+    document.getElementById('s-delivery-fee').value = s.delivery_fee || 0;
+    document.getElementById('s-free-threshold').value = s.free_delivery_threshold || 0;
+    document.getElementById('s-paystack-public').value = s.paystack_public_key || '';
+    document.getElementById('s-paystack-enabled').value = s.paystack_enabled || 'false';
+    document.getElementById('secret-status').textContent = s.paystack_secret_key_set
+      ? '✓ Secret key is configured on the server.'
+      : '✗ Secret key is NOT set yet — add PAYSTACK_SECRET_KEY in Vercel project settings.';
+  });
+
+  document.getElementById('save-store').addEventListener('click', async () => {
+    try {
+      await AdminAPI.put('/settings', {
+        store_name: document.getElementById('s-store-name').value,
+        delivery_fee: Number(document.getElementById('s-delivery-fee').value),
+        free_delivery_threshold: Number(document.getElementById('s-free-threshold').value),
+      });
+      alert('Saved!');
+    } catch (e) {
+      const el = document.getElementById('store-err');
+      el.textContent = e.message; el.classList.add('show');
+    }
+  });
+
+  document.getElementById('save-paystack').addEventListener('click', async () => {
+    try {
+      await AdminAPI.put('/settings', {
+        paystack_public_key: document.getElementById('s-paystack-public').value,
+        paystack_enabled: document.getElementById('s-paystack-enabled').value,
+      });
+      alert('Saved!');
+    } catch (e) {
+      const el = document.getElementById('paystack-err');
+      el.textContent = e.message; el.classList.add('show');
+    }
+  });
+}
+</script>
+</body>
+</html>

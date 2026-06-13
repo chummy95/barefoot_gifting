@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account — Barefoot Gifting</title>
+<link rel="stylesheet" href="./account.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">Barefoot<span>.</span> Account</div>
+    <nav>
+      <a href="./dashboard.html" class="active">📦 My Orders</a>
+      <a href="./profile.html">👤 My Details</a>
+      <a href="../shop.html">🛍️ Continue Shopping</a>
+    </nav>
+    <div class="foot">
+      <div data-who>—</div>
+      <button class="btn btn-o btn-sm btn-block" data-logout>Log Out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h1>My Orders</h1>
+      <div class="who" data-who>—</div>
+    </div>
+    <div class="content">
+      <div class="panel">
+        <table>
+          <thead><tr><th>Order</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Date</th><th></th></tr></thead>
+          <tbody id="rows"><tr><td colspan="7" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-bg"><div class="modal" id="modal-body"></div></div>
+
+<script src="./account-api.js"></script>
+<script>
+if (AccountAPI.requireAuth()) {
+  const user = AccountAPI.getUser();
+  document.querySelectorAll('[data-who]').forEach(el => el.textContent = `${user.name} (${user.email})`);
+  document.querySelector('[data-logout]').addEventListener('click', () => AccountAPI.logout());
+
+  let orders = [];
+  AccountAPI.get('/orders').then(items => {
+    orders = items;
+    const rows = document.getElementById('rows');
+    if (!items.length) {
+      rows.innerHTML = '<tr><td colspan="7" class="empty">You haven\'t placed any orders yet. <a href="../shop.html" style="color:var(--red)">Start shopping →</a></td></tr>';
+      return;
+    }
+    rows.innerHTML = items.map(o => `
+      <tr>
+        <td>#${o.id}</td>
+        <td>${o.items.reduce((s,i)=>s+i.qty,0)} item(s)</td>
+        <td>${AccountAPI.money(o.total)}</td>
+        <td><span class="tag tag-${o.payment_status}">${o.payment_status}</span></td>
+        <td><span class="tag tag-${o.status}">${o.status}</span></td>
+        <td>${AccountAPI.date(o.created_at)}</td>
+        <td><button class="btn btn-o btn-sm" onclick="viewOrder(${o.id})">View</button></td>
+      </tr>
+    `).join('');
+  });
+
+  window.viewOrder = (id) => {
+    const o = orders.find(x => x.id === id);
+    document.getElementById('modal-body').innerHTML = `
+      <h3>Order #${o.id}</h3>
+      <table>
+        <thead><tr><th>Item</th><th>Qty</th><th>Price</th></tr></thead>
+        <tbody>${o.items.map(i => `<tr><td>${i.name}</td><td>${i.qty}</td><td>${AccountAPI.money(i.price)}</td></tr>`).join('')}</tbody>
+      </table>
+      <p style="text-align:right;margin-top:10px">
+        Subtotal: ${AccountAPI.money(o.subtotal)}<br>
+        Delivery: ${AccountAPI.money(o.delivery_fee)}<br>
+        <strong>Total: ${AccountAPI.money(o.total)}</strong>
+      </p>
+      <p>Status: <span class="tag tag-${o.status}">${o.status}</span></p>
+      <div class="modal-actions"><button class="btn btn-o" onclick="document.getElementById('modal-bg').classList.remove('show')">Close</button></div>
+    `;
+    document.getElementById('modal-bg').classList.add('show');
+  };
+}
+</script>
+</body>
+</html>

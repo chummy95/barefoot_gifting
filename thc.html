@@ -1,0 +1,657 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Thoughtful Husbands Club — Barefoot Gifting</title>
+<style>
+@font-face { font-family:'Atirose'; src:url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/otf.otf') format('opentype'),url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/ttf.ttf') format('truetype'); font-weight:normal; font-style:normal; font-display:swap; }
+@font-face { font-family:'AstridGrotesk'; src:url('./Astrid.Grotesk.Font/AstridGrotesk-Light.otf') format('opentype'); font-weight:300; font-display:swap; }
+@font-face { font-family:'AstridGrotesk'; src:url('./Astrid.Grotesk.Font/AstridGrotesk-Regular.otf') format('opentype'); font-weight:400; font-display:swap; }
+@font-face { font-family:'AstridGrotesk'; src:url('./Astrid.Grotesk.Font/AstridGrotesk-Medium.otf') format('opentype'); font-weight:500; font-display:swap; }
+@font-face { font-family:'AstridGrotesk'; src:url('./Astrid.Grotesk.Font/AstridGrotesk-Bold.otf') format('opentype'); font-weight:700; font-display:swap; }
+@font-face { font-family:'AstridGrotesk'; src:url('./Astrid.Grotesk.Font/AstridGrotesk-ExtraBold.otf') format('opentype'); font-weight:800; font-display:swap; }
+:root { --red:#dd4040; --red-d:#c93535; --peach:#ffe9d0; --cream:#fff0e3; --tan:#eeddc0; --gold:#ffd744; --sage:#daeab0; --ink:#161616; --ink2:#252728; --font-h:'Atirose',Georgia,serif; --font-b:'AstridGrotesk',system-ui,sans-serif; --max:1320px; --gut:clamp(24px,5vw,80px); }
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:var(--font-b); font-weight:400; color:var(--ink); overflow-x:hidden; -webkit-font-smoothing:antialiased; background:var(--cream); }
+img { display:block; width:100%; height:100%; object-fit:cover; }
+a { text-decoration:none; color:inherit; }
+ul { list-style:none; }
+.wrap { max-width:var(--max); margin:0 auto; padding:0 var(--gut); }
+.wave { display:block; overflow:hidden; line-height:0; margin-bottom: -2px;}
+.wave svg { display:block; width:100%; }
+.btn { display:inline-flex; align-items:center; gap:10px; padding:14px 34px; font-family:var(--font-b); font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; border-radius:2px; cursor:pointer; transition:background .22s,color .22s,border-color .22s; white-space:nowrap; border:1.5px solid transparent; }
+.btn-p { background:var(--red); color:#fff; border-color:var(--red); }
+.btn-p:hover { background:var(--red-d); border-color:var(--red-d); }
+.btn-o { background:transparent; color:var(--ink); border-color:var(--ink); }
+.btn-o:hover { background:var(--ink); color:var(--cream); }
+.arr { transition:transform .2s; }
+.btn:hover .arr { transform:translateX(4px); }
+.label { font-family:var(--font-b); font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; }
+.label-red { color:var(--red); }
+.sec-h { font-family:var(--font-h); font-size:clamp(34px,3.8vw,58px); line-height:1.08; margin:12px 0 16px; }
+.sec-body { font-size:clamp(14px,1vw,17px); font-weight:300; line-height:1.85; color:rgba(22,22,22,.6); max-width:540px; }
+.sec-hd { margin-bottom:52px; }
+.sec-hd-c { text-align:center; }
+.sec-hd-c .sec-body { margin-left:auto; margin-right:auto; }
+.announce { background:var(--sage); padding:10px var(--gut); text-align:center; font-size:12px; font-weight:300; letter-spacing:.06em; color:var(--ink); }
+.announce strong { color:var(--red); font-weight:700; }
+.nav-shell { position:sticky; top:0; z-index:200; background:var(--cream); border-bottom:1px solid rgba(22,22,22,.07); }
+.nav { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; height:110px; gap:20px; }
+.nav-links { display:flex; align-items:center; gap:clamp(12px,2vw,32px); }
+.nav-links a { font-size:10px; font-weight:500; letter-spacing:.10em; text-transform:uppercase; color:var(--ink2); transition:color .2s; }
+.nav-links a:hover,.nav-links a.hi { color:var(--red); }
+.nav-logo img { height: 100px; width:auto; object-fit:contain; display:block; }
+.nav-r { display:flex; align-items:center; justify-content:flex-end; gap:clamp(10px,1.6vw,26px); }
+.nav-dd { position:relative; }
+.nav-dd > a::after { content:' ▾'; font-size:13px; opacity:.7; vertical-align:middle; }
+.nav-dd-menu { position:absolute; top:100%; left:0; padding-top:12px; background:transparent; min-width:210px; z-index:300; opacity:0; pointer-events:none; transform:translateY(4px); transition:opacity .2s,transform .2s; }
+.nav-dd-menu-inner { background:var(--cream); border:1px solid rgba(22,22,22,.09); padding:8px 0; box-shadow:0 12px 40px rgba(22,22,22,.1); }
+.nav-dd:hover .nav-dd-menu { opacity:1; pointer-events:auto; transform:translateY(0); }
+.nav-dd-menu a { display:block; padding:11px 22px; font-size:10px; font-weight:600; letter-spacing:.13em; text-transform:uppercase; color:var(--ink2); transition:color .2s,background .2s; }
+.nav-dd-menu a:hover { color:var(--red); background:rgba(22,22,22,.03); }
+.nav-dd-menu .dd-divider { height:1px; background:rgba(22,22,22,.07); margin:6px 0; }
+.ico { width:19px; height:19px; stroke:var(--ink2); fill:none; stroke-width:1.5; cursor:pointer; transition:stroke .2s; flex-shrink:0; }
+.ico:hover { stroke:var(--red); }
+.cart-w { position:relative; }
+.cart-badge { position:absolute; top:-7px; right:-8px; background:var(--red); color:#fff; font-size:9px; font-weight:800; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+.footer { background:var(--sage); color:var(--ink); position:relative; overflow:hidden; }
+.footer-mark { position:absolute; bottom:-40px; left:-40px; width:360px; height:360px; opacity:.1; pointer-events:none; }
+.footer-mark img { width:100%; height:100%; object-fit:contain; }
+.footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr 2fr; align-items:start; gap:40px; padding:64px 0 48px; border-bottom:1px solid rgba(22,22,22,.12); position:relative; z-index:1; }
+.f-logo { margin-bottom: 6px; }
+.f-logo img { height: 120px; width: auto; object-fit: contain; display: block; margin-left: -8px; }
+.f-desc { font-size:13px; font-weight:300; line-height:1.8; color:#000000; margin-bottom:22px; }
+.f-soc { display:flex; gap:10px; }
+.f-s { width:33px; height:33px; border-radius:50%; border:1px solid rgba(22,22,22,.2); display:flex; align-items:center; justify-content:center; color:var(--ink); transition:background .2s,border-color .2s,color .2s; }
+.f-s:hover { background:var(--red); border-color:var(--red); color:#fff; }
+.f-ct { font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:#000000; margin-bottom:16px; }
+.f-links { display:flex; flex-direction:column; gap:9px; }
+.f-links a { font-size:13px; font-weight:300; color:#000000; transition:color .2s; }
+.f-links a:hover { color:var(--red); }
+.f-nl-form { display: flex; align-items: stretch; max-width: 380px; }
+.f-nl-i {
+  flex: 1; min-width: 0; height: 46px; box-sizing: border-box;
+  background: rgba(255,255,255,.6); border: 1px solid rgba(22,22,22,.15);
+  border-right: none; padding: 0 14px;
+  color: var(--ink); font-family: var(--font-b); font-size: 12px; line-height: 1; outline: none;
+}
+.f-nl-i::placeholder { color: rgba(22,22,22,.4); }
+.f-nl-b {
+  flex-shrink: 0; height: 46px; box-sizing: border-box;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--red); border: 1px solid var(--red);
+  padding: 0 22px; margin: 0; color: #fff;
+  font-family: var(--font-b); font-size: 10px; font-weight: 800; line-height: 1;
+  letter-spacing: .14em; text-transform: uppercase; cursor: pointer;
+  transition: background .2s; white-space: nowrap;
+}
+.f-nl-b:hover { background: var(--red-d); }
+.f-nl-note { font-size:11px; color:#000000; margin-top:7px; line-height:1.5; }
+.footer-bot { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:20px 0; position:relative; z-index:1; }
+.f-copy { font-size:12px; font-weight:300; color:#000000; }
+.f-legal { display:flex; gap:20px; }
+.f-legal a { font-size:12px; font-weight:300; color:#000000; transition:color .2s; }
+.f-legal a:hover { color:var(--ink); }
+
+
+/* ---- ALL SAGE BG SECTIONS: black text ---- */
+.thc *, .faq-cta *, .tiers-sec *, .hiw-sec *, .addons-sec * { color: #000000; }
+.thc .btn-p, .faq-cta .btn-p, .tiers-sec .btn-p { color: #fff !important; }
+.thc .label-red, .faq-cta .label-red, .tiers-sec .label-red { color: var(--red) !important; }
+.thc .tp, .tiers-sec .tp { color: var(--red) !important; }
+.tier-f::before { color: #fff !important; }
+
+/* ---- THC PAGE ---- */
+.thc-hero { position:relative; overflow:hidden; min-height:90vh; display:flex; align-items:center; text-align:center; }
+/* full-bleed background photo */
+.thc-hero-bg { position:absolute; inset:0; z-index:0; }
+.thc-hero-bg img { width:100%; height:100%; object-fit:cover; object-position:center 65%; }
+/* sage + dark overlay so text stays readable */
+.thc-hero-bg::after {
+  content:'';
+  position:absolute; inset:0;
+  background: linear-gradient(
+    160deg,
+    rgba(218,234,176,.92) 0%,
+    rgba(218,234,176,.80) 35%,
+    rgba(218,234,176,.55) 60%,
+    rgba(218,234,176,.25) 100%
+  );
+}
+/* dot-grid texture on top */
+.thc-hero-texture {
+  position:absolute; inset:0; z-index:1; pointer-events:none;
+  background-image: radial-gradient(circle, rgba(22,22,22,.06) 1px, transparent 1px);
+  background-size: 28px 28px;
+}
+.thc-hero-mark { position:absolute; top:-40px; right:-40px; width:420px; height:420px; opacity:.06; pointer-events:none; z-index:1; }
+.thc-hero-mark img { width:100%; height:100%; object-fit:contain; }
+.thc-hero-wave { position:absolute; bottom:-2px; left:0; right:0; z-index:3; line-height:0; pointer-events:none; }
+.thc-hero-wave svg { display:block; width:100%; }
+.thc-hero .wrap { position:relative; z-index:2; padding-top:clamp(80px,10vw,130px); padding-bottom:clamp(80px,10vw,130px); }
+.thc-hero-eyebrow { font-family:var(--font-b); font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--red); margin-bottom:20px; }
+.thc-hero h1 { font-family:var(--font-h); font-size:clamp(44px,5.5vw,80px); line-height:1.05; color:var(--ink); margin-bottom:22px; }
+.thc-hero h1 em { font-style:italic; color:var(--red); }
+.thc-hero-sub { font-size:clamp(15px,1.1vw,18px); font-weight:300; line-height:1.85; color:#000000; max-width:560px; margin:0 auto 36px; }
+.thc-hero-btns { display:flex; gap:14px; justify-content:center; flex-wrap:wrap; }
+.thc-hero .btn-o { color:var(--ink); border-color:var(--gold); background:var(--gold); }
+.thc-hero .btn-o:hover { background:#e6c83a; border-color:#e6c83a; color:var(--ink); }
+
+/* How it works */
+.hiw-sec { background:var(--cream); padding:clamp(72px,9vw,120px) 0; }
+.hiw-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:2px; margin-top:48px; }
+.hiw-card {
+  background:var(--peach); padding:40px 28px; text-align:center;
+  cursor:pointer; position:relative; overflow:hidden;
+  transition:transform .3s, box-shadow .3s;
+}
+.hiw-card:nth-child(2) { background:var(--tan); }
+.hiw-card:nth-child(3) { background:var(--gold); }
+.hiw-card:nth-child(4) { background:var(--sage); }
+/* hover lift + shadow */
+.hiw-card:hover { transform:translateY(-8px); box-shadow:0 20px 50px rgba(22,22,22,.15); z-index:2; }
+/* red accent bar sweeps in from bottom on hover */
+.hiw-card::after {
+  content:''; position:absolute; bottom:0; left:0; right:0; height:4px;
+  background:var(--red); transform:scaleX(0); transform-origin:left;
+  transition:transform .35s;
+}
+.hiw-card:hover::after { transform:scaleX(1); }
+/* number brightens on hover */
+.hiw-card:hover .hiw-n { opacity:.65; }
+.hiw-n { font-family:var(--font-h); font-size:52px; color:var(--ink); opacity:.35; line-height:1; margin-bottom:10px; transition:opacity .3s; }
+.hiw-t { font-family:var(--font-h); font-size:clamp(20px,1.8vw,26px); color:#000000; margin-bottom:12px; }
+.hiw-d { font-size:14px; font-weight:300; line-height:1.75; color:#000000; }
+
+/* Tiers */
+.tiers-sec { background:var(--sage); padding:calc(clamp(72px,9vw,120px) + 90px) 0 calc(clamp(72px,9vw,120px) + 90px); position:relative; overflow:hidden; }
+.tiers-wave, .tiers-top-wave { position:absolute; left:0; right:0; z-index:2; line-height:0; pointer-events:none; }
+.tiers-wave { bottom:-2px; }
+.tiers-top-wave { top:-2px; }
+.tiers-wave svg, .tiers-top-wave svg { display:block; width:100%; }
+/* Promise section baked waves */
+.promise-sec { background:var(--red); padding:calc(clamp(72px,9vw,120px) + 90px) 0 calc(clamp(72px,9vw,120px) + 90px); text-align:center; position:relative; overflow:hidden; }
+.promise-wave-top, .promise-wave-bot { position:absolute; left:0; right:0; z-index:2; line-height:0; pointer-events:none; }
+.promise-wave-top { top:-2px; }
+.promise-wave-bot { bottom:-2px; }
+.promise-wave-top svg, .promise-wave-bot svg { display:block; width:100%; }
+/* brand pattern background */
+.tiers-sec::before {
+  content:'';
+  position:absolute; inset:0; z-index:0; pointer-events:none;
+  background-image: url('./Jpeg Files/Artboard 1 copy 13@2x-100.jpg');
+  background-repeat: repeat;
+  background-size: 700px auto;
+  opacity: .08;
+}
+.tiers-sec .wrap { position:relative; z-index:1; }
+.tiers-sec .sec-hd { position:relative; z-index:1; }
+.tiers-mark { position:absolute; bottom:-80px; right:-80px; width:480px; height:480px; opacity:.05; pointer-events:none; }
+.tiers-mark img { width:100%; height:100%; object-fit:contain; }
+.tiers-grid { display:grid; grid-template-columns:repeat(3,1fr); gap:18px; position:relative; z-index:1; }
+.tier { background:#ffffff; border:1px solid rgba(22,22,22,.1); padding:38px 30px 42px; transition:border-color .25s,box-shadow .25s; position:relative; }
+.tier:hover { border-color:rgba(22,22,22,.25); box-shadow:0 12px 40px rgba(22,22,22,.1); }
+.tier-f { border-color:var(--red); background:#ffffff; }
+.tier-f::before { content:'Most Popular'; position:absolute; top:-1px; left:50%; transform:translateX(-50%); background:var(--red); color:#fff; font-size:9px; font-weight:800; letter-spacing:.14em; text-transform:uppercase; padding:5px 14px; }
+.tier .btn-o { color:var(--red); border-color:var(--red); }
+.tier .btn-o:hover { background:var(--red); color:#fff; }
+.tn { font-family:var(--font-h); font-size:26px; color:var(--ink); margin-bottom:5px; }
+.tt { font-size:13px; font-weight:300; color:#000000; font-style:italic; margin-bottom:26px; }
+.tp { font-family:var(--font-h); font-size:34px; color:var(--red); line-height:1; margin-bottom:3px; }
+.tc { font-size:11px; color:#000000; letter-spacing:.06em; margin-bottom:26px; }
+.tfl { border-top:1px solid rgba(22,22,22,.1); padding-top:22px; display:flex; flex-direction:column; gap:12px; margin-bottom:30px; }
+.tfi { display:flex; align-items:flex-start; gap:11px; font-size:13px; font-weight:300; line-height:1.5; color:#000000; }
+.td { width:4px; height:4px; border-radius:50%; background:var(--red); flex-shrink:0; margin-top:7px; }
+
+/* Add-Ons */
+.addons-sec { background:var(--cream); padding:clamp(60px,7vw,96px) 0; }
+.addons-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:16px; margin-top:40px; }
+.addon-card { background:var(--peach); border-radius:3px; padding:32px 24px; transition:transform .25s,box-shadow .25s; cursor:pointer; }
+.addon-card:hover { transform:translateY(-4px); box-shadow:0 16px 40px rgba(22,22,22,.1); }
+.addon-card:nth-child(2) { background:var(--sage); }
+.addon-card:nth-child(3) { background:var(--tan); }
+.addon-card:nth-child(4) { background:var(--gold); }
+.addon-name { font-family:var(--font-h); font-size:clamp(18px,1.6vw,22px); color:var(--ink); margin-bottom:10px; }
+.addon-desc { font-size:13px; font-weight:300; line-height:1.65; color:rgba(22,22,22,.65); }
+
+/* Promise / CTA — padding handled by baked-wave rule above */
+.promise-mark { position:absolute; inset:0; opacity:.06; pointer-events:none; display:flex; align-items:center; justify-content:center; }
+.promise-mark img { width:100%; height:100%; object-fit:cover; }
+.promise-sec .wrap { position:relative; z-index:1; }
+.promise-sec h2 { font-family:var(--font-h); font-size:clamp(34px,4vw,58px); color:var(--cream); margin:12px 0 18px; line-height:1.1; }
+.promise-sec p { font-size:clamp(14px,1vw,17px); font-weight:300; line-height:1.85; color:rgba(255,240,227,.75); max-width:520px; margin:0 auto 36px; }
+.promise-sec .btn-o { color:#fff; border-color:#fff; }
+.promise-sec .btn-o:hover { background:#fff; color:var(--red); }
+
+/* Subscribe form */
+.subscribe-sec { background:var(--cream); padding:clamp(72px,9vw,120px) 0; }
+.subscribe-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(48px,6vw,96px); align-items:start; }
+.subscribe-form h2 { font-family:var(--font-h); font-size:clamp(28px,3vw,42px); margin:10px 0 8px; line-height:1.1; }
+.subscribe-form p { font-size:14px; font-weight:300; line-height:1.75; color:rgba(22,22,22,.65); margin-bottom:28px; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+input[type=text],input[type=email],input[type=tel],select,textarea { border:1px solid rgba(22,22,22,.15); padding:14px 18px; font-family:var(--font-b); font-size:14px; outline:none; width:100%; background:white; margin-bottom:16px; display:block; color:var(--ink); border-radius:2px; transition:border-color .2s; }
+input[type=text]:focus,input[type=email]:focus,input[type=tel]:focus,select:focus,textarea:focus { border-color:var(--red); }
+textarea { resize:vertical; min-height:120px; }
+.subscribe-panel { background:var(--sage); padding:40px; border-radius:3px; }
+.subscribe-panel h3 { font-family:var(--font-h); font-size:clamp(22px,2vw,30px); color:var(--ink); margin-bottom:20px; }
+.panel-item { display:flex; gap:14px; margin-bottom:20px; padding-bottom:20px; border-bottom:1px solid rgba(22,22,22,.12); }
+.panel-item:last-child { border-bottom:none; margin-bottom:0; }
+.panel-dot { width:8px; height:8px; border-radius:50%; background:var(--red); flex-shrink:0; margin-top:6px; }
+.panel-text strong { display:block; font-size:12px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--red); margin-bottom:4px; }
+.panel-text p { font-size:13px; font-weight:300; line-height:1.7; color:#000000; }
+</style>
+</head>
+<body>
+
+<div class="announce">Free delivery above <strong>₦45,000</strong> within Abuja &nbsp;·&nbsp; Same day delivery on orders placed before <strong>noon</strong></div>
+
+<div class="nav-shell">
+  <div class="wrap">
+    <nav class="nav">
+      <ul class="nav-links">
+        <li class="nav-dd"><a href="./shop.html">Shop</a>
+          <div class="nav-dd-menu">
+            <div class="nav-dd-menu-inner">
+              <a href="./shop.html">All Products</a>
+              <div class="dd-divider"></div>
+              <a href="./shop.html">Greeting Cards</a>
+              <a href="./shop.html">Little Luxes</a>
+              <a href="./shop.html">Stationery</a>
+              <a href="./shop.html">Gift Boxes</a>
+            </div>
+          </div>
+        </li>
+        <li><a href="./corporate.html">Corporate Gifting</a></li>
+        <li><a href="./concierge.html">Concierge Gifting</a></li>
+      </ul>
+      <a href="./index.html" class="nav-logo"><img src="./Png Files/Logo.png" alt="Barefoot Gifting"></a>
+      <div class="nav-r">
+        <ul class="nav-links">
+          <li><a href="./thc.html" class="hi">Husbands Club</a></li>
+          <li><a href="./about.html">About</a></li>
+          <li><a href="./journal.html">Keepsake Edit</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+        </ul>
+        <a href="./account/index.html" aria-label="My Account" style="display:flex;align-items:center;margin-right:8px"><svg class="ico" viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a href="./cart.html" class="cart-w" aria-label="View cart">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="cart-badge">0</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="thc-hero">
+  <div class="thc-hero-bg"><img src="./mockup/man.png" alt=""></div>
+  <div class="thc-hero-texture"></div>
+  <div class="thc-hero-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="thc-hero-eyebrow">Membership · Subscription Gifting</div>
+    <h1>The Thoughtful<br><em>Husbands Club</em></h1>
+    <p class="thc-hero-sub">You stay thoughtful. We handle the logistics. A premium gifting concierge designed for husbands who want to consistently celebrate their wives — without the stress of planning, sourcing, or remembering every occasion.</p>
+    <div class="thc-hero-btns">
+      <a href="#subscribe" class="btn btn-p">Join the Club <span class="arr">→</span></a>
+    </div>
+  </div>
+  <!-- wave baked into hero — cuts through the photo -->
+  <div class="thc-hero-wave">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#fff0e3"/>
+    </svg>
+  </div>
+</section>
+
+<!-- How It Works -->
+<section class="hiw-sec">
+  <div class="wrap">
+    <div class="sec-hd sec-hd-c">
+      <span class="label label-red">How It Works</span>
+      <h2 class="sec-h">Four steps.<br>Zero stress.</h2>
+      <p class="sec-body">From joining to celebrating — we handle everything in between.</p>
+    </div>
+    <div class="hiw-grid">
+      <div class="hiw-card">
+        <div class="hiw-n">01</div>
+        <div class="hiw-t">Join</div>
+        <p class="hiw-d">Select your membership tier and secure your spot in the club.</p>
+      </div>
+      <div class="hiw-card">
+        <div class="hiw-n">02</div>
+        <div class="hiw-t">Share</div>
+        <p class="hiw-d">Tell us about your wife, your relationship, and the moments that matter most.</p>
+      </div>
+      <div class="hiw-card">
+        <div class="hiw-n">03</div>
+        <div class="hiw-t">Relax</div>
+        <p class="hiw-d">Our gifting concierge manages all reminders, sourcing, curation, packaging, and delivery.</p>
+      </div>
+      <div class="hiw-card">
+        <div class="hiw-n">04</div>
+        <div class="hiw-t">Celebrate</div>
+        <p class="hiw-d">Receive all the credit while she receives a gift chosen with true intention.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Membership Tiers -->
+<section class="tiers-sec" id="tiers">
+  <!-- top wave baked in — cream humps dip into sage -->
+  <div class="tiers-top-wave">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,14 C44,14 76,34 120,34 C164,34 196,14 240,14 C284,14 316,34 360,34 C404,34 436,14 480,14 C524,14 556,34 600,34 C644,34 676,14 720,14 C764,14 796,34 840,34 C884,34 916,14 960,14 C1004,14 1036,34 1080,34 C1124,34 1156,14 1200,14 C1244,14 1276,34 1320,34 C1364,34 1396,14 1440,14 L1440,0 L0,0 Z" fill="#fff0e3"/>
+    </svg>
+  </div>
+  <div class="tiers-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-hd sec-hd-c">
+      <span class="label label-red">Membership Tiers</span>
+      <h2 class="sec-h">Choose your level<br>of intention</h2>
+      <p class="sec-body">Every tier includes the same care and dedication — the difference is in depth, frequency, and personalisation.</p>
+    </div>
+    <div class="tiers-grid">
+
+      <div class="tier">
+        <div class="tn">Thoughtful</div>
+        <div class="tt">For the husband who wants to consistently show up well</div>
+        <div class="tp">₦250,000 – ₦350,000<span style="font-size:12px;font-weight:400">/year</span></div>
+        <div class="tc">4 curated celebrations annually</div>
+        <ul class="tfl">
+          <li class="tfi"><span class="td"></span>4 curated celebrations annually</li>
+          <li class="tfi"><span class="td"></span>Occasion reminders</li>
+          <li class="tfi"><span class="td"></span>Curated gift selection</li>
+          <li class="tfi"><span class="td"></span>Personalized gift note</li>
+          <li class="tfi"><span class="td"></span>Premium gift wrapping</li>
+          <li class="tfi"><span class="td"></span>Delivery coordination</li>
+          <li class="tfi"><span class="td"></span>Recipient preference profile</li>
+          <li class="tfi"><span class="td"></span>Covers Birthday, Anniversary, Mother's Day &amp; Valentine's Day</li>
+        </ul>
+        <a href="#subscribe" class="btn btn-o tier-choose" data-tier="Thoughtful — ₦250,000–₦350,000/year" style="width:100%;justify-content:center">Choose Thoughtful <span class="arr">→</span></a>
+      </div>
+
+      <div class="tier tier-f">
+        <div class="tn">Intentional</div>
+        <div class="tt">For the husband who wants every gift to feel deeply considered</div>
+        <div class="tp">₦400,000<span style="font-size:12px;font-weight:400">/year</span></div>
+        <div class="tc">Everything in Thoughtful, plus</div>
+        <ul class="tfl">
+          <li class="tfi"><span class="td"></span>Everything in Thoughtful</li>
+          <li class="tfi"><span class="td"></span>Higher-value gift selections</li>
+          <li class="tfi"><span class="td"></span>Enhanced personalization</li>
+          <li class="tfi"><span class="td"></span>Custom gift sourcing</li>
+          <li class="tfi"><span class="td"></span>Surprise gifting opportunities</li>
+          <li class="tfi"><span class="td"></span>Priority concierge support</li>
+          <li class="tfi"><span class="td"></span>Celebration planning assistance</li>
+          <li class="tfi"><span class="td"></span>Luxury presentation upgrades</li>
+        </ul>
+        <a href="#subscribe" class="btn btn-p tier-choose" data-tier="Intentional — ₦400,000/year" style="width:100%;justify-content:center">Choose Intentional <span class="arr">→</span></a>
+      </div>
+
+      <div class="tier">
+        <div class="tn">Devoted</div>
+        <div class="tt">For the husband who wants a completely white-glove experience</div>
+        <div class="tp">From ₦500,000<span style="font-size:12px;font-weight:400">/year</span></div>
+        <div class="tc">Everything in Intentional, plus</div>
+        <ul class="tfl">
+          <li class="tfi"><span class="td"></span>Everything in Intentional</li>
+          <li class="tfi"><span class="td"></span>Dedicated gifting concierge</li>
+          <li class="tfi"><span class="td"></span>Unlimited occasion reminders</li>
+          <li class="tfi"><span class="td"></span>Priority sourcing</li>
+          <li class="tfi"><span class="td"></span>Last-minute gifting rescue support</li>
+          <li class="tfi"><span class="td"></span>Luxury &amp; bespoke gifts</li>
+          <li class="tfi"><span class="td"></span>Experience-based gifting</li>
+          <li class="tfi"><span class="td"></span>Custom celebration planning</li>
+          <li class="tfi"><span class="td"></span>Quarterly surprise gifting</li>
+        </ul>
+        <a href="#subscribe" class="btn btn-o tier-choose" data-tier="Devoted — From ₦500,000/year" style="width:100%;justify-content:center">Choose Devoted <span class="arr">→</span></a>
+      </div>
+
+    </div>
+  </div>
+  <!-- Wave baked inside section so pattern covers it fully -->
+  <div class="tiers-wave">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#fff0e3"/>
+    </svg>
+  </div>
+</section>
+
+<!-- Optional Add-Ons -->
+<section class="addons-sec">
+  <div class="wrap">
+    <div class="sec-hd sec-hd-c">
+      <span class="label label-red">Optional Add-Ons</span>
+      <h2 class="sec-h">A little extra intention</h2>
+      <p class="sec-body">Enhance any membership with these optional extras — available to all tiers.</p>
+    </div>
+    <div class="addons-grid">
+      <div class="addon-card">
+        <div class="addon-name">The 'I Forgot' Rescue</div>
+        <p class="addon-desc">Last-minute gifting sorted — beautifully — even when time isn't on your side.</p>
+      </div>
+      <div class="addon-card">
+        <div class="addon-name">Push Present Concierge</div>
+        <p class="addon-desc">Celebrate the arrival of your little one with a gift she'll always remember.</p>
+      </div>
+      <div class="addon-card">
+        <div class="addon-name">Date Night Upgrade</div>
+        <p class="addon-desc">Turn a regular evening into a curated experience she didn't know she needed.</p>
+      </div>
+      <div class="addon-card">
+        <div class="addon-name">Milestone Celebrations</div>
+        <p class="addon-desc">For the big moments — promotions, graduations, decade birthdays — done right.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Brand Promise -->
+<section class="promise-sec">
+  <!-- top wave baked in — cream humps dip into red -->
+  <div class="promise-wave-top">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,14 C44,14 76,34 120,34 C164,34 196,14 240,14 C284,14 316,34 360,34 C404,34 436,14 480,14 C524,14 556,34 600,34 C644,34 676,14 720,14 C764,14 796,34 840,34 C884,34 916,14 960,14 C1004,14 1036,34 1080,34 C1124,34 1156,14 1200,14 C1244,14 1276,34 1320,34 C1364,34 1396,14 1440,14 L1440,0 L0,0 Z" fill="#fff0e3"/>
+    </svg>
+  </div>
+  <div class="promise-mark"><img src="./SVG/Artboard 1 copy 12.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <span class="label" style="color:rgba(255,240,227,.6)">Our Promise</span>
+    <h2>You stay thoughtful.<br>We handle the logistics.</h2>
+    <p>The goal is simple: to help husbands communicate love consistently through timely, intentional, and memorable gifting.</p>
+    <div style="display:flex;gap:14px;justify-content:center;flex-wrap:wrap;">
+      <a href="#subscribe" class="btn btn-p" style="background:#fff;color:var(--red);border-color:#fff;">Join the Club <span class="arr">→</span></a>
+    </div>
+  </div>
+  <!-- bottom wave baked in — cream humps rise into red -->
+  <div class="promise-wave-bot">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#fff0e3"/>
+    </svg>
+  </div>
+</section>
+
+<!-- Subscribe / Enquire -->
+<section class="subscribe-sec" id="subscribe">
+  <div class="wrap">
+    <div class="subscribe-grid">
+      <div class="subscribe-form">
+        <span class="label label-red">Ready to Join?</span>
+        <h2>Secure your membership</h2>
+        <p>Fill in your details below and our concierge team will be in touch within 24 hours to set up your membership and recipient profile.</p>
+        <form id="membership-form">
+          <div class="form-row">
+            <input type="text" placeholder="Your Full Name" required>
+            <input type="tel" placeholder="Phone / WhatsApp" required>
+          </div>
+          <input type="email" placeholder="Email Address" required>
+          <select id="membership-tier" required>
+            <option value="">Select a Membership Tier</option>
+            <option data-price="300000">Thoughtful — ₦250,000–₦350,000/year</option>
+            <option data-price="400000">Intentional — ₦400,000/year</option>
+            <option data-price="500000">Devoted — From ₦500,000/year</option>
+          </select>
+          <textarea placeholder="Tell us a little about your wife and the occasions you'd like covered…" required></textarea>
+          <button type="submit" class="btn btn-p" style="width:100%;justify-content:center">Add Membership to Cart <span class="arr">→</span></button>
+        </form>
+      </div>
+      <div class="subscribe-panel">
+        <h3>What happens next</h3>
+        <div class="panel-item">
+          <div class="panel-dot"></div>
+          <div class="panel-text">
+            <strong>Within 24 Hours</strong>
+            <p>Our concierge team will reach out to confirm your membership and schedule your onboarding call.</p>
+          </div>
+        </div>
+        <div class="panel-item">
+          <div class="panel-dot"></div>
+          <div class="panel-text">
+            <strong>Recipient Profile</strong>
+            <p>We'll gather details about your wife — her preferences, love language, and the occasions that matter most.</p>
+          </div>
+        </div>
+        <div class="panel-item">
+          <div class="panel-dot"></div>
+          <div class="panel-text">
+            <strong>We Take It From Here</strong>
+            <p>Reminders, sourcing, curation, wrapping, and delivery — all handled. You just show up and celebrate.</p>
+          </div>
+        </div>
+        <div class="panel-item">
+          <div class="panel-dot"></div>
+          <div class="panel-text">
+            <strong>Questions?</strong>
+            <p>WhatsApp us anytime — we're available weekdays 9am–6pm WAT and always happy to help.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="f-logo"><img src="./Png Files/Logo-cropped.png" alt="Barefoot Gifting"></div>
+        <p class="f-desc">Thoughtful gifts for every milestone, celebration, and just-because moment. Based in Abuja — delivering meaning across Nigeria.</p>
+        <div class="f-soc">
+          <a href="https://instagram.com/barefootgifting" class="f-s" aria-label="Instagram" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#" class="f-s" aria-label="Twitter / X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L2.25 2.25h6.093l4.26 5.635 5.641-5.635Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="#" class="f-s" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a><a href="https://wa.me/2349011287992" class="f-s" aria-label="WhatsApp" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <div class="f-ct">Shop</div>
+        <ul class="f-links">
+          <li><a href="./shop.html">All Products</a></li>
+          <li><a href="./shop.html">Greeting Cards</a></li>
+          <li><a href="./shop.html">Little Luxes</a></li>
+          <li><a href="./shop.html">Stationery</a></li>
+          <li><a href="./shop.html">Gift Boxes</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">By Occasion</div>
+        <ul class="f-links">
+          <li><a href="#">Mother's Day</a></li>
+          <li><a href="#">Father's Day</a></li>
+          <li><a href="#">Birthdays</a></li>
+          <li><a href="#">Naming Ceremony</a></li>
+          <li><a href="#">Weddings</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Services</div>
+        <ul class="f-links">
+          <li><a href="./concierge.html">Concierge Gifting</a></li>
+          <li><a href="./corporate.html">Corporate Gifting</a></li>
+          <li><a href="./thc.html">Husbands Club</a></li>
+          <li><a href="./journal.html">Journal</a></li>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Stay in the Loop</div>
+        <p style="font-size:13px;font-weight:300;color:#000000;line-height:1.75;margin-bottom:0">Gift guides, new arrivals, and seasonal edits — with intention.</p>
+        <div class="f-nl-form">
+          <input class="f-nl-i" type="email" placeholder="Your email address" required>
+          <button class="f-nl-b">Subscribe</button>
+        </div>
+        <p class="f-nl-note">No spam. Just beautiful things worth knowing about.</p>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span class="f-copy">© 2025 Barefoot Gifting. All rights reserved.</span>
+      <div class="f-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Design Credits</a>
+        <a href="#">Shipping Policy</a>
+        <a href="#">Returns</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const BFCart = {
+  key: 'bfg_cart',
+  get() { return JSON.parse(localStorage.getItem(this.key) || '[]'); },
+  save(cart) { localStorage.setItem(this.key, JSON.stringify(cart)); },
+  add(item) {
+    const cart = this.get();
+    const existing = cart.find(i => i.id === item.id);
+    if (existing) existing.qty++;
+    else cart.push({...item, qty: 1});
+    this.save(cart);
+    this.updateBadge();
+  },
+  count() { return this.get().reduce((s, i) => s + i.qty, 0); },
+  updateBadge() { document.querySelectorAll('.cart-badge').forEach(b => b.textContent = this.count()); }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  BFCart.updateBadge();
+
+  const tierSelect = document.getElementById('membership-tier');
+
+  document.querySelectorAll('.tier-choose').forEach(btn => {
+    btn.addEventListener('click', () => {
+      if (tierSelect) {
+        const tier = btn.dataset.tier;
+        [...tierSelect.options].forEach(opt => { if (opt.text === tier) tierSelect.value = tier; });
+      }
+    });
+  });
+
+  const form = document.getElementById('membership-form');
+  if (form) {
+    form.addEventListener('submit', e => {
+      e.preventDefault();
+      const opt = tierSelect.options[tierSelect.selectedIndex];
+      if (!tierSelect.value) {
+        tierSelect.focus();
+        return;
+      }
+      BFCart.add({
+        id: 'thc-membership-' + tierSelect.value.split(' ')[0].toLowerCase(),
+        name: 'Thoughtful Husbands Club — ' + opt.text,
+        price: Number(opt.dataset.price),
+        img: './mockup/BOX.png'
+      });
+      const btn = form.querySelector('button[type="submit"]');
+      const orig = btn.innerHTML;
+      btn.innerHTML = 'Added to Cart ✓';
+      setTimeout(() => { btn.innerHTML = orig; }, 1200);
+    });
+  }
+});
+</script>
+
+</body>
+</html>

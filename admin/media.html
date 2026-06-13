@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Media Library — Barefoot Gifting Admin</title>
+<link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">Barefoot<span>.</span> Admin</div>
+    <nav>
+      <a href="./dashboard.html" data-nav="dashboard">📊 Dashboard</a>
+      <a href="./products.html" data-nav="products">🎁 Products</a>
+      <a href="./media.html" data-nav="media">🖼️ Media Library</a>
+      <a href="./orders.html" data-nav="orders">📦 Orders</a>
+      <a href="./comments.html" data-nav="comments">💬 Comments &amp; Reviews</a>
+      <a href="./customers.html" data-nav="customers">👤 Customers</a>
+      <a href="./settings.html" data-nav="settings">⚙️ Settings &amp; Paystack</a>
+    </nav>
+    <div class="foot">
+      <div data-who>—</div>
+      <button class="btn btn-o btn-sm btn-block" data-logout>Log Out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h1>Media Library</h1>
+      <div class="who" data-who>—</div>
+    </div>
+    <div class="content">
+      <div class="panel">
+        <div class="panel-head">
+          <h2>All Media</h2>
+          <div>
+            <input type="file" id="upload" accept="image/*" multiple style="display:none">
+            <button class="btn btn-p" id="upload-btn">+ Upload Images</button>
+          </div>
+        </div>
+        <div class="img-grid" id="grid"><p class="empty">Loading…</p></div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./admin-api.js"></script>
+<script>
+if (AdminAPI.requireAuth()) {
+  renderAdminShell('media');
+
+  async function load() {
+    const items = await AdminAPI.get('/media');
+    const grid = document.getElementById('grid');
+    if (!items.length) { grid.innerHTML = '<p class="empty">No media uploaded yet.</p>'; return; }
+    grid.innerHTML = items.map(m => `
+      <div class="img-card">
+        <img src="${m.url}" loading="lazy">
+        <div class="meta">
+          <div class="name" title="${m.filename}">${m.filename}</div>
+          <div class="muted">${(m.size_bytes/1024).toFixed(0)} KB</div>
+          <button class="btn btn-o btn-sm" onclick="copyUrl('${m.url}')">Copy URL</button>
+          <button class="btn btn-danger btn-sm" onclick="removeMedia(${m.id})">Delete</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.copyUrl = (url) => { navigator.clipboard.writeText(url); };
+  window.removeMedia = async (id) => {
+    if (!confirm('Delete this file? Products using it will show a broken image.')) return;
+    await AdminAPI.del(`/media/${id}`);
+    load();
+  };
+
+  document.getElementById('upload-btn').addEventListener('click', () => document.getElementById('upload').click());
+  document.getElementById('upload').addEventListener('change', async (e) => {
+    for (const file of [...e.target.files]) {
+      try { await AdminAPI.uploadFile(file, file.name); } catch (err) { alert('Upload failed: ' + err.message); }
+    }
+    e.target.value = '';
+    load();
+  });
+
+  load();
+}
+</script>
+</body>
+</html>

@@ -1,0 +1,389 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Contact Us — Barefoot Gifting</title>
+<style>
+@font-face{font-family:'Atirose';src:url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/otf.otf') format('opentype'),url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/ttf.ttf') format('truetype');font-weight:normal;font-style:normal;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Light.otf') format('opentype');font-weight:300;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Regular.otf') format('opentype');font-weight:400;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Medium.otf') format('opentype');font-weight:500;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Bold.otf') format('opentype');font-weight:700;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-ExtraBold.otf') format('opentype');font-weight:800;font-display:swap;}
+:root{--red:#dd4040;--red-d:#c93535;--peach:#ffe9d0;--cream:#fff0e3;--tan:#eeddc0;--gold:#ffd744;--sage:#daeab0;--ink:#161616;--ink2:#252728;--font-h:'Atirose',Georgia,serif;--font-b:'AstridGrotesk',system-ui,sans-serif;--max:1320px;--gut:clamp(24px,5vw,80px);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-b);font-weight:400;color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;background:var(--cream);}
+img{display:block;width:100%;height:100%;object-fit:cover;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut);}
+.wave{display:block;overflow:hidden;line-height:0; margin-bottom: -2px;}
+.wave svg{display:block;width:100%;}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 34px;font-family:var(--font-b);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:background .22s,color .22s,border-color .22s;white-space:nowrap;border:1.5px solid transparent;}
+.btn-p{background:var(--red);color:#fff;border-color:var(--red);}
+.btn-p:hover{background:var(--red-d);border-color:var(--red-d);}
+.btn-o{background:transparent;color:var(--sage);border-color:var(--sage);}
+.btn-o:hover{background:var(--sage);color:var(--ink);border-color:var(--sage);}
+.arr{transition:transform .2s;}
+.btn:hover .arr{transform:translateX(4px);}
+.label{font-family:var(--font-b);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;}
+.label-red{color:var(--red);}
+.sec-h{font-family:var(--font-h);font-size:clamp(34px,3.8vw,58px);line-height:1.08;margin:12px 0 16px;}
+.sec-body{font-size:clamp(14px,1vw,17px);font-weight:300;line-height:1.85;color:rgba(22,22,22,.6);max-width:540px;}
+.announce{background:var(--sage);padding:10px var(--gut);text-align:center;font-size:12px;font-weight:300;letter-spacing:.06em;color:var(--ink);}
+.announce strong{color:var(--red);font-weight:700;}
+.nav-shell{position:sticky;top:0;z-index:200;background:var(--cream);border-bottom:1px solid rgba(22,22,22,.07);}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:110px;gap:20px;}
+.nav-links{display:flex;align-items:center;gap:clamp(12px,2vw,32px);}
+.nav-links a{font-size:10px;font-weight:500;letter-spacing:.10em;text-transform:uppercase;color:var(--ink2);transition:color .2s;}
+.nav-links a:hover,.nav-links a.hi{color:var(--red);}
+.nav-logo img{ height: 100px;width:auto;object-fit:contain;display:block;}
+.nav-r{display:flex;align-items:center;justify-content:flex-end;gap:clamp(8px,1vw,18px);}.nav-dd{position:relative;}.nav-dd>a::after{content:" ▾";font-size:13px;opacity:.7;vertical-align:middle;}.nav-dd-menu{position:absolute;top:100%;left:0;padding-top:12px;background:transparent;min-width:210px;z-index:300;opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .2s,transform .2s;}.nav-dd-menu-inner{background:var(--cream);border:1px solid rgba(22,22,22,.09);padding:8px 0;box-shadow:0 12px 40px rgba(22,22,22,.1);}.nav-dd:hover .nav-dd-menu{opacity:1;pointer-events:auto;transform:translateY(0);}.nav-dd-menu a{display:block;padding:11px 22px;font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink2);transition:color .2s,background .2s;}.nav-dd-menu a:hover{color:var(--red);background:rgba(22,22,22,.03);}.nav-dd-menu .dd-divider{height:1px;background:rgba(22,22,22,.07);margin:6px 0;}
+.ico{width:19px;height:19px;stroke:var(--ink2);fill:none;stroke-width:1.5;cursor:pointer;transition:stroke .2s;flex-shrink:0;}
+.ico:hover{stroke:var(--red);}
+.cart-w{position:relative;}
+.cart-badge{position:absolute;top:-7px;right:-8px;background:var(--red);color:#fff;font-size:9px;font-weight:800;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+
+/* PAGE HERO */
+.ph{background:var(--peach);padding:clamp(16px,2vw,28px) 0 clamp(56px,6vw,84px);position:relative;overflow:hidden;min-height:440px;display:flex;align-items:center;}
+.ph::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.07;background-image:url("./Png Files/Artboard 1@2x.png");background-size:340px 335px;background-repeat:repeat;background-position:top left;}
+.ph .wrap{position:relative;z-index:1;width:100%;}
+.ph-mark{position:absolute;top:-60px;right:-60px;width:480px;height:480px;opacity:.08;pointer-events:none;}
+.ph-mark img{width:100%;height:100%;object-fit:contain;}
+.ph-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(48px,6vw,96px);align-items:center;position:relative;z-index:1;}
+.ph-inner{max-width:700px;position:relative;z-index:1;}
+.ph h1{font-family:var(--font-h);font-size:clamp(34px,4.2vw,62px);line-height:1.05;color:var(--ink);margin:14px 0 20px;}
+.ph h1 em{font-style:italic;color:var(--red);}
+.ph p{font-size:clamp(14px,1vw,17px);font-weight:300;line-height:1.85;color:rgba(22,22,22,.65);max-width:460px;}
+.ph-img{aspect-ratio:4/5;overflow:hidden;border-radius:3px;background:var(--peach);}
+.ph-img img{transition:transform .5s;}
+.ph-img:hover img{transform:scale(1.03);}
+.ph-img-blend{
+  aspect-ratio:4/5; position:relative;
+  -webkit-mask-image:radial-gradient(ellipse 72% 72% at 50% 50%, #000 58%, transparent 100%);
+  mask-image:radial-gradient(ellipse 72% 72% at 50% 50%, #000 58%, transparent 100%);
+}
+.ph-img-blend img{ width:100%; height:100%; object-fit:cover; transition:transform .6s; }
+.ph-img-blend:hover img{ transform:scale(1.04); }
+.scallop-frame {
+  --s: 16px;
+  --fc: #eeddc0;
+  padding: calc(var(--s) + 4px);
+  background: var(--fc);
+  -webkit-mask:
+    radial-gradient(circle at 50% 0, transparent var(--s), #000 calc(var(--s) + .5px)) 0 0 / calc(var(--s)*2) var(--s) repeat-x,
+    radial-gradient(circle at 50% 100%, transparent var(--s), #000 calc(var(--s) + .5px)) 0 100% / calc(var(--s)*2) var(--s) repeat-x,
+    radial-gradient(circle at 0% 50%, transparent var(--s), #000 calc(var(--s) + .5px)) 0 0 / var(--s) calc(var(--s)*2) repeat-y,
+    radial-gradient(circle at 100% 50%, transparent var(--s), #000 calc(var(--s) + .5px)) 100% 0 / var(--s) calc(var(--s)*2) repeat-y,
+    linear-gradient(#000 0 0) center / calc(100% - var(--s)*2) calc(100% - var(--s)*2) no-repeat;
+  mask:
+    radial-gradient(circle at 50% 0, transparent var(--s), #000 calc(var(--s) + .5px)) 0 0 / calc(var(--s)*2) var(--s) repeat-x,
+    radial-gradient(circle at 50% 100%, transparent var(--s), #000 calc(var(--s) + .5px)) 0 100% / calc(var(--s)*2) var(--s) repeat-x,
+    radial-gradient(circle at 0% 50%, transparent var(--s), #000 calc(var(--s) + .5px)) 0 0 / var(--s) calc(var(--s)*2) repeat-y,
+    radial-gradient(circle at 100% 50%, transparent var(--s), #000 calc(var(--s) + .5px)) 100% 0 / var(--s) calc(var(--s)*2) repeat-y,
+    linear-gradient(#000 0 0) center / calc(100% - var(--s)*2) calc(100% - var(--s)*2) no-repeat;
+}
+
+/* CONTACT MAIN */
+.contact-sec{background:#ffffff;padding:clamp(80px,9vw,120px) 0;}
+.contact-grid{display:grid;grid-template-columns:60fr 40fr;gap:64px;align-items:start;}
+.form-title{font-family:var(--font-h);font-size:32px;margin-bottom:8px;}
+.form-sub{font-size:14px;font-weight:300;color:rgba(22,22,22,.6);margin-bottom:36px;line-height:1.75;}
+.field{margin-bottom:18px;}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,22,22,.55);margin-bottom:8px;}
+.field input,.field select,.field textarea{width:100%;border:1px solid rgba(22,22,22,.15);padding:14px 18px;font-family:var(--font-b);font-size:14px;font-weight:300;color:var(--ink);background:#fff;outline:none;transition:border-color .2s;border-radius:2px;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--red);}
+.field textarea{height:160px;resize:vertical;}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:18px;}
+.form-note{font-size:12px;font-weight:300;color:rgba(22,22,22,.45);margin-top:10px;}
+
+/* info cards */
+.info-cards{display:flex;flex-direction:column;gap:16px;}
+.icard{background:var(--sage);border-radius:3px;padding:28px 28px;display:flex;gap:20px;align-items:flex-start;transition:box-shadow .2s;}
+.icard:hover{box-shadow:0 8px 32px rgba(22,22,22,.1);}
+.icard-ico{width:42px;height:42px;border-radius:50%;background:var(--red);display:flex;align-items:center;justify-content:center;flex-shrink:0;}
+.icard-ico svg{width:18px;height:18px;stroke:#fff;fill:none;stroke-width:1.8;}
+.icard-t{font-family:var(--font-h);font-size:18px;margin-bottom:4px;color:var(--ink);}
+.icard-d{font-size:13px;font-weight:300;color:rgba(22,22,22,.65);line-height:1.7;}
+.icard-link{display:inline-block;margin-top:8px;font-size:12px;font-weight:700;letter-spacing:.1em;text-transform:uppercase;color:var(--red);}
+.social-row{display:flex;gap:10px;margin-top:24px;}
+.soc-btn{width:40px;height:40px;border-radius:50%;border:1.5px solid rgba(22,22,22,.2);display:flex;align-items:center;justify-content:center;font-size:11px;font-weight:700;color:var(--ink);transition:background .2s,border-color .2s,color .2s;}
+.soc-btn:hover{background:var(--red);border-color:var(--red);color:#fff;}
+
+/* quick strip */
+.quick-sec{background:var(--gold);padding:clamp(64px,7vw,96px) 0;}
+.quick-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+.qc{background:rgba(255,255,255,.35);border-radius:3px;padding:36px 30px;border:1px solid rgba(22,22,22,.08);transition:background .2s;}
+.qc:hover{background:rgba(255,255,255,.55);}
+.qc-ico{width:44px;height:44px;margin-bottom:18px;}
+.qc-ico svg{width:100%;height:100%;stroke:var(--ink);fill:none;stroke-width:1.5;}
+.qc-t{font-family:var(--font-h);font-size:22px;margin-bottom:8px;color:var(--ink);}
+.qc-d{font-size:13px;font-weight:300;line-height:1.75;color:rgba(22,22,22,.65);margin-bottom:16px;}
+.qc-link{font-size:11px;font-weight:700;letter-spacing:.13em;text-transform:uppercase;color:var(--red);}
+
+/* FOOTER */
+.footer{background:var(--sage);color:var(--ink);position:relative;overflow:hidden;}
+.footer-mark{position:absolute;bottom:-40px;left:-40px;width:360px;height:360px;opacity:.1;pointer-events:none;}
+.footer-mark img{width:100%;height:100%;object-fit:contain;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;align-items:start;gap:40px;padding:64px 0 48px;border-bottom:1px solid rgba(22,22,22,.12);position:relative;z-index:1;}
+.f-logo { margin-bottom: 6px; }
+.f-logo img { height: 120px; width: auto; object-fit: contain; display: block; margin-left: -8px; }
+.f-desc{font-size:13px;font-weight:300;line-height:1.8;color:#000000;margin-bottom:22px;}
+.f-soc{display:flex;gap:10px;}
+.f-s{width:33px;height:33px;border-radius:50%;border:1px solid rgba(22,22,22,.2);display:flex;align-items:center;justify-content:center;color:var(--ink);transition:background .2s,border-color .2s,color .2s;}
+.f-s:hover{background:var(--red);border-color:var(--red);color:#fff;}
+.f-ct{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#000000;margin-bottom:16px;}
+.f-links{display:flex;flex-direction:column;gap:9px;}
+.f-links a{font-size:13px;font-weight:300;color:#000000;transition:color .2s;}
+.f-links a:hover{color:var(--red);}
+.f-nl-form { display: flex; align-items: stretch; max-width: 380px; }
+.f-nl-i {
+  flex: 1; min-width: 0; height: 46px; box-sizing: border-box;
+  background: rgba(255,255,255,.6); border: 1px solid rgba(22,22,22,.15);
+  border-right: none; padding: 0 14px;
+  color: var(--ink); font-family: var(--font-b); font-size: 12px; line-height: 1; outline: none;
+}
+.f-nl-i::placeholder { color: rgba(22,22,22,.4); }
+.f-nl-b {
+  flex-shrink: 0; height: 46px; box-sizing: border-box;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--red); border: 1px solid var(--red);
+  padding: 0 22px; margin: 0; color: #fff;
+  font-family: var(--font-b); font-size: 10px; font-weight: 800; line-height: 1;
+  letter-spacing: .14em; text-transform: uppercase; cursor: pointer;
+  transition: background .2s; white-space: nowrap;
+}
+.f-nl-b:hover { background: var(--red-d); }
+.f-nl-note{font-size:11px;color:#000000;margin-top:7px;line-height:1.5;}
+.footer-bot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 0;position:relative;z-index:1;}
+.f-copy{font-size:12px;font-weight:300;color:#000000;}
+.f-legal{display:flex;gap:20px;}
+.f-legal a{font-size:12px;font-weight:300;color:#000000;transition:color .2s;}
+.f-legal a:hover{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<div class="announce">Free delivery above <strong>₦45,000</strong> within Abuja &nbsp;·&nbsp; Same day delivery on orders placed before <strong>noon</strong></div>
+<div class="nav-shell">
+  <div class="wrap">
+    <nav class="nav">
+      <ul class="nav-links">
+        <li class="nav-dd"><a href="./shop.html">Shop</a>
+          <div class="nav-dd-menu">
+            <div class="nav-dd-menu-inner">
+              <a href="./shop.html">All Products</a>
+              <div class="dd-divider"></div>
+              <a href="./shop.html">Greeting Cards</a>
+              <a href="./shop.html">Little Luxes</a>
+              <a href="./shop.html">Stationery</a>
+              <a href="./shop.html">Gift Boxes</a>
+            </div>
+          </div>
+        </li>
+        <li><a href="./corporate.html">Corporate Gifting</a></li>
+        <li><a href="./concierge.html">Concierge Gifting</a></li>
+      </ul>
+      <a href="./index.html" class="nav-logo"><img src="./Png Files/Logo.png" alt="Barefoot Gifting"></a>
+      <div class="nav-r">
+        <ul class="nav-links">
+          <li><a href="./thc.html">Husbands Club</a></li>
+          <li><a href="./about.html">About</a></li>
+          <li><a href="./journal.html">Keepsake Edit</a></li>
+          <li><a href="./contact.html" class="hi">Contact</a></li>
+        </ul>
+        <a href="./account/index.html" aria-label="My Account" style="display:flex;align-items:center;margin-right:8px"><svg class="ico" viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a href="./cart.html" class="cart-w" aria-label="View cart">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="cart-badge">0</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="ph">
+  <div class="ph-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="ph-inner" style="max-width:560px;margin:0 auto;text-align:center">
+      <span class="label label-red">Get in Touch</span>
+      <h1>Let's talk about<br>your <em>gift.</em></h1>
+      <p style="margin:0 auto;">Whether you have a question, a bespoke request, or just want to say hello — we're here. Based in Abuja, gifting with soul across Nigeria.</p>
+    </div>
+  </div>
+</section>
+
+<div class="wave" style="background:var(--peach)">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffffff"/></svg>
+</div>
+
+<!-- CONTACT FORM + INFO -->
+<section class="contact-sec">
+  <div class="wrap">
+    <div class="contact-grid">
+      <div>
+        <h2 class="form-title">Send us a message</h2>
+        <p class="form-sub">Fill in the form and we'll get back to you within 24 hours. For urgent requests, WhatsApp is fastest.</p>
+        <form>
+          <div class="field-row">
+            <div class="field"><label>First Name</label><input type="text" placeholder="Chiamaka" required></div>
+            <div class="field"><label>Last Name</label><input type="text" placeholder="Okafor" required></div>
+          </div>
+          <div class="field"><label>Email Address</label><input type="email" placeholder="hello@you.com" required></div>
+          <div class="field"><label>Phone Number</label><input type="tel" placeholder="+234 901 128 7992" required></div>
+          <div class="field">
+            <label>Subject</label>
+            <select required>
+              <option value="">Select a subject…</option>
+              <option>General Enquiry</option>
+              <option>Order Support</option>
+              <option>Concierge Gifting</option>
+              <option>Corporate Gifting</option>
+              <option>Wholesale</option>
+              <option>Press & Collaboration</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <div class="field"><label>Message</label><textarea placeholder="Tell us what you need…" required></textarea></div>
+          <button type="submit" class="btn btn-p">Send Message <span class="arr">→</span></button>
+          <p class="form-note">We respond within 24 hours on weekdays.</p>
+        </form>
+      </div>
+      <div style="padding-top:106px">
+        <div class="info-cards">
+          <div class="icard">
+            <div class="icard-ico"><svg viewBox="0 0 24 24"><path d="M4 4h16c1.1 0 2 .9 2 2v12c0 1.1-.9 2-2 2H4c-1.1 0-2-.9-2-2V6c0-1.1.9-2 2-2z"/><polyline points="22,6 12,13 2,6"/></svg></div>
+            <div>
+              <div class="icard-t">Email Us</div>
+              <div class="icard-d">For orders, questions, and everything in between.</div>
+              <a href="mailto:hello@barefootgifting.com" class="icard-link">hello@barefootgifting.com</a>
+            </div>
+          </div>
+          <div class="icard">
+            <div class="icard-ico"><svg viewBox="0 0 24 24"><path d="M22 16.92v3a2 2 0 01-2.18 2 19.79 19.79 0 01-8.63-3.07A19.5 19.5 0 013.07 9.81 19.79 19.79 0 01.01 1.17 2 2 0 012 .01h3a2 2 0 012 1.72c.127.96.361 1.903.7 2.81a2 2 0 01-.45 2.11L6.09 7.91a16 16 0 006 6l1.27-1.27a2 2 0 012.11-.45c.907.339 1.85.573 2.81.7A2 2 0 0122 16.92z"/></svg></div>
+            <div>
+              <div class="icard-t">WhatsApp</div>
+              <div class="icard-d">Fastest response for concierge and urgent orders.</div>
+              <a href="https://wa.me/2349011287992" class="icard-link">+234 901 128 7992</a>
+            </div>
+          </div>
+          <div class="icard">
+            <div class="icard-ico"><svg viewBox="0 0 24 24"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg></div>
+            <div>
+              <div class="icard-t">Find Us</div>
+              <div class="icard-d">Based in Abuja, FCT. Delivering across Nigeria with love.</div>
+              <span class="icard-link">Abuja, Nigeria</span>
+            </div>
+          </div>
+        </div>
+        <div style="margin-top:32px">
+          <div class="label label-red" style="margin-bottom:14px">Follow Along</div>
+          <div class="social-row">
+            <a href="https://instagram.com/barefootgifting" class="soc-btn" target="_blank" rel="noopener">IG</a>
+            <a href="#" class="soc-btn">TW</a>
+            <a href="#" class="soc-btn">FB</a>
+            <a href="https://wa.me/2349011287992" class="soc-btn" target="_blank" rel="noopener">WA</a>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave" style="background:#ffffff">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffd744"/></svg>
+</div>
+
+<!-- QUICK CONTACT STRIP -->
+<section class="quick-sec">
+  <div class="wrap">
+    <div style="text-align:center;margin-bottom:52px">
+      <span class="label" style="color:var(--ink);opacity:.6">How Can We Help?</span>
+      <h2 style="font-family:var(--font-h);font-size:clamp(34px,3.8vw,52px);margin-top:12px;color:var(--ink)">The right channel for<br>every conversation.</h2>
+    </div>
+    <div class="quick-grid">
+      <div class="qc">
+        <div class="qc-ico"><svg viewBox="0 0 24 24"><path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/></svg></div>
+        <div class="qc-t">General Enquiries</div>
+        <div class="qc-d">Questions about products, delivery, or just want to chat? Drop us an email and we'll respond within 24 hours.</div>
+        <a href="mailto:hello@barefootgifting.com" class="qc-link">hello@barefootgifting.com →</a>
+      </div>
+      <div class="qc">
+        <div class="qc-ico"><svg viewBox="0 0 24 24"><rect x="3" y="3" width="18" height="18" rx="2"/><path d="M9 9h6M9 12h6M9 15h4"/></svg></div>
+        <div class="qc-t">Concierge Gifting</div>
+        <div class="qc-d">Have a bespoke gift in mind? Use our concierge inquiry form or WhatsApp us directly for faster service.</div>
+        <a href="./concierge.html" class="qc-link">Start your request →</a>
+      </div>
+      <div class="qc">
+        <div class="qc-ico"><svg viewBox="0 0 24 24"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg></div>
+        <div class="qc-t">Corporate Orders</div>
+        <div class="qc-d">Planning bulk gifts for your team or clients? Our corporate team handles everything from 20 to 1,000 boxes.</div>
+        <a href="./corporate.html" class="qc-link">View corporate packages →</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave" style="background:var(--gold)">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#daeab0"/></svg>
+</div>
+
+<footer class="footer">
+  <div class="footer-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="f-logo"><img src="./Png Files/Logo-cropped.png" alt="Barefoot Gifting"></div>
+        <p class="f-desc">Thoughtful gifts for every milestone, celebration, and just-because moment. Based in Abuja — delivering meaning across Nigeria.</p>
+        <div class="f-soc"><a href="https://instagram.com/barefootgifting" class="f-s" aria-label="Instagram" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#" class="f-s" aria-label="Twitter / X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L2.25 2.25h6.093l4.26 5.635 5.641-5.635Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="#" class="f-s" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a><a href="https://wa.me/2349011287992" class="f-s" aria-label="WhatsApp" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a></div>
+      </div>
+      <div>
+        <div class="f-ct">Shop</div>
+        <ul class="f-links">
+          <li><a href="./index.html">All Products</a></li>
+          <li><a href="./index.html">Greeting Cards</a></li>
+          <li><a href="./index.html">Little Luxes</a></li>
+          <li><a href="./index.html">Stationery</a></li>
+          <li><a href="./index.html">Gift Boxes</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">By Occasion</div>
+        <ul class="f-links">
+          <li><a href="#">Mother's Day</a></li>
+          <li><a href="#">Father's Day</a></li>
+          <li><a href="#">Birthdays</a></li>
+          <li><a href="#">Naming Ceremony</a></li>
+          <li><a href="#">Weddings</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Services</div>
+        <ul class="f-links">
+          <li><a href="./concierge.html">Concierge Gifting</a></li>
+          <li><a href="./corporate.html">Corporate Gifting</a></li>
+          <li><a href="./thc.html">Husbands Club</a></li>
+          <li><a href="./journal.html">Journal</a></li>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+          <li><a href="./journal.html">Keepsake Edit</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Stay in the Loop</div>
+        <p style="font-size:13px;font-weight:300;color:rgba(22,22,22,.6);line-height:1.75;margin-bottom:0">Gift guides, new arrivals, and seasonal edits — with intention.</p>
+        <div class="f-nl-form"><input class="f-nl-i" type="email" placeholder="Your email address" required><button class="f-nl-b">Subscribe</button></div>
+        <p class="f-nl-note">No spam. Just beautiful things worth knowing about.</p>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span class="f-copy">© 2025 Barefoot Gifting. All rights reserved.</span>
+      <div class="f-legal"><a href="#">Privacy Policy</a><a href="#">Design Credits</a><a href="#">Shipping Policy</a><a href="#">Returns</a></div>
+    </div>
+  </div>
+</footer>
+</body>
+</html>

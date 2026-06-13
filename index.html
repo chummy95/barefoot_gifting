@@ -1,0 +1,1535 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barefoot Gifting — Thoughtful Gifts for Moments That Matter</title>
+<style>
+
+/* =============================================
+   BRAND FONTS
+============================================= */
+@font-face {
+  font-family: 'Atirose';
+  src: url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/otf.otf') format('opentype'),
+       url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/ttf.ttf') format('truetype');
+  font-weight: normal; font-style: normal; font-display: swap;
+}
+@font-face {
+  font-family: 'AstridGrotesk';
+  src: url('./Astrid.Grotesk.Font/AstridGrotesk-UltraLight.otf') format('opentype');
+  font-weight: 100; font-display: swap;
+}
+@font-face {
+  font-family: 'AstridGrotesk';
+  src: url('./Astrid.Grotesk.Font/AstridGrotesk-Light.otf') format('opentype');
+  font-weight: 300; font-display: swap;
+}
+@font-face {
+  font-family: 'AstridGrotesk';
+  src: url('./Astrid.Grotesk.Font/AstridGrotesk-Regular.otf') format('opentype');
+  font-weight: 400; font-display: swap;
+}
+@font-face {
+  font-family: 'AstridGrotesk';
+  src: url('./Astrid.Grotesk.Font/AstridGrotesk-Medium.otf') format('opentype');
+  font-weight: 500; font-display: swap;
+}
+@font-face {
+  font-family: 'AstridGrotesk';
+  src: url('./Astrid.Grotesk.Font/AstridGrotesk-Bold.otf') format('opentype');
+  font-weight: 700; font-display: swap;
+}
+@font-face {
+  font-family: 'AstridGrotesk';
+  src: url('./Astrid.Grotesk.Font/AstridGrotesk-ExtraBold.otf') format('opentype');
+  font-weight: 800; font-display: swap;
+}
+
+/* =============================================
+   BRAND TOKENS
+============================================= */
+:root {
+  --red:    #dd4040;
+  --red-d:  #c93535;
+  --peach:  #ffe9d0;
+  --cream:  #fff0e3;
+  --tan:    #eeddc0;
+  --gold:   #ffd744;
+  --sage:   #daeab0;
+  --ink:    #161616;
+  --ink2:   #252728;
+
+  --font-h: 'Atirose', Georgia, serif;
+  --font-b: 'AstridGrotesk', system-ui, sans-serif;
+  --max:    1320px;
+  --gut:    clamp(24px, 5vw, 80px);
+}
+
+/* =============================================
+   RESET + BASE
+============================================= */
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+body { font-family: var(--font-b); font-weight: 400; color: var(--ink); overflow-x: hidden; -webkit-font-smoothing: antialiased; background: var(--cream); }
+img { display: block; width: 100%; height: 100%; object-fit: cover; }
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+.wrap { max-width: var(--max); margin: 0 auto; padding: 0 var(--gut); }
+
+/* =============================================
+   WAVY SECTION DIVIDERS
+   Usage: <div class="wave wave--[from]-[to]"></div>
+   The SVG fill = the NEXT section's background color
+============================================= */
+.wave { display: block; overflow: hidden; line-height: 0; margin-bottom: -2px;}
+.wave svg { display: block; width: 100%; }
+
+/* =============================================
+   BUTTONS — 2 styles only
+============================================= */
+.btn {
+  display: inline-flex; align-items: center; gap: 10px;
+  padding: 14px 34px;
+  font-family: var(--font-b); font-size: 11px; font-weight: 700;
+  letter-spacing: 0.18em; text-transform: uppercase;
+  border-radius: 2px; cursor: pointer;
+  transition: background .22s, color .22s, border-color .22s;
+  white-space: nowrap; border: 1.5px solid transparent;
+}
+/* Red filled */
+.btn-p  { background: var(--red);  color: #fff;         border-color: var(--red);  }
+.btn-p:hover { background: var(--red-d); border-color: var(--red-d); }
+/* Ink outlined */
+.btn-o  { background: transparent; color: var(--sage);  border-color: var(--sage); }
+.btn-o:hover { background: var(--sage); color: var(--ink); border-color: var(--sage); }
+.btn-o-gold:hover { background: var(--gold); border-color: var(--gold); color: var(--ink); }
+/* Cream outlined (for dark backgrounds) */
+.btn-ol { background: transparent; color: var(--cream);  border-color: rgba(255,240,227,0.45); }
+.btn-ol:hover { border-color: var(--cream); background: rgba(255,240,227,0.08); }
+/* Gold outlined (for red backgrounds) */
+.btn-g  { background: transparent; color: var(--ink);   border-color: var(--ink);  }
+.btn-g:hover  { background: var(--ink); color: var(--gold); }
+/* Sage filled — default green, hover becomes outline */
+.btn-sage { background: var(--sage); color: var(--ink); border-color: var(--sage); }
+.btn-sage:hover { background: transparent; color: var(--sage); border-color: var(--sage); }
+/* Gold filled — default yellow, hover becomes outline */
+.btn-gold { background: var(--gold); color: var(--ink); border-color: var(--gold); }
+.btn-gold:hover { background: transparent; color: var(--red); border-color: var(--red); }
+
+.arr { transition: transform .2s; }
+.btn:hover .arr { transform: translateX(4px); }
+
+/* =============================================
+   ANNOUNCEMENT BAR
+============================================= */
+.announce {
+  background: var(--sage);
+  padding: 10px var(--gut);
+  text-align: center;
+  font-size: 12px; font-weight: 300; letter-spacing: .06em;
+  color: var(--ink);
+}
+.announce strong { color: var(--red); font-weight: 700; }
+
+/* =============================================
+   NAVIGATION
+============================================= */
+.nav-shell {
+  position: sticky; top: 0; z-index: 200;
+  background: var(--cream);
+  border-bottom: 1px solid rgba(22,22,22,.07);
+}
+.nav {
+  display: grid; grid-template-columns: 1fr auto 1fr;
+  align-items: center; height: 110px; gap: 20px;
+}
+.nav-links { display: flex; align-items: center; gap: clamp(12px,2vw,32px); }
+.nav-links a { font-size: 11px; font-weight: 500; letter-spacing: .13em; text-transform: uppercase; color: var(--ink2); transition: color .2s; }
+.nav-links a:hover, .nav-links a.hi { color: var(--red); }
+.nav-logo img { height: 100px; width: auto; object-fit: contain; display:block; }
+.nav-r { display: flex; align-items: center; justify-content: flex-end; gap: clamp(8px,1vw,18px); }
+/* ---- NAV DROPDOWN ---- */
+.nav-dd { position: relative; }
+.nav-dd > a::after { content: ' ▾'; font-size: 13px; opacity: .7; vertical-align: middle; }
+.nav-dd-menu {
+  position: absolute; top: 100%; left: 0;
+  padding-top: 12px;
+  background: transparent;
+  min-width: 210px; z-index: 300;
+  opacity: 0; pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity .2s, transform .2s;
+}
+.nav-dd-menu-inner {
+  background: var(--cream); border: 1px solid rgba(22,22,22,.09);
+  padding: 8px 0;
+  box-shadow: 0 12px 40px rgba(22,22,22,.1);
+}
+.nav-dd:hover .nav-dd-menu { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.nav-dd-menu a {
+  display: block; padding: 11px 22px;
+  font-size: 10px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--ink2); transition: color .2s, background .2s;
+}
+.nav-dd-menu a:hover { color: var(--red); background: rgba(22,22,22,.03); }
+.nav-dd-menu .dd-divider { height: 1px; background: rgba(22,22,22,.07); margin: 6px 0; }
+
+.ico { width: 19px; height: 19px; stroke: var(--ink2); fill: none; stroke-width: 1.5; cursor: pointer; transition: stroke .2s; flex-shrink:0; }
+.ico:hover { stroke: var(--red); }
+.cart-w { position: relative; }
+.cart-badge {
+  position: absolute; top: -7px; right: -8px;
+  background: var(--red); color: #fff;
+  font-size: 9px; font-weight: 800;
+  width: 16px; height: 16px; border-radius: 50%;
+  display: flex; align-items: center; justify-content: center;
+}
+
+/* =============================================
+   TYPOGRAPHY HELPERS
+============================================= */
+.label {
+  font-family: var(--font-b); font-size: 11px; font-weight: 700;
+  letter-spacing: .2em; text-transform: uppercase;
+}
+.label-red   { color: var(--red); }
+.label-gold  { color: var(--gold); }
+.label-tan   { color: var(--tan); }
+.label-ink50 { color: rgba(22,22,22,.5); }
+.label-cream { color: var(--cream); }
+
+.hl-red  { color: var(--red); }
+.hl-gold { color: var(--gold); }
+
+/* =============================================
+   HERO — THC-style full-bleed photo hero
+============================================= */
+.hero { position:relative; overflow:hidden; min-height:90vh; display:flex; align-items:center; }
+.hero-bg { position:absolute; inset:0; z-index:0; }
+.hero-bg img { width:108%; height:100%; object-fit:cover; object-position:75% 65%; }
+.hero-bg::after {
+  content:''; position:absolute; inset:0;
+  background:linear-gradient(160deg,
+    rgba(218,234,176,.86) 0%,
+    rgba(218,234,176,.68) 35%,
+    rgba(218,234,176,.40) 60%,
+    rgba(218,234,176,.16) 100%);
+}
+.hero::before {
+  content:''; position:absolute; inset:0; z-index:1; pointer-events:none;
+  background-image:radial-gradient(circle, rgba(22,22,22,.06) 1px, transparent 1px);
+  background-size:28px 28px;
+}
+.hero-mark { position:absolute; top:-40px; right:-40px; width:420px; height:420px; opacity:.06; pointer-events:none; z-index:1; }
+.hero-mark img { width:100%; height:100%; object-fit:contain; }
+.hero-wave { position:absolute; bottom:-2px; left:0; right:0; z-index:3; line-height:0; pointer-events:none; }
+.hero-wave svg { display:block; width:100%; }
+.hero-content { position:relative; z-index:2; width:100%; text-align:center; }
+.hero-inner { max-width:var(--max); margin:0 auto; padding:clamp(80px,10vw,130px) var(--gut); display:flex; flex-direction:column; align-items:center; }
+.hero-eyebrow { font-family:var(--font-b); font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--red); margin-bottom:20px; }
+.hero-title { font-family:var(--font-h); font-size:clamp(44px,5.5vw,82px); line-height:1.05; color:var(--ink); margin-bottom:22px; }
+.hero-title em { font-style:italic; color:var(--red); }
+.hero-sub { font-size:clamp(15px,1.1vw,18px); font-weight:300; line-height:1.85; color:#000000; max-width:560px; margin-bottom:36px; }
+.hero-actions { display:flex; gap:14px; flex-wrap:wrap; justify-content:center; margin-bottom:0; }
+.hero-actions .btn-o { background:var(--gold); border-color:var(--gold); color:var(--ink); }
+.hero-actions .btn-o:hover { background:#e6c83a; border-color:#e6c83a; }
+
+/* Brand Intro — "Gifts that carry meaning" */
+.brand-intro { background:var(--cream); padding:clamp(72px,9vw,120px) 0; }
+.brand-intro-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(48px,6vw,96px); align-items:center; }
+.brand-intro-eyebrow { font-family:var(--font-b); font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--red); margin-bottom:16px; display:flex; align-items:center; gap:14px; }
+.brand-intro-line { width:44px; height:1px; background:var(--red); }
+.brand-intro-title { font-family:var(--font-h); font-size:clamp(36px,4.2vw,64px); line-height:1.05; color:var(--ink); margin-bottom:22px; }
+.brand-intro-title em { font-style:italic; color:var(--red); }
+.brand-intro-sub { font-size:clamp(14px,1vw,17px); font-weight:300; line-height:1.85; color:#000000; margin-bottom:36px; max-width:480px; }
+.brand-proof { display:flex; align-items:center; gap:28px; padding-top:32px; border-top:1px solid rgba(22,22,22,.1); }
+.proof-n { font-family:var(--font-h); font-size:28px; color:var(--red); line-height:1; margin-bottom:3px; }
+.proof-l { font-size:10px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:rgba(22,22,22,.5); }
+.proof-div { width:1px; height:38px; background:rgba(22,22,22,.12); }
+.brand-intro-img { aspect-ratio:4/5; overflow:hidden; background:var(--peach); width:min(100%, 360px); margin-inline:auto; border-radius:3px; box-shadow:0 18px 40px rgba(22,22,22,.14); }
+.brand-intro-visual { display:flex; justify-content:center; }
+
+/* ── Scalloped picture-frame effect ── */
+.scallop-frame {
+  --s: 16px;   /* scallop bump radius */
+  --fc: #eeddc0; /* frame colour = brand tan */
+  padding: calc(var(--s) + 4px);
+  background: var(--fc);
+  -webkit-mask:
+    /* top scallops */
+    radial-gradient(circle at 50% 0, transparent var(--s), #000 calc(var(--s) + .5px))
+      0 0 / calc(var(--s)*2) var(--s) repeat-x,
+    /* bottom scallops */
+    radial-gradient(circle at 50% 100%, transparent var(--s), #000 calc(var(--s) + .5px))
+      0 100% / calc(var(--s)*2) var(--s) repeat-x,
+    /* left scallops */
+    radial-gradient(circle at 0% 50%, transparent var(--s), #000 calc(var(--s) + .5px))
+      0 0 / var(--s) calc(var(--s)*2) repeat-y,
+    /* right scallops */
+    radial-gradient(circle at 100% 50%, transparent var(--s), #000 calc(var(--s) + .5px))
+      100% 0 / var(--s) calc(var(--s)*2) repeat-y,
+    /* solid interior */
+    linear-gradient(#000 0 0) center / calc(100% - var(--s)*2) calc(100% - var(--s)*2) no-repeat;
+  mask:
+    radial-gradient(circle at 50% 0, transparent var(--s), #000 calc(var(--s) + .5px))
+      0 0 / calc(var(--s)*2) var(--s) repeat-x,
+    radial-gradient(circle at 50% 100%, transparent var(--s), #000 calc(var(--s) + .5px))
+      0 100% / calc(var(--s)*2) var(--s) repeat-x,
+    radial-gradient(circle at 0% 50%, transparent var(--s), #000 calc(var(--s) + .5px))
+      0 0 / var(--s) calc(var(--s)*2) repeat-y,
+    radial-gradient(circle at 100% 50%, transparent var(--s), #000 calc(var(--s) + .5px))
+      100% 0 / var(--s) calc(var(--s)*2) repeat-y,
+    linear-gradient(#000 0 0) center / calc(100% - var(--s)*2) calc(100% - var(--s)*2) no-repeat;
+}
+
+/* =============================================
+   MARQUEE — flat red ticker
+============================================= */
+.marquee { background: var(--red); padding: 9px 0; overflow: hidden; display: block; }
+.m-track { display: flex; white-space: nowrap; animation: mscroll 28s linear infinite; }
+.m-item { display: inline-flex; align-items: center; gap: 20px; font-family: var(--font-h); font-size: 16px; color: #fff; padding-right: 40px; flex-shrink: 0; }
+.m-dot  { width: 5px; height: 5px; border-radius: 50%; background: var(--gold); flex-shrink: 0; }
+@keyframes mscroll { from { transform: translateX(0); } to { transform: translateX(-50%); } }
+
+/* =============================================
+   THOUGHTFUL HUSBANDS CLUB — sage
+============================================= */
+.thc {
+  background: var(--sage); padding: clamp(72px,9vw,120px) 0;
+  position: relative; overflow: hidden;
+}
+.thc-mark {
+  position: absolute; bottom: -80px; right: -80px;
+  width: 480px; height: 480px; opacity: .1; pointer-events: none;
+}
+.thc-mark img { width: 100%; height: 100%; object-fit: contain; }
+.thc-hd {
+  display: grid; grid-template-columns: 1fr auto;
+  align-items: end; gap: 40px; margin-bottom: 56px;
+  position: relative; z-index: 1;
+}
+.thc-title { font-family: var(--font-h); font-size: clamp(36px,4vw,60px); color: var(--ink); margin: 14px 0 16px; line-height: 1.08; }
+.thc-body  { font-size: clamp(14px,1vw,17px); font-weight: 300; line-height: 1.85; color: rgba(22,22,22,.65); max-width: 520px; }
+.thc-teaser { display: grid; grid-template-columns: 1fr 1fr; gap: clamp(48px,6vw,96px); align-items: center; position: relative; z-index: 1; }
+.thc-teaser-img { aspect-ratio: 4/5; overflow: hidden; border-radius: 3px; background: var(--tan); }
+.thc-teaser-perks { display: flex; flex-direction: column; gap: 10px; margin-top: 24px; }
+.thc-perk { display: flex; align-items: center; gap: 10px; font-size: 13px; font-weight: 400; color: var(--ink); }
+.thc-perk-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--red); flex-shrink: 0; }
+/* THC how-it-works row */
+.thc-how { display: grid; grid-template-columns: 1fr auto 1fr auto 1fr auto 1fr; align-items: center; gap: 0; margin-bottom: 52px; position: relative; z-index: 1; }
+.thc-step { background: rgba(255,255,255,.45); border: 1px solid rgba(22,22,22,.1); border-radius: 3px; padding: 28px 22px; text-align: center; }
+.thc-step-n { font-family: var(--font-h); font-size: 28px; color: var(--red); opacity: .5; line-height: 1; margin-bottom: 6px; }
+.thc-step-t { font-family: var(--font-h); font-size: 18px; color: var(--ink); margin-bottom: 8px; }
+.thc-step-d { font-size: 12px; font-weight: 300; line-height: 1.65; color: rgba(22,22,22,.6); }
+.thc-step-arr { font-size: 20px; color: rgba(22,22,22,.3); padding: 0 10px; }
+/* THC add-ons */
+.thc-addons { margin-top: 48px; position: relative; z-index: 1; border-top: 1px solid rgba(22,22,22,.1); padding-top: 36px; }
+.thc-addons-hd { display: flex; align-items: center; gap: 24px; margin-bottom: 20px; flex-wrap: wrap; }
+.thc-addons-hd p { font-size: 14px; font-weight: 300; color: rgba(22,22,22,.6); }
+.thc-addons-grid { display: flex; gap: 12px; flex-wrap: wrap; }
+.addon-pill { background: rgba(255,255,255,.55); border: 1px solid rgba(22,22,22,.15); border-radius: 100px; padding: 10px 22px; font-size: 12px; font-weight: 600; letter-spacing: .06em; color: var(--ink); transition: background .2s, border-color .2s; cursor: pointer; }
+.addon-pill:hover { background: var(--red); border-color: var(--red); color: #fff; }
+.tiers { display: grid; grid-template-columns: repeat(3,1fr); gap: 18px; position: relative; z-index: 1; }
+.tier {
+  background: rgba(255,255,255,.45);
+  border: 1px solid rgba(22,22,22,.1); padding: 38px 30px 42px;
+  transition: border-color .25s, background .25s; position: relative;
+}
+.tier:hover { border-color: rgba(22,22,22,.25); background: rgba(255,255,255,.65); }
+.tier-f { border-color: var(--red); background: rgba(255,255,255,.6); }
+.tier-f::before {
+  content: 'Most Popular';
+  position: absolute; top: -1px; left: 50%; transform: translateX(-50%);
+  background: var(--red); color: #fff;
+  font-size: 9px; font-weight: 800; letter-spacing: .14em; text-transform: uppercase;
+  padding: 5px 14px;
+}
+/* btn-o on sage backgrounds: use red outline instead */
+.thc .btn-o, .corp-sec .btn-o { color: var(--red); border-color: var(--red); }
+.thc .btn-o:hover, .corp-sec .btn-o:hover { background: var(--red); color: #fff; border-color: var(--red); }
+.tn  { font-family: var(--font-h); font-size: 26px; color: var(--ink); margin-bottom: 5px; }
+.tt  { font-size: 13px; font-weight: 300; color: rgba(22,22,22,.55); font-style: italic; margin-bottom: 26px; }
+.tp  { font-family: var(--font-h); font-size: 38px; color: var(--red); line-height: 1; margin-bottom: 3px; }
+.tc  { font-size: 11px; color: rgba(22,22,22,.45); letter-spacing: .06em; margin-bottom: 26px; }
+.tfl { border-top: 1px solid rgba(22,22,22,.1); padding-top: 22px; display: flex; flex-direction: column; gap: 12px; margin-bottom: 30px; }
+.tfi { display: flex; align-items: flex-start; gap: 11px; font-size: 13px; font-weight: 300; line-height: 1.5; color: rgba(22,22,22,.7); }
+.td  { width: 4px; height: 4px; border-radius: 50%; background: var(--red); flex-shrink: 0; margin-top: 7px; }
+
+/* =============================================
+   SHOP BY OCCASION — peach background
+============================================= */
+.occasions { background: var(--peach); padding: clamp(72px,9vw,120px) 0; }
+.sec-hd { margin-bottom: 52px; }
+.sec-hd-c { text-align: center; }
+.sec-hd-c .sec-body { margin-left: auto; margin-right: auto; }
+.sec-h { font-family: var(--font-h); font-size: clamp(34px,3.8vw,58px); line-height: 1.08; margin: 12px 0 16px; }
+.sec-body { font-size: clamp(14px,1vw,17px); font-weight: 300; line-height: 1.85; color: rgba(22,22,22,.6); max-width: 540px; }
+.sec-row { display: flex; align-items: flex-end; justify-content: space-between; gap: 28px; }
+
+/* Occasion Cards — typographic, no images */
+.occ-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 14px; }
+.occ-card {
+  display: flex; flex-direction: column; justify-content: space-between;
+  padding: 28px 22px 22px; min-height: 190px;
+  border-radius: 3px; cursor: pointer; position: relative; overflow: hidden;
+  transition: transform .28s, box-shadow .28s;
+}
+.occ-card:hover { transform: translateY(-5px); box-shadow: 0 18px 48px rgba(22,22,22,.13); }
+.occ-card::after {
+  content: ''; position: absolute; bottom: 0; left: 0; right: 0; height: 3px;
+  background: var(--red); transform: scaleX(0); transform-origin: left; transition: transform .3s;
+}
+.occ-card:hover::after { transform: scaleX(1); }
+.occ-c1  { background: var(--cream); }
+.occ-c2  { background: var(--sage); }
+.occ-c3  { background: var(--gold); }
+.occ-c4  { background: var(--tan); }
+.occ-c5  { background: var(--peach); border: 1px solid rgba(22,22,22,.08); }
+.occ-c6  { background: var(--red); }
+.occ-c7  { background: var(--cream); border: 1px solid rgba(22,22,22,.08); }
+.occ-c8  { background: var(--sage); }
+.occ-c9  { background: var(--gold); }
+.occ-c10 { background: var(--tan); }
+.occ-tag {
+  font-family: var(--font-b); font-size: 9px; font-weight: 700;
+  letter-spacing: .18em; text-transform: uppercase; color: rgba(22,22,22,.45); margin-bottom: 8px;
+}
+.occ-c6 .occ-tag { color: rgba(255,240,227,.6); }
+.occ-name {
+  font-family: var(--font-h); font-size: clamp(16px,1.4vw,22px);
+  line-height: 1.15; color: var(--ink); flex: 1; display: flex; align-items: center;
+}
+.occ-c6 .occ-name { color: var(--cream); }
+.occ-link {
+  display: inline-flex; align-items: center; gap: 6px; margin-top: 18px;
+  font-family: var(--font-b); font-size: 10px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase; color: rgba(22,22,22,.45);
+  transition: color .2s, gap .2s;
+}
+.occ-c6 .occ-link { color: rgba(255,240,227,.6); }
+.occ-card:hover .occ-link { color: var(--red); gap: 10px; }
+.occ-c6:hover .occ-link { color: var(--gold); }
+
+/* ---- MOOD SECTION ---- */
+.mood-sec { background: var(--cream); padding: clamp(72px,9vw,120px) 0; }
+.mood-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 12px; margin-top: 48px; }
+.mood-card {
+  display: flex; flex-direction: column; align-items: center; justify-content: center;
+  gap: 14px; padding: 36px 16px 28px; border-radius: 4px;
+  text-align: center; cursor: pointer; position: relative; overflow: hidden;
+  transition: transform .28s, box-shadow .28s;
+  text-decoration: none;
+}
+.mood-card:hover { transform: translateY(-6px); box-shadow: 0 20px 52px rgba(22,22,22,.12); }
+.mood-icon { font-size: 36px; line-height: 1; transition: transform .3s; }
+.mood-card:hover .mood-icon { transform: scale(1.18); }
+.mood-word {
+  font-family: var(--font-h); font-size: clamp(17px,1.5vw,22px);
+  line-height: 1.1; color: var(--ink);
+}
+.mood-sub {
+  font-family: var(--font-b); font-size: 11px; font-weight: 300;
+  line-height: 1.55; color: rgba(22,22,22,.5);
+}
+.mood-cta {
+  display: inline-flex; align-items: center; gap: 5px; margin-top: 4px;
+  font-family: var(--font-b); font-size: 9px; font-weight: 700;
+  letter-spacing: .16em; text-transform: uppercase; color: rgba(22,22,22,.38);
+  transition: color .2s, gap .2s;
+}
+.mood-card:hover .mood-cta { color: var(--red); gap: 9px; }
+/* colour skins */
+.mood-m1 { background: #fff5e8; }
+.mood-m2 { background: var(--sage); }
+.mood-m3 { background: #fdf0f0; }
+.mood-m4 { background: var(--gold); }
+.mood-m5 { background: var(--tan); }
+.mood-m6 { background: #edf4e5; }
+.mood-m6 .mood-word,.mood-m6 .mood-sub { color: var(--ink); }
+
+/* =============================================
+   GREETING CARDS — RED section
+============================================= */
+.cards-sec { background: var(--red); padding: clamp(72px,9vw,120px) 0; position: relative; overflow: hidden; }
+/* full-width brand mark watermark */
+.cards-mark {
+  position: absolute; inset: 0;
+  opacity: .06; pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+}
+.cards-mark img { width: 100%; height: 100%; object-fit: cover; }
+.cards-sec .sec-h, .cards-sec h2 { color: var(--cream); }
+.cards-sec .sec-body { color: rgba(255,240,227,.7); }
+.cards-sec .label-ink50 { color: rgba(255,233,208,.55); }
+.cards-grid { display: grid; grid-template-columns: repeat(5,1fr); gap: 20px; position: relative; z-index: 1; }
+
+/* product card — adapts per section bg */
+.pc { display: flex; flex-direction: column; }
+.pc-img { aspect-ratio: 3/4; overflow: hidden; background: var(--peach); position: relative; border-radius: 2px; }
+.pc-img img { transition: transform .5s; }
+.pc:hover .pc-img img { transform: scale(1.04); }
+.qadd {
+  position: absolute; bottom: 0; left: 0; right: 0;
+  background: var(--sage); color: var(--ink);
+  text-align: center; padding: 12px;
+  font-size: 10px; font-weight: 700; letter-spacing: .14em; text-transform: uppercase;
+  transform: translateY(100%); transition: transform .25s;
+}
+.pc:hover .qadd { transform: translateY(0); }
+.pbadge {
+  position: absolute; top: 12px; left: 12px;
+  background: var(--red); color: #fff;
+  font-size: 9px; font-weight: 800; letter-spacing: .1em; text-transform: uppercase;
+  padding: 4px 10px;
+}
+/* on red section, badge is gold */
+.cards-sec .pbadge { background: var(--gold); color: var(--ink); }
+.pc-bd { padding: 14px 0 0; }
+.pc-cat { font-size: 10px; font-weight: 600; letter-spacing: .15em; text-transform: uppercase; margin-bottom: 4px; color: rgba(22,22,22,.45); }
+.pc-name { font-family: var(--font-h); font-size: clamp(14px,1.1vw,18px); line-height: 1.25; margin-bottom: 6px; }
+.pc-price { font-family: var(--font-h); font-size: 18px; }
+/* card text on red */
+.cards-sec .pc-cat { color: rgba(255,233,208,.55); }
+.cards-sec .pc-name { color: var(--cream); }
+.cards-sec .pc-price { color: var(--gold); }
+
+/* =============================================
+   LITTLE LUXES — GOLD section
+============================================= */
+.luxes-sec { background: var(--gold); padding: clamp(72px,9vw,120px) 0; position: relative; overflow: hidden; }
+.luxes-mark {
+  position: absolute; bottom: -80px; left: -60px;
+  width: 420px; height: 420px; opacity: .1; pointer-events: none;
+}
+.luxes-mark img { width: 100%; height: 100%; object-fit: contain; }
+.luxes-sec .sec-h { color: var(--ink); }
+.luxes-sec .sec-body { color: rgba(22,22,22,.65); }
+.luxes-sec .label-ink50 { color: rgba(22,22,22,.5); }
+.luxes-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; position: relative; z-index: 1; }
+.luxe {
+  background: var(--cream); border-radius: 3px; overflow: hidden;
+  transition: box-shadow .3s, transform .3s;
+}
+.luxe:hover { box-shadow: 0 16px 52px rgba(22,22,22,.14); transform: translateY(-3px); }
+.luxe-img { aspect-ratio: 4/3; overflow: hidden; background: var(--peach); }
+.luxe-img img { transition: transform .5s; }
+.luxe:hover .luxe-img img { transform: scale(1.04); }
+.luxe-bd { padding: 26px 26px 34px; }
+.luxe-cat { font-size: 10px; font-weight: 700; letter-spacing: .16em; text-transform: uppercase; color: var(--red); margin-bottom: 9px; }
+.luxe-name { font-family: var(--font-h); font-size: 22px; margin-bottom: 9px; }
+.luxe-desc { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(22,22,22,.6); margin-bottom: 16px; }
+.luxe-tags { display: flex; flex-wrap: wrap; gap: 5px; margin-bottom: 22px; }
+.luxe-tag { font-size: 11px; padding: 4px 10px; background: var(--peach); color: rgba(22,22,22,.65); border-radius: 2px; }
+.luxe-ft { display: flex; align-items: center; justify-content: space-between; flex-wrap:wrap; gap:14px; margin-top:6px; }
+.luxe-price { font-family: var(--font-h); font-size: 25px; }
+.luxe-add { display:inline-flex; align-items:center; gap:8px; padding:11px 22px; background:var(--red); color:#fff; border:1px solid var(--red); border-radius:2px; font-family:var(--font-b); font-size:10px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; cursor:pointer; transition:background .2s,border-color .2s; }
+.luxe-add:hover { background:var(--red-d); border-color:var(--red-d); }
+
+/* =============================================
+   CONCIERGE — cream section
+============================================= */
+.concierge-sec { background: var(--cream); padding: clamp(72px,9vw,120px) 0; position: relative; overflow: hidden; }
+.conc-mark {
+  position: absolute; top: -40px; right: -40px;
+  width: 360px; height: 360px; opacity: .07; pointer-events: none;
+}
+.conc-mark img { width: 100%; height: 100%; object-fit: contain; }
+.conc-wrap { display: grid; grid-template-columns: 5fr 6fr; gap: 72px; align-items: center; position: relative; z-index: 1; }
+.conc-steps { margin: 32px 0 40px; display: flex; flex-direction: column; }
+.step { display: grid; grid-template-columns: 50px 1fr; gap: 18px; align-items: start; padding: 20px 0; border-bottom: 1px solid rgba(22,22,22,.07); }
+.step:first-child { border-top: 1px solid rgba(22,22,22,.07); }
+.st-n { font-family: var(--font-h); font-size: 32px; line-height: 1; color: var(--red); opacity: 1; }
+.st-t { font-family: var(--font-h); font-size: 17px; margin-bottom: 4px; }
+.st-d { font-size: 13px; font-weight: 300; line-height: 1.65; color: var(--ink); }
+.conc-actions { display: flex; gap: 14px; flex-wrap: wrap; }
+.conc-imgs { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 10px; height: 540px; }
+.ci { overflow: hidden; border-radius: 2px; background: var(--peach); }
+.ci-t { grid-row: span 2; }
+.ci img { width: 100%; height: 100%; object-fit: cover; transition: transform .5s; }
+.ci:hover img { transform: scale(1.04); }
+
+/* =============================================
+   CORPORATE GIFTING — sage section
+============================================= */
+.corp-sec { background: var(--sage); padding: clamp(72px,9vw,120px) 0; position: relative; overflow: hidden; }
+.corp-mark {
+  position: absolute; top: -60px; right: -60px;
+  width: 440px; height: 440px; opacity: .1; pointer-events: none;
+}
+.corp-mark img { width: 100%; height: 100%; object-fit: contain; }
+.corp-wrap { display: grid; grid-template-columns: 6fr 5fr; gap: 72px; align-items: center; position: relative; z-index: 1; }
+.corp-img { aspect-ratio: 4/5; overflow: hidden; border-radius: 3px; background: var(--peach); }
+.corp-h { font-family: var(--font-h); font-size: clamp(34px,3.8vw,58px); line-height: 1.08; color: var(--ink); margin: 12px 0 16px; }
+.corp-body { font-size: clamp(14px,1vw,17px); font-weight: 300; line-height: 1.85; color: rgba(22,22,22,.65); }
+.corp-tiers { display: flex; flex-direction: column; gap: 12px; margin: 32px 0 38px; }
+.corp-tier {
+  display: grid; grid-template-columns: 1fr auto; gap: 14px; align-items: center;
+  padding: 18px 20px;
+  background: rgba(255,255,255,.45);
+  border: 1px solid rgba(22,22,22,.1); border-radius: 2px;
+  transition: border-color .2s, background .2s;
+}
+.corp-tier:hover { border-color: var(--red); background: rgba(255,255,255,.72); }
+.corp-tn { font-family: var(--font-h); font-size: 17px; color: var(--ink); margin-bottom: 3px; }
+.corp-td { font-size: 12px; font-weight: 300; color: rgba(22,22,22,.55); }
+.corp-tr { font-family: var(--font-h); font-size: 16px; color: var(--red); text-align: right; white-space: nowrap; }
+.corp-tn2 { font-size: 11px; color: rgba(22,22,22,.4); }
+.corp-acts { display: flex; gap: 14px; flex-wrap: wrap; }
+
+/* =============================================
+   KEEPSAKE EDIT — tan section
+============================================= */
+.edit-sec { background: #ffffff; padding: clamp(72px,9vw,120px) 0; position: relative; overflow: hidden; }
+.edit-mark {
+  position: absolute; bottom: -60px; right: -50px;
+  width: 380px; height: 380px; opacity: .07; pointer-events: none;
+}
+.edit-mark img { width: 100%; height: 100%; object-fit: contain; }
+.edit-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px 20px; position: relative; z-index: 1; }
+.ec { display: flex; flex-direction: column; cursor: pointer; transition: opacity .2s; }
+.ec:hover { opacity: .88; }
+.ec--feat { grid-column: span 2; }
+.ec-img { overflow: hidden; border-radius: 2px; background: var(--peach); flex-shrink: 0; }
+.ec--feat .ec-img { aspect-ratio: 21/9; }
+.ec:not(.ec--feat) .ec-img { aspect-ratio: 16/10; }
+.ec-img img { transition: transform .5s; }
+.ec:hover .ec-img img { transform: scale(1.03); }
+.ec-bd { padding: 16px 0 0; }
+.ec-cat { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--red); margin-bottom: 7px; }
+.ec-t { font-family: var(--font-h); font-size: clamp(14px,1.2vw,19px); line-height: 1.3; margin-bottom: 7px; }
+.ec--feat .ec-t { font-size: clamp(20px,1.8vw,27px); }
+.ec-ex { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(22,22,22,.6); margin-bottom: 10px; }
+.ec-m { font-size: 11px; color: rgba(22,22,22,.42); letter-spacing: .05em; }
+
+/* =============================================
+   TESTIMONIALS — peach section
+============================================= */
+.testi-sec { background: var(--peach); padding: clamp(72px,9vw,120px) 0; position: relative; overflow: hidden; }
+.testi-mark {
+  position: absolute; top: -40px; left: -40px;
+  width: 320px; height: 320px; opacity: .07; pointer-events: none;
+}
+.testi-mark img { width: 100%; height: 100%; object-fit: contain; }
+.testi-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 24px; position: relative; z-index: 1; }
+.tst {
+  background: var(--cream); padding: 34px 30px; border-radius: 3px;
+  position: relative; transition: box-shadow .3s;
+}
+.tst:hover { box-shadow: 0 12px 40px rgba(22,22,22,.1); }
+.tst::before {
+  content: '\201C'; font-family: var(--font-h); font-size: 68px; line-height: 1;
+  color: var(--red); position: absolute; top: 18px; left: 26px; font-weight: 700;
+}
+.tst-stars { display: flex; gap: 2px; margin: 16px 0 16px; }
+.tst-star { color: var(--gold); font-size: 13px; }
+.tst-q { font-size: 14px; font-weight: 300; line-height: 1.8; color: rgba(22,22,22,.72); margin-bottom: 22px; font-style: italic; }
+.tst-a { display: flex; align-items: center; gap: 11px; }
+.tst-av {
+  width: 40px; height: 40px; border-radius: 50%; background: var(--peach);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-h); font-size: 16px; color: var(--red); flex-shrink: 0;
+}
+.tst-n { font-size: 13px; font-weight: 600; margin-bottom: 2px; }
+.tst-o { font-size: 11px; color: rgba(22,22,22,.45); letter-spacing: .04em; }
+
+/* ugc strip */
+.ugc-s { margin-top: 48px; padding-top: 40px; border-top: 1px solid rgba(22,22,22,.1); display: flex; align-items: center; gap: 32px; position: relative; z-index: 1; }
+.ugc-label { white-space: nowrap; }
+.ugc-row { display: flex; gap: 8px; flex: 1; overflow: hidden; }
+.ugc-th { flex-shrink: 0; width: 92px; height: 92px; border-radius: 2px; overflow: hidden; background: var(--cream); }
+.ugc-th img { width: 100%; height: 100%; object-fit: cover; }
+
+/* =============================================
+   NEWSLETTER INTERLUDE — red section, centered
+============================================= */
+.nl-sec {
+  background: var(--red); padding: clamp(56px,7vw,96px) 0;
+  position: relative; overflow: hidden; text-align: center;
+}
+.nl-mark {
+  position: absolute; inset: 0;
+  opacity: .055; pointer-events: none;
+  display: flex; align-items: center; justify-content: center;
+}
+.nl-mark img { width: 100%; height: 100%; object-fit: cover; }
+.nl-inner { max-width: 560px; margin: 0 auto; position: relative; z-index: 1; }
+.nl-h { font-family: var(--font-h); font-size: clamp(30px,3.2vw,48px); color: var(--cream); line-height: 1.1; margin-bottom: 14px; }
+.nl-sub { font-size: 14px; font-weight: 300; line-height: 1.75; color: rgba(255,240,227,.7); margin-bottom: 32px; }
+.nl-form { display: flex; max-width: 420px; margin: 0 auto; }
+.nl-input {
+  flex: 1; background: rgba(255,233,208,.12); border: 1.5px solid rgba(255,233,208,.3);
+  border-right: none; padding: 14px 18px;
+  color: var(--cream); font-family: var(--font-b); font-size: 13px; outline: none;
+}
+.nl-input::placeholder { color: rgba(255,233,208,.45); }
+.nl-btn {
+  background: var(--sage); border: 1.5px solid var(--sage);
+  padding: 14px 22px; color: var(--ink);
+  font-family: var(--font-b); font-size: 10px; font-weight: 800;
+  letter-spacing: .16em; text-transform: uppercase; cursor: pointer;
+  transition: background .2s; white-space: nowrap;
+}
+.nl-btn:hover { background: #c5d89a; border-color: #c5d89a; }
+.nl-note { font-size: 11px; color: rgba(255,233,208,.42); margin-top: 10px; }
+
+/* =============================================
+   FOOTER — sage
+============================================= */
+.footer { background: var(--sage); color: var(--ink); position: relative; overflow: hidden; }
+.footer-mark {
+  position: absolute; bottom: -40px; left: -40px;
+  width: 360px; height: 360px; opacity: .1; pointer-events: none;
+}
+.footer-mark img { width: 100%; height: 100%; object-fit: contain; }
+.footer-top {
+  display: grid; grid-template-columns: 2fr 1fr 1fr 1fr 2fr; align-items: start;
+  gap: 40px; padding: 64px 0 48px;
+  border-bottom: 1px solid rgba(22,22,22,.12);
+  position: relative; z-index: 1;
+}
+.f-logo { margin-bottom: 6px; }
+.f-logo img { height: 120px; width: auto; object-fit: contain; display: block; margin-left: -8px; }
+.f-desc { font-size: 13px; font-weight: 300; line-height: 1.8; color: #000000; margin-bottom: 22px; }
+.f-soc { display: flex; gap: 10px; }
+.f-s {
+  width: 33px; height: 33px; border-radius: 50%;
+  border: 1px solid rgba(22,22,22,.2);
+  display: flex; align-items: center; justify-content: center;
+  font-size: 10px; font-weight: 700; color: var(--ink);
+  transition: background .2s, border-color .2s, color .2s;
+}
+.f-s:hover { background: var(--red); border-color: var(--red); color: #fff; }
+.f-ct { font-size: 10px; font-weight: 700; letter-spacing: .2em; text-transform: uppercase; color: #000000; margin-bottom: 16px; }
+.f-links { display: flex; flex-direction: column; gap: 9px; }
+.f-links a { font-size: 13px; font-weight: 300; color: #000000; transition: color .2s; }
+.f-links a:hover { color: var(--red); }
+.f-nl-form { display: flex; align-items: stretch; max-width: 380px; }
+.f-nl-i {
+  flex: 1; min-width: 0; height: 46px; box-sizing: border-box;
+  background: rgba(255,255,255,.6); border: 1px solid rgba(22,22,22,.15);
+  border-right: none; padding: 0 14px;
+  color: var(--ink); font-family: var(--font-b); font-size: 12px; line-height: 1; outline: none;
+}
+.f-nl-i::placeholder { color: rgba(22,22,22,.4); }
+.f-nl-b {
+  flex-shrink: 0; height: 46px; box-sizing: border-box;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--red); border: 1px solid var(--red);
+  padding: 0 22px; margin: 0; color: #fff;
+  font-family: var(--font-b); font-size: 10px; font-weight: 800; line-height: 1;
+  letter-spacing: .14em; text-transform: uppercase; cursor: pointer;
+  transition: background .2s; white-space: nowrap;
+}
+.f-nl-b:hover { background: var(--red-d); }
+.f-nl-note { font-size: 11px; color: #000000; margin-top: 7px; line-height: 1.5; }
+
+/* ---- ALL SAGE BG SECTIONS: black text ---- */
+.thc *, .faq-cta *, .tiers-sec *, .hiw-sec *, .addons-sec * { color: #000000; }
+.thc .btn-p, .faq-cta .btn-p, .tiers-sec .btn-p { color: #fff !important; }
+.thc .label-red, .faq-cta .label-red, .tiers-sec .label-red { color: var(--red) !important; }
+.thc .tp, .tiers-sec .tp { color: var(--red) !important; }
+.tier-f::before { color: #fff !important; }
+.footer-bot {
+  display: flex; align-items: center; justify-content: space-between; gap: 20px;
+  padding: 20px 0; position: relative; z-index: 1;
+}
+.f-copy { font-size: 12px; font-weight: 300; color: #000000; }
+.f-legal { display: flex; gap: 20px; }
+.f-legal a { font-size: 12px; font-weight: 300; color: #000000; transition: color .2s; }
+.f-legal a:hover { color: var(--ink); }
+
+</style>
+</head>
+<body>
+
+<!-- ANNOUNCEMENT -->
+<div class="announce">Free delivery above <strong>₦45,000</strong> within Abuja &nbsp;·&nbsp; Same day delivery on orders placed before <strong>noon</strong></div>
+
+<!-- NAV -->
+<div class="nav-shell">
+  <div class="wrap">
+    <nav class="nav">
+      <ul class="nav-links">
+        <li class="nav-dd"><a href="./shop.html">Shop</a>
+          <div class="nav-dd-menu">
+            <div class="nav-dd-menu-inner">
+              <a href="./shop.html">All Products</a>
+              <div class="dd-divider"></div>
+              <a href="./shop.html">Greeting Cards</a>
+              <a href="./shop.html">Little Luxes</a>
+              <a href="./shop.html">Stationery</a>
+              <a href="./shop.html">Gift Boxes</a>
+            </div>
+          </div>
+        </li>
+        <li><a href="./corporate.html">Corporate Gifting</a></li>
+        <li><a href="./concierge.html">Concierge Gifting</a></li>
+      </ul>
+      <a href="./index.html" class="nav-logo"><img src="./Png Files/Logo.png" alt="Barefoot Gifting"></a>
+      <div class="nav-r">
+        <ul class="nav-links">
+          <li><a href="./thc.html">Husbands Club</a></li>
+          <li><a href="./about.html">About</a></li>
+          <li><a href="./journal.html">Keepsake Edit</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+        </ul>
+        <a href="./account/index.html" aria-label="My Account" style="display:flex;align-items:center;margin-right:8px"><svg class="ico" viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a href="./cart.html" class="cart-w" aria-label="View cart">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="cart-badge">0</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+
+<!-- ============================================================
+     HERO — THC-style full-bleed photo
+============================================================ -->
+<section class="hero">
+  <div class="hero-bg"><img src="./mockup/man.png" alt=""></div>
+  <div class="hero-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="hero-content">
+    <div class="hero-inner">
+      <div class="hero-eyebrow">Membership · Subscription Gifting</div>
+      <h1 class="hero-title">Never forget an<br><em>important occasion</em> again.</h1>
+      <p class="hero-sub">You stay thoughtful. We handle the logistics. Join <strong>The Thoughtful Husbands Club</strong> — a premium gifting concierge designed for husbands who want to consistently celebrate their wives, without the stress of planning, sourcing, or remembering every occasion.</p>
+      <div class="hero-actions">
+        <a href="./thc.html#subscribe" class="btn btn-p">Join The Thoughtful Husbands Club <span class="arr">→</span></a>
+      </div>
+    </div>
+  </div>
+  <div class="hero-wave">
+    <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+      <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#fff0e3"/>
+    </svg>
+  </div>
+</section>
+
+<!-- ============================================================
+     BRAND INTRO — "Gifts that carry meaning"
+============================================================ -->
+<section class="brand-intro">
+  <div class="wrap">
+    <div class="brand-intro-grid">
+      <div>
+<h2 class="brand-intro-title">Gifts that carry<br><em>meaning,</em><br>not just value.</h2>
+        <p class="brand-intro-sub">Every gift from Barefoot Gifting is chosen with intention — from nostalgia-rooted greeting cards to curated keepsake boxes that honour the moments that matter.</p>
+        <div style="display:flex;gap:14px;flex-wrap:wrap;">
+          <a href="./shop.html" class="btn btn-p">Shop the Collection <span class="arr">→</span></a>
+          <a href="./concierge.html" class="btn btn-sage">Concierge Gifting</a>
+        </div>
+      </div>
+      <div class="brand-intro-visual">
+        <div class="brand-intro-img">
+          <img src="./mockup/BOX.png" alt="Barefoot Gifting curated gift box">
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- MARQUEE -->
+<div class="marquee">
+  <div class="m-track">
+    <span class="m-item"><span class="m-dot"></span>Greeting Cards</span>
+    <span class="m-item"><span class="m-dot"></span>Little Luxes Gift Boxes</span>
+    <span class="m-item"><span class="m-dot"></span>Corporate Gifting</span>
+    <span class="m-item"><span class="m-dot"></span>Thoughtful Husbands Club</span>
+    <span class="m-item"><span class="m-dot"></span>Heirloom Keepsakes</span>
+    <span class="m-item"><span class="m-dot"></span>Premium Stationery</span>
+    <span class="m-item"><span class="m-dot"></span>Concierge Gifting</span>
+    <span class="m-item"><span class="m-dot"></span>Greeting Cards</span>
+    <span class="m-item"><span class="m-dot"></span>Little Luxes Gift Boxes</span>
+    <span class="m-item"><span class="m-dot"></span>Corporate Gifting</span>
+    <span class="m-item"><span class="m-dot"></span>Thoughtful Husbands Club</span>
+    <span class="m-item"><span class="m-dot"></span>Heirloom Keepsakes</span>
+    <span class="m-item"><span class="m-dot"></span>Premium Stationery</span>
+    <span class="m-item"><span class="m-dot"></span>Concierge Gifting</span>
+  </div>
+</div>
+
+<!-- straight: red → peach -->
+<div style="background:var(--red); line-height:0; margin-bottom:-2px;"><div style="height:4px; background:#ffe9d0;"></div></div>
+
+<!-- ============================================================
+     SHOP BY OCCASION — peach
+============================================================ -->
+<section class="occasions" id="shop">
+  <div class="wrap">
+    <div class="sec-hd sec-hd-c">
+      <span class="label label-ink50">Explore the Shop</span>
+      <h2 class="sec-h">Find the perfect gift<br>for every moment</h2>
+      <p class="sec-body">Every celebration deserves a gift that feels chosen, not just bought. Browse by occasion.</p>
+    </div>
+    <div class="occ-grid">
+
+      <div class="occ-card occ-c1">
+        <div><div class="occ-tag">For Her</div><div class="occ-name">Mother's Day</div></div>
+        <a href="./shop.html" class="occ-link">Shop Gifts <span>→</span></a>
+      </div>
+
+      <div class="occ-card occ-c2">
+        <div><div class="occ-tag">For Him</div><div class="occ-name">Father's Day</div></div>
+        <a href="./shop.html" class="occ-link">Shop Gifts <span>→</span></a>
+      </div>
+
+      <div class="occ-card occ-c3">
+        <div><div class="occ-tag">For Little Ones</div><div class="occ-name">Children's Day</div></div>
+        <a href="./shop.html" class="occ-link">Shop Gifts <span>→</span></a>
+      </div>
+
+      <div class="occ-card occ-c4">
+        <div><div class="occ-tag">New Life</div><div class="occ-name">Naming Ceremony</div></div>
+        <a href="./shop.html" class="occ-link">Shop Gifts <span>→</span></a>
+      </div>
+
+      <div class="occ-card occ-c5">
+        <div><div class="occ-tag">Celebrate</div><div class="occ-name">Birthdays</div></div>
+        <a href="./shop.html" class="occ-link">Shop Gifts <span>→</span></a>
+      </div>
+
+      <div class="occ-card occ-c6">
+        <div><div class="occ-tag">Milestone</div><div class="occ-name">Law School Graduation</div></div>
+        <a href="./shop.html" class="occ-link">Shop Gifts <span>→</span></a>
+      </div>
+
+      <div class="occ-card occ-c7">
+        <div><div class="occ-tag">Forever</div><div class="occ-name">Weddings</div></div>
+        <a href="./shop.html" class="occ-link">Shop Gifts <span>→</span></a>
+      </div>
+
+      <div class="occ-card occ-c8">
+        <div><div class="occ-tag">Welcome</div><div class="occ-name">New Baby</div></div>
+        <a href="./shop.html" class="occ-link">Shop Gifts <span>→</span></a>
+      </div>
+
+      <div class="occ-card occ-c9">
+        <div><div class="occ-tag">Anytime</div><div class="occ-name">Just Because</div></div>
+        <a href="./shop.html" class="occ-link">Shop Gifts <span>→</span></a>
+      </div>
+
+      <div class="occ-card occ-c10">
+        <div><div class="occ-tag">For Business</div><div class="occ-name">Corporate Gifts</div></div>
+        <a href="./corporate.html" class="occ-link">Explore <span>→</span></a>
+      </div>
+
+    </div>
+  </div>
+</section>
+
+<!-- straight edge: peach → red -->
+<div style="background:var(--peach); line-height:0; margin-bottom:-2px;"><div style="height:4px; background:#dd4040;"></div></div>
+
+<!-- ============================================================
+     GREETING CARDS — bold RED section
+============================================================ -->
+<section class="cards-sec">
+  <div class="cards-mark"><img src="./SVG/Artboard 1 copy 12.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-hd" style="position:relative;z-index:1">
+      <div class="sec-row">
+        <div>
+          <span class="label" style="color:rgba(255,233,208,.55)">~20 Designs · Hand-crafted</span>
+          <h2 class="sec-h" style="color:var(--cream);margin-top:12px">The Card<br>Collection</h2>
+          <p class="sec-body" style="color:rgba(255,240,227,.68);margin-top:12px;max-width:400px">Words matter. Our greeting cards are written with depth and designed with love — the kind you frame, not discard.</p>
+        </div>
+        <a href="#" class="btn" style="align-self:flex-end;background:#fff;color:var(--red);border-color:#fff;" onmouseover="this.style.background='var(--red)';this.style.color='#fff';this.style.borderColor='#fff'" onmouseout="this.style.background='#fff';this.style.color='var(--red)';this.style.borderColor='#fff'">View All Cards <span class="arr">→</span></a>
+      </div>
+    </div>
+    <div class="cards-grid">
+      <div class="pc" data-id="jesus-jollof" data-name="Jesus &amp; Jollof" data-price="4500" data-img="./PRODUCTS/Jesus and Jollof.JPG">
+        <div class="pc-img">
+          <img src="./PRODUCTS/Jesus and Jollof.JPG" alt="Jesus and Jollof">
+          <div class="qadd">+ Quick Add</div>
+          <span class="pbadge">Bestseller</span>
+        </div>
+        <div class="pc-bd"><div class="pc-cat">Birthday</div><div class="pc-name">Jesus &amp; Jollof</div><div class="pc-price">₦4,500</div></div>
+      </div>
+      <div class="pc" data-id="my-lord" data-name="My Lord" data-price="4500" data-img="./PRODUCTS/My Lord.JPG">
+        <div class="pc-img">
+          <img src="./PRODUCTS/My Lord.JPG" alt="My Lord">
+          <div class="qadd">+ Quick Add</div>
+        </div>
+        <div class="pc-bd"><div class="pc-cat">For Him</div><div class="pc-name">My Lord</div><div class="pc-price">₦4,500</div></div>
+      </div>
+      <div class="pc" data-id="coke-fanta" data-name="Coke &amp; Fanta" data-price="4500" data-img="./PRODUCTS/Coke and Fanta.JPG">
+        <div class="pc-img">
+          <img src="./PRODUCTS/Coke and Fanta.JPG" alt="Coke and Fanta">
+          <div class="qadd">+ Quick Add</div>
+        </div>
+        <div class="pc-bd"><div class="pc-cat">Nostalgia</div><div class="pc-name">Coke &amp; Fanta</div><div class="pc-price">₦4,500</div></div>
+      </div>
+      <div class="pc" data-id="safe-place" data-name="Safe Place" data-price="4500" data-img="./PRODUCTS/Safe Place.JPG">
+        <div class="pc-img">
+          <img src="./PRODUCTS/Safe Place.JPG" alt="Safe Place">
+          <div class="qadd">+ Quick Add</div>
+        </div>
+        <div class="pc-bd"><div class="pc-cat">Love</div><div class="pc-name">Safe Place</div><div class="pc-price">₦4,500</div></div>
+      </div>
+      <div class="pc" data-id="tear-rubber" data-name="Tear Rubber" data-price="4500" data-img="./PRODUCTS/Tear Rubber.JPG">
+        <div class="pc-img">
+          <img src="./PRODUCTS/Tear Rubber.JPG" alt="Tear Rubber">
+          <div class="qadd">+ Quick Add</div>
+          <span class="pbadge">New</span>
+        </div>
+        <div class="pc-bd"><div class="pc-cat">Celebration</div><div class="pc-name">Tear Rubber</div><div class="pc-price">₦4,500</div></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- wave: red → cream -->
+<div class="wave" style="background:var(--red);">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#fff0e3"/>
+  </svg>
+</div>
+
+<!-- ============================================================
+     HOW ARE YOU FEELING TODAY? — MOOD GIFTING
+============================================================ -->
+<section class="mood-sec">
+  <div class="wrap">
+    <div class="sec-hd sec-hd-c">
+      <span class="label label-red">Gift by Mood</span>
+      <h2 class="sec-h">How are you feeling today?</h2>
+      <p class="sec-body">The right gift starts with the right feeling. Tell us how you're showing up, and we'll find something that fits.</p>
+    </div>
+    <div class="mood-grid">
+
+      <a href="./shop.html" class="mood-card mood-m1">
+        <div class="mood-icon">🥳</div>
+        <div class="mood-word">Celebratory</div>
+        <div class="mood-sub">Someone's having a moment</div>
+        <div class="mood-cta">Find gifts <span>→</span></div>
+      </a>
+
+      <a href="./shop.html" class="mood-card mood-m2">
+        <div class="mood-icon">💛</div>
+        <div class="mood-word">Grateful</div>
+        <div class="mood-sub">They showed up for you</div>
+        <div class="mood-cta">Find gifts <span>→</span></div>
+      </a>
+
+      <a href="./shop.html" class="mood-card mood-m3">
+        <div class="mood-icon">🥰</div>
+        <div class="mood-word">Romantic</div>
+        <div class="mood-sub">All the soft feelings</div>
+        <div class="mood-cta">Find gifts <span>→</span></div>
+      </a>
+
+      <a href="./shop.html" class="mood-card mood-m4">
+        <div class="mood-icon">🎓</div>
+        <div class="mood-word">Proud</div>
+        <div class="mood-sub">They did the thing</div>
+        <div class="mood-cta">Find gifts <span>→</span></div>
+      </a>
+
+      <a href="./shop.html" class="mood-card mood-m5">
+        <div class="mood-icon">🤍</div>
+        <div class="mood-word">Tender</div>
+        <div class="mood-sub">Just checking in on them</div>
+        <div class="mood-cta">Find gifts <span>→</span></div>
+      </a>
+
+      <a href="./shop.html" class="mood-card mood-m6">
+        <div class="mood-icon">✨</div>
+        <div class="mood-word">Generous</div>
+        <div class="mood-sub">No reason. Just because.</div>
+        <div class="mood-cta">Find gifts <span>→</span></div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- wave: cream → gold -->
+<div class="wave" style="background:var(--cream);">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffd744"/>
+  </svg>
+</div>
+
+
+<!-- ============================================================
+     LITTLE LUXES — bold GOLD section
+============================================================ -->
+<section class="luxes-sec">
+  <div class="luxes-mark"><img src="./SVG/Artboard 1 copy 19.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-hd sec-hd-c" style="position:relative;z-index:1">
+      <span class="label label-ink50">Pre-Curated Gift Boxes</span>
+      <h2 class="sec-h">Little Luxes</h2>
+      <p class="sec-body">Everything curated, wrapped, and ready. Each box is a complete gifting experience — no guesswork, no compromise.</p>
+    </div>
+    <div class="luxes-grid">
+      <div class="luxe" data-id="for-your-heart" data-name="For Your Heart" data-price="75000" data-img="./mockup/boxes2.png">
+        <div class="luxe-img"><img src="./mockup/boxes2.png" alt="Warmth and Glow Box"></div>
+        <div class="luxe-bd">
+          <div class="luxe-cat">For Her · Birthday &amp; Encouragement</div>
+          <div class="luxe-name">For Your Heart</div>
+          <p class="luxe-desc">A little reminder that they're loved — a personalised keychain, A5 notepad, fridge magnet, scented candle, and a "Thinking of You" card, all wrapped with love.</p>
+          <div class="luxe-tags">
+            <span class="luxe-tag">Personalised Keychain</span><span class="luxe-tag">A5 Notepad</span>
+            <span class="luxe-tag">120g Candle</span><span class="luxe-tag">Greeting Card</span>
+          </div>
+          <div class="luxe-ft">
+            <span class="luxe-price">₦75,000</span>
+            <button class="luxe-add">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="luxe" data-id="graced-and-grounded" data-name="Graced and Grounded" data-price="80000" data-img="./mockup/BOX.png">
+        <div class="luxe-img" style="background:#ffffff;"><img src="./mockup/BOX.png" alt="Morning Ritual Box"></div>
+        <div class="luxe-bd">
+          <div class="luxe-cat">For Anyone · Thank You &amp; Appreciation</div>
+          <div class="luxe-name">Graced and Grounded</div>
+          <p class="luxe-desc">A gentle, grounding gesture — a curated mix of mug, journal, notes, and treats for the people who quietly hold it all together.</p>
+          <div class="luxe-tags">
+            <span class="luxe-tag">Mini Mug</span><span class="luxe-tag">Bookmark</span>
+            <span class="luxe-tag">Notepad</span><span class="luxe-tag">Journal</span>
+            <span class="luxe-tag">Handwritten Note</span><span class="luxe-tag">Scented Candle</span>
+            <span class="luxe-tag">Treat Jar</span>
+          </div>
+          <div class="luxe-ft">
+            <span class="luxe-price">₦80,000</span>
+            <button class="luxe-add">Add to Cart</button>
+          </div>
+        </div>
+      </div>
+      <div class="luxe" data-id="some-thank-you-love" data-name="Some &quot;Thank You Love&quot;" data-price="85000" data-img="./mockup/bv.png">
+        <div class="luxe-img"><img src="./mockup/bv.png" alt="Writer's Edit Box"></div>
+        <div class="luxe-bd">
+          <div class="luxe-cat">For Her · Milestones &amp; Appreciation</div>
+          <div class="luxe-name">Some "Thank You Love"</div>
+          <p class="luxe-desc">A heartfelt thank-you, beautifully done — a handwritten note, scented candle, engraved chopping board, and a curated basket of fine teas.</p>
+          <div class="luxe-tags">
+            <span class="luxe-tag">Handwritten Note</span><span class="luxe-tag">200g Candle</span>
+            <span class="luxe-tag">Engraved Chopping Board</span><span class="luxe-tag">Teas Basket</span>
+          </div>
+          <div class="luxe-ft">
+            <span class="luxe-price">₦85,000</span>
+            <button class="luxe-add">Add to Cart</button>
+          </div>
+        </a>
+      </div>
+    </div>
+    <div style="text-align:center;margin-top:48px;position:relative;z-index:1">
+      <a href="#" class="btn btn-p">View All Little Luxes <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- wave: gold → cream -->
+<div class="wave" style="background:var(--gold)">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#fff0e3"/>
+  </svg>
+</div>
+
+
+<!-- ============================================================
+     CONCIERGE — cream section
+============================================================ -->
+<section class="concierge-sec" id="concierge">
+  <div class="conc-mark"><img src="./SVG/Artboard 1 copy 2.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="conc-wrap">
+      <div>
+        <span class="label label-ink50">Bespoke Service</span>
+        <h2 style="font-family:var(--font-h);font-size:clamp(34px,3.8vw,58px);line-height:1.08;margin:12px 0 18px">
+          Concierge<br><em style="color:var(--red)">Gifting</em>
+        </h2>
+        <p class="sec-body">Tell us who you're gifting and why. We'll handle everything else — sourcing, curation, wrapping, and delivery, with every detail considered and every moment made to feel personal.</p>
+        <div class="conc-steps">
+          <div class="step"><span class="st-n">01</span><div><div class="st-t">Consultation</div><p class="st-d">Share details about the recipient, the occasion, and your budget. Via WhatsApp, call, or our brief form.</p></div></div>
+          <div class="step"><span class="st-n">02</span><div><div class="st-t">Curation</div><p class="st-d">We handpick every item, write your message, and assemble the gift with our signature wrapping and ribbon.</p></div></div>
+          <div class="step"><span class="st-n">03</span><div><div class="st-t">Delivery</div><p class="st-d">Same-day or scheduled delivery across Abuja. Nationwide shipping available. You sit back — we deliver the moment.</p></div></div>
+        </div>
+        <div class="conc-actions">
+          <a href="#" class="btn btn-p">Begin Your Consultation <span class="arr">→</span></a>
+          <a href="#" class="btn btn-sage">View Gallery</a>
+        </div>
+      </div>
+      <div class="conc-imgs">
+        <div class="ci ci-t"><img src="./PRODUCTS/IMG_9921.JPG" alt="Curated gift"></div>
+        <div class="ci"><img src="./PRODUCTS/Candle variations.JPG" alt="Candles"></div>
+        <div class="ci"><img src="./PRODUCTS/Wallets trio.JPG" alt="Wallets"></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- wave: cream → ink2 -->
+<div class="wave" style="background:var(--cream)">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#daeab0"/>
+  </svg>
+</div>
+
+
+<!-- ============================================================
+     CORPORATE GIFTING — dark ink2 section
+============================================================ -->
+<section class="corp-sec" id="corporate">
+  <div class="corp-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="corp-wrap">
+      <div class="scallop-frame">
+        <div class="corp-img"><img src="./mockup/boxes.png" alt="Corporate gifting"></div>
+      </div>
+      <div>
+        <span class="label label-red">For Businesses</span>
+        <h2 class="corp-h">Corporate<br>Gifting</h2>
+        <p class="corp-body">From staff appreciation to client retention — make your brand memorable through gifts that actually mean something. Branded, curated, beautifully executed.</p>
+        <div class="corp-tiers">
+          <div class="corp-tier">
+            <div><div class="corp-tn">Appreciation Pack</div><div class="corp-td">5–20 recipients · Branded card + single gift item</div></div>
+            <div><div class="corp-tr">From ₦8,000</div><div class="corp-tn2">per unit</div></div>
+          </div>
+          <div class="corp-tier">
+            <div><div class="corp-tn">Signature Collection</div><div class="corp-td">20–100 recipients · Premium gift box + branding</div></div>
+            <div><div class="corp-tr">From ₦18,000</div><div class="corp-tn2">per unit</div></div>
+          </div>
+          <div class="corp-tier">
+            <div><div class="corp-tn">Executive Suite</div><div class="corp-td">Fully bespoke · Custom items · Bulk delivery</div></div>
+            <div><div class="corp-tr">From ₦50,000</div><div class="corp-tn2">per unit</div></div>
+          </div>
+        </div>
+        <div class="corp-acts">
+          <a href="#" class="btn btn-p">Request a Quote <span class="arr">→</span></a>
+          <a href="#" class="btn btn-gold">Download Catalogue</a>
+        </a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- wave: sage → white -->
+<div class="wave" style="background:#daeab0">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffffff"/>
+  </svg>
+</div>
+
+
+<!-- ============================================================
+     THE KEEPSAKE EDIT — tan section
+============================================================ -->
+<section class="edit-sec" id="edit">
+  <div class="edit-mark"><img src="./SVG/Artboard 1.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-hd sec-hd-c" style="position:relative;z-index:1">
+      <span class="label label-ink50">Journal · Stories · Guides</span>
+      <h2 class="sec-h">The Keepsake Edit</h2>
+      <p class="sec-body">Gifting ideas, nostalgic stories, and seasonal guides — from the Barefoot Gifting journal.</p>
+    </div>
+    <div class="edit-grid">
+      <a class="ec ec--feat" href="./post.html">
+        <div class="ec-img"><img src="./mockup/flowers.png" alt="Mother's Day Gift Guide"></div>
+        <div class="ec-bd">
+          <div class="ec-cat">Gift Guide</div>
+          <h3 class="ec-t">The Ultimate Mother's Day Gift Guide for 2025 — from Abuja with Love</h3>
+          <p class="ec-ex">From the card that makes her cry (happy tears) to the gift box that makes her feel truly seen.</p>
+          <div class="ec-m">8 min read · May 2025</div>
+        </div>
+      </a>
+      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/Coke and Fanta.JPG" alt="Nostalgia"></div><div class="ec-bd"><div class="ec-cat">Nostalgic Stories</div><h3 class="ec-t">Why Nigerian Nostalgia Is the Most Powerful Gift Language</h3><div class="ec-m">5 min read · April 2025</div></div></a>
+      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/learned colleague.JPG" alt="Graduation"></div><div class="ec-bd"><div class="ec-cat">Product Spotlight</div><h3 class="ec-t">Gifting the Learned Colleague: What to Get a New Lawyer</h3><div class="ec-m">4 min read · March 2025</div></div></a>
+      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/Candle Trio.JPG" alt="BTS"></div><div class="ec-bd"><div class="ec-cat">Behind the Scenes</div><h3 class="ec-t">How We Build a Little Luxe Box — Every Step, Every Intention</h3><div class="ec-m">6 min read · Feb 2025</div></div></a>
+      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/Sunshine birthday.JPG" alt="Seasonal"></div><div class="ec-bd"><div class="ec-cat">Seasonal Edit</div><h3 class="ec-t">The Birthday Gifting Edit: Cards &amp; Boxes for Every Personality</h3><div class="ec-m">5 min read · Jan 2025</div></div></a>
+    </div>
+    <div style="text-align:center;margin-top:48px;position:relative;z-index:1">
+      <a href="#" class="btn btn-p">Read All Stories <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<!-- straight edge: white → red (newsletter interlude) -->
+<div style="background:#ffffff; line-height:0; margin-bottom:-2px;"><div style="height:4px; background:#dd4040;"></div></div>
+
+
+<!-- ============================================================
+     NEWSLETTER INTERLUDE — red, centered, bold
+============================================================ -->
+<section class="nl-sec">
+  <div class="nl-mark"><img src="./SVG/Artboard 1 copy 12.svg" alt="" aria-hidden="true"></div>
+  <div class="nl-inner">
+    <span class="label" style="color:rgba(255,233,208,.55);display:block;margin-bottom:16px">Stay in the Loop</span>
+    <h2 class="nl-h">Gift guides, new arrivals,<br>and seasonal edits.</h2>
+    <p class="nl-sub">Delivered with intention — no spam, just beautiful things worth knowing about.</p>
+    <div class="nl-form">
+      <input class="nl-input" type="email" placeholder="Your email address">
+      <button class="nl-btn">Subscribe</button>
+    </div>
+    <p class="nl-note">Join 2,400+ thoughtful gift-givers. Unsubscribe anytime.</p>
+  </div>
+</section>
+
+<!-- wave: red → peach -->
+<div class="wave" style="background:var(--red);">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffe9d0"/>
+  </svg>
+</div>
+
+
+<!-- ============================================================
+     TESTIMONIALS — peach section
+============================================================ -->
+<section class="testi-sec">
+  <div class="testi-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="sec-hd sec-hd-c" style="position:relative;z-index:1">
+      <span class="label label-ink50">What They Said</span>
+      <h2 class="sec-h">Gifts remembered.<br>Moments made real.</h2>
+    </div>
+    <div class="testi-grid">
+      <div class="tst">
+        <div class="tst-stars"><span class="tst-star">★</span><span class="tst-star">★</span><span class="tst-star">★</span><span class="tst-star">★</span><span class="tst-star">★</span></div>
+        <p class="tst-q">"I ordered the concierge gifting service for my wife's birthday and she literally cried. The card alone said everything I could never put into words. This brand is different."</p>
+        <div class="tst-a"><div class="tst-av">T</div><div><div class="tst-n">Tunde A.</div><div class="tst-o">Concierge Gifting · Birthday</div></div></div>
+      </div>
+      <div class="tst">
+        <div class="tst-stars"><span class="tst-star">★</span><span class="tst-star">★</span><span class="tst-star">★</span><span class="tst-star">★</span><span class="tst-star">★</span></div>
+        <p class="tst-q">"The Little Luxes box I got for my friend's naming ceremony was stunning. She kept saying 'who chose this?' The packaging alone was worth it. Will be back!"</p>
+        <div class="tst-a"><div class="tst-av">C</div><div><div class="tst-n">Chisom N.</div><div class="tst-o">Little Luxes Box · Naming Ceremony</div></div></div>
+      </div>
+      <div class="tst">
+        <div class="tst-stars"><span class="tst-star">★</span><span class="tst-star">★</span><span class="tst-star">★</span><span class="tst-star">★</span><span class="tst-star">★</span></div>
+        <p class="tst-q">"We used Barefoot for our end-of-year corporate gifts — 50 staff members. Every single gift was wrapped perfectly. Our team felt seen. We're already planning next year."</p>
+        <div class="tst-a"><div class="tst-av">A</div><div><div class="tst-n">Adaeze O.</div><div class="tst-o">Corporate Gifting · 50 Recipients</div></div></div>
+      </div>
+    </div>
+    <div class="ugc-s">
+      <div class="ugc-label">
+        <span class="label label-ink50">As seen on Instagram</span>
+        <p style="font-size:12px;font-weight:300;color:rgba(22,22,22,.5);margin-top:5px">Tag us @barefootgifting</p>
+      </div>
+      <div class="ugc-row">
+        <div class="ugc-th"><img src="./PRODUCTS/Chopping board.JPG" alt=""></div>
+        <div class="ugc-th"><img src="./PRODUCTS/Birghten My days.JPG" alt=""></div>
+        <div class="ugc-th"><img src="./PRODUCTS/Light chatty mugs.JPG" alt=""></div>
+        <div class="ugc-th"><img src="./PRODUCTS/flowers.JPG" alt=""></div>
+        <div class="ugc-th"><img src="./PRODUCTS/Sunshine birthday.JPG" alt=""></div>
+        <div class="ugc-th"><img src="./PRODUCTS/Large Candle.JPG" alt=""></div>
+        <div class="ugc-th"><img src="./PRODUCTS/Notebooks.JPG" alt=""></div>
+        <div class="ugc-th"><img src="./PRODUCTS/Waves and shells.JPG" alt=""></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- wave: peach → ink -->
+<div class="wave" style="background:var(--peach)">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#daeab0"/>
+  </svg>
+</div>
+
+
+<!-- ============================================================
+     FOOTER — ink
+============================================================ -->
+<footer class="footer">
+  <div class="footer-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="f-logo"><img src="./Png Files/Logo-cropped.png" alt="Barefoot Gifting"></div>
+        <p class="f-desc">Thoughtful gifts for every milestone, celebration, and just-because moment. Based in Abuja — delivering meaning across Nigeria.</p>
+        <div class="f-soc">
+          <a href="https://instagram.com/barefootgifting" class="f-s" aria-label="Instagram" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#" class="f-s" aria-label="Twitter / X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L2.25 2.25h6.093l4.26 5.635 5.641-5.635Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="#" class="f-s" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a><a href="https://wa.me/2349011287992" class="f-s" aria-label="WhatsApp" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <div class="f-ct">Shop</div>
+        <ul class="f-links">
+          <li><a href="#">All Products</a></li>
+          <li><a href="#">Greeting Cards</a></li>
+          <li><a href="#">Little Luxes</a></li>
+          <li><a href="#">Stationery</a></li>
+          <li><a href="#">Gift Boxes</a></li>
+          <li><a href="#">New Arrivals</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">By Occasion</div>
+        <ul class="f-links">
+          <li><a href="#">Mother's Day</a></li>
+          <li><a href="#">Father's Day</a></li>
+          <li><a href="#">Birthdays</a></li>
+          <li><a href="#">Naming Ceremony</a></li>
+          <li><a href="#">Law School Grad</a></li>
+          <li><a href="#">Weddings</a></li>
+          <li><a href="#">Just Because</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Services</div>
+        <ul class="f-links">
+          <li><a href="#">Concierge Gifting</a></li>
+          <li><a href="#">Corporate Gifting</a></li>
+          <li><a href="#">Husbands Club</a></li>
+          <li><a href="#">The Keepsake Edit</a></li>
+          <li><a href="#">About Us</a></li>
+          <li><a href="#">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Stay in the Loop</div>
+        <p style="font-size:13px;font-weight:300;color:rgba(22,22,22,.6);line-height:1.75;margin-bottom:0">Gift guides, new arrivals, and seasonal edits — with intention.</p>
+        <div class="f-nl-form">
+          <input class="f-nl-i" type="email" placeholder="Your email address" required>
+          <button class="f-nl-b">Subscribe</button>
+        </div>
+        <p class="f-nl-note">No spam. Just beautiful things worth knowing about.</p>
+        <div style="margin-top:26px">
+          <div class="f-ct">Contact</div>
+          <ul class="f-links" style="margin-top:10px">
+            <li><a href="mailto:hello@barefootgifting.com">hello@barefootgifting.com</a></li>
+            <li><a href="https://wa.me/2349011287992">+234 901 128 7992</a></li>
+            <li><a href="#">Abuja, Nigeria</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span class="f-copy">© 2025 Barefoot Gifting. All rights reserved.</span>
+      <div class="f-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Design Credits</a>
+        <a href="#">Shipping Policy</a>
+        <a href="#">Returns</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script>
+const BFCart = {
+  key: 'bfg_cart',
+  get() { return JSON.parse(localStorage.getItem(this.key) || '[]'); },
+  save(cart) { localStorage.setItem(this.key, JSON.stringify(cart)); },
+  add(item) {
+    const cart = this.get();
+    const existing = cart.find(i => i.id === item.id);
+    if (existing) existing.qty++;
+    else cart.push({...item, qty: 1});
+    this.save(cart);
+    this.updateBadge();
+  },
+  count() { return this.get().reduce((s, i) => s + i.qty, 0); },
+  updateBadge() { document.querySelectorAll('.cart-badge').forEach(b => b.textContent = this.count()); }
+};
+
+document.addEventListener('DOMContentLoaded', () => {
+  BFCart.updateBadge();
+
+  document.querySelectorAll('.luxe-add').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const card = btn.closest('.luxe');
+      if (!card || !card.dataset.id) return;
+      BFCart.add({
+        id: card.dataset.id,
+        name: card.dataset.name,
+        price: Number(card.dataset.price),
+        img: card.dataset.img
+      });
+      const orig = btn.textContent;
+      btn.textContent = 'Added ✓';
+      setTimeout(() => { btn.textContent = orig; }, 900);
+    });
+  });
+
+  document.querySelectorAll('.qadd').forEach(btn => {
+    btn.addEventListener('click', e => {
+      e.stopPropagation();
+      const card = btn.closest('.pc');
+      if (!card || !card.dataset.id) return;
+      BFCart.add({
+        id: card.dataset.id,
+        name: card.dataset.name,
+        price: Number(card.dataset.price),
+        img: card.dataset.img
+      });
+      const orig = btn.textContent;
+      btn.textContent = 'Added ✓';
+      setTimeout(() => { btn.textContent = orig; }, 900);
+    });
+  });
+
+  /* ── Popup: show after 5s, once per session ── */
+  if (!sessionStorage.getItem('bfg_popup_shown')) {
+    setTimeout(() => {
+      document.getElementById('mood-popup').classList.add('open');
+      sessionStorage.setItem('bfg_popup_shown', '1');
+    }, 5000);
+  }
+  document.getElementById('popup-close').addEventListener('click', () => {
+    document.getElementById('mood-popup').classList.remove('open');
+  });
+  document.getElementById('mood-popup').addEventListener('click', e => {
+    if (e.target === document.getElementById('mood-popup')) document.getElementById('mood-popup').classList.remove('open');
+  });
+  document.getElementById('popup-form').addEventListener('submit', e => {
+    e.preventDefault();
+    document.getElementById('popup-form-wrap').style.display = 'none';
+    document.getElementById('popup-success').style.display = 'block';
+  });
+});
+</script>
+<!-- ============================================================
+     MOOD POPUP — 10% OFF
+============================================================ -->
+<style>
+#mood-popup { position:fixed; inset:0; z-index:9999; background:rgba(22,22,22,.55); display:flex; align-items:center; justify-content:center; padding:24px; opacity:0; pointer-events:none; transition:opacity .35s; }
+#mood-popup.open { opacity:1; pointer-events:auto; }
+.popup-box { background:#fff; border-radius:4px; max-width:480px; width:100%; padding:48px 44px 44px; position:relative; text-align:center; transform:translateY(24px); transition:transform .35s; }
+#mood-popup.open .popup-box { transform:translateY(0); }
+.popup-close { position:absolute; top:16px; right:18px; font-size:22px; line-height:1; cursor:pointer; color:rgba(22,22,22,.35); background:none; border:none; font-family:inherit; }
+.popup-close:hover { color:var(--ink); }
+.popup-eyebrow { font-family:var(--font-b); font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:var(--red); margin-bottom:14px; }
+.popup-title { font-family:var(--font-h); font-size:clamp(26px,3vw,36px); line-height:1.12; color:var(--ink); margin-bottom:10px; }
+.popup-title em { font-style:italic; color:var(--red); }
+.popup-sub { font-size:14px; font-weight:300; line-height:1.7; color:rgba(22,22,22,.6); margin-bottom:28px; max-width:340px; margin-inline:auto; }
+.popup-badge { display:inline-block; background:var(--gold); color:var(--ink); font-family:var(--font-h); font-size:32px; padding:10px 24px; border-radius:3px; margin-bottom:28px; letter-spacing:.02em; }
+.popup-form { display:flex; gap:0; max-width:360px; margin:0 auto; }
+.popup-input { flex:1; min-width:0; height:46px; border:1.5px solid rgba(22,22,22,.18); border-right:none; padding:0 14px; font-family:var(--font-b); font-size:13px; color:var(--ink); outline:none; border-radius:2px 0 0 2px; }
+.popup-input::placeholder { color:rgba(22,22,22,.4); }
+.popup-btn { height:46px; padding:0 22px; background:var(--red); border:1.5px solid var(--red); color:#fff; font-family:var(--font-b); font-size:10px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; cursor:pointer; border-radius:0 2px 2px 0; transition:background .2s; white-space:nowrap; }
+.popup-btn:hover { background:var(--red-d); }
+.popup-note { font-size:11px; color:rgba(22,22,22,.4); margin-top:12px; }
+.popup-success { display:none; }
+.popup-success-ico { font-size:40px; margin-bottom:12px; }
+.popup-success h3 { font-family:var(--font-h); font-size:26px; color:var(--ink); margin-bottom:8px; }
+.popup-success p { font-size:14px; font-weight:300; color:rgba(22,22,22,.6); }
+</style>
+
+<div id="mood-popup" role="dialog" aria-modal="true" aria-label="Special offer">
+  <div class="popup-box">
+    <button class="popup-close" id="popup-close" aria-label="Close">&times;</button>
+    <div id="popup-form-wrap">
+      <p class="popup-eyebrow">A little something for you</p>
+      <h2 class="popup-title">How are you <em>feeling</em> today?</h2>
+      <p class="popup-sub">Whatever the mood — there's a gift for it. Get 10% off your first order when you join our list.</p>
+      <div class="popup-badge">10% OFF</div>
+      <form class="popup-form" id="popup-form">
+        <input class="popup-input" type="email" placeholder="Your email address" required>
+        <button class="popup-btn" type="submit">Claim Offer</button>
+      </form>
+      <p class="popup-note">No spam. Just beautiful things worth knowing about. Unsubscribe anytime.</p>
+    </div>
+    <div class="popup-success" id="popup-success">
+      <div class="popup-success-ico">🎁</div>
+      <h3>You're in!</h3>
+      <p>Check your inbox — your 10% off code is on its way.</p>
+    </div>
+  </div>
+</div>
+</body>
+</html>

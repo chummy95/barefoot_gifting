@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Orders — Barefoot Gifting Admin</title>
+<link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">Barefoot<span>.</span> Admin</div>
+    <nav>
+      <a href="./dashboard.html" data-nav="dashboard">📊 Dashboard</a>
+      <a href="./products.html" data-nav="products">🎁 Products</a>
+      <a href="./media.html" data-nav="media">🖼️ Media Library</a>
+      <a href="./orders.html" data-nav="orders">📦 Orders</a>
+      <a href="./comments.html" data-nav="comments">💬 Comments &amp; Reviews</a>
+      <a href="./customers.html" data-nav="customers">👤 Customers</a>
+      <a href="./settings.html" data-nav="settings">⚙️ Settings &amp; Paystack</a>
+    </nav>
+    <div class="foot">
+      <div data-who>—</div>
+      <button class="btn btn-o btn-sm btn-block" data-logout>Log Out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h1>Orders</h1>
+      <div class="who" data-who>—</div>
+    </div>
+    <div class="content">
+      <div class="panel">
+        <div class="toolbar">
+          <select id="status-filter">
+            <option value="">All statuses</option>
+            <option value="pending">Pending</option>
+            <option value="paid">Paid</option>
+            <option value="processing">Processing</option>
+            <option value="shipped">Shipped</option>
+            <option value="delivered">Delivered</option>
+            <option value="cancelled">Cancelled</option>
+            <option value="failed">Failed</option>
+          </select>
+        </div>
+        <table>
+          <thead><tr><th>Order</th><th>Customer</th><th>Items</th><th>Total</th><th>Payment</th><th>Status</th><th>Date</th><th></th></tr></thead>
+          <tbody id="rows"><tr><td colspan="8" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal" id="modal-body"></div>
+</div>
+
+<script src="./admin-api.js"></script>
+<script>
+if (AdminAPI.requireAuth()) {
+  renderAdminShell('orders');
+  let orders = [];
+  const STATUSES = ['pending','paid','processing','shipped','delivered','cancelled','failed'];
+
+  async function load() {
+    const status = document.getElementById('status-filter').value;
+    orders = await AdminAPI.get('/orders' + (status ? `?status=${status}` : ''));
+    const rows = document.getElementById('rows');
+    if (!orders.length) { rows.innerHTML = '<tr><td colspan="8" class="empty">No orders found.</td></tr>'; return; }
+    rows.innerHTML = orders.map(o => `
+      <tr>
+        <td>#${o.id}</td>
+        <td>${o.name}<br><span class="muted">${o.email}</span></td>
+        <td>${o.items.reduce((s,i)=>s+i.qty,0)} item(s)</td>
+        <td>${AdminAPI.money(o.total)}</td>
+        <td><span class="tag tag-${o.payment_status}">${o.payment_status}</span></td>
+        <td><span class="tag tag-${o.status}">${o.status}</span></td>
+        <td>${AdminAPI.date(o.created_at)}</td>
+        <td><button class="btn btn-o btn-sm" onclick="viewOrder(${o.id})">View</button></td>
+      </tr>
+    `).join('');
+  }
+
+  window.viewOrder = (id) => {
+    const o = orders.find(x => x.id === id);
+    document.getElementById('modal-body').innerHTML = `
+      <h3>Order #${o.id}</h3>
+      <p><strong>${o.name}</strong> — ${o.email}${o.phone ? ' · ' + o.phone : ''}</p>
+      <p class="muted">${[o.address, o.city, o.state, o.country].filter(Boolean).join(', ') || 'No address on file'}</p>
+      <table>
+        <thead><tr><th>Item</th><th>Qty</th><th>Price</th><th>Customization</th></tr></thead>
+        <tbody>
+          ${o.items.map(i => `<tr><td>${i.name}</td><td>${i.qty}</td><td>${AdminAPI.money(i.price)}</td><td>${i.customization ? `<pre style="white-space:pre-wrap;font-size:11px;margin:0">${JSON.stringify(i.customization)}</pre>` : '—'}</td></tr>`).join('')}
+        </tbody>
+      </table>
+      <p style="text-align:right;margin-top:10px">
+        Subtotal: ${AdminAPI.money(o.subtotal)}<br>
+        Delivery: ${AdminAPI.money(o.delivery_fee)}<br>
+        <strong>Total: ${AdminAPI.money(o.total)}</strong>
+      </p>
+      <div class="field">
+        <label>Order Status</label>
+        <select id="order-status">
+          ${STATUSES.map(s => `<option value="${s}" ${s===o.status?'selected':''}>${s}</option>`).join('')}
+        </select>
+      </div>
+      <div class="modal-actions">
+        <button class="btn btn-o" onclick="closeModal()">Close</button>
+        <button class="btn btn-p" onclick="updateStatus(${o.id})">Update Status</button>
+      </div>
+    `;
+    document.getElementById('modal-bg').classList.add('show');
+  };
+
+  window.closeModal = () => document.getElementById('modal-bg').classList.remove('show');
+
+  window.updateStatus = async (id) => {
+    const status = document.getElementById('order-status').value;
+    await AdminAPI.patch(`/orders/${id}`, { status });
+    closeModal();
+    load();
+  };
+
+  document.getElementById('status-filter').addEventListener('change', load);
+  load();
+}
+</script>
+</body>
+</html>

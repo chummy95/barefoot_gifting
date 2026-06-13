@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Account — Barefoot Gifting</title>
+<link rel="stylesheet" href="./account.css">
+</head>
+<body>
+<div class="login-wrap">
+  <div class="login-card">
+    <h1 id="title">Welcome Back</h1>
+    <p id="sub">Sign in to view your orders and account details.</p>
+    <div class="error-msg" id="err"></div>
+
+    <form id="login-form">
+      <div class="field"><label>Email</label><input type="email" id="email" required></div>
+      <div class="field"><label>Password</label><input type="password" id="password" required></div>
+      <button class="btn btn-p btn-block" type="submit">Sign In</button>
+    </form>
+
+    <form id="register-form" style="display:none">
+      <div class="field"><label>Full Name</label><input type="text" id="r-name" required></div>
+      <div class="field"><label>Email</label><input type="email" id="r-email" required></div>
+      <div class="field"><label>Phone</label><input type="tel" id="r-phone"></div>
+      <div class="field"><label>Password</label><input type="password" id="r-password" required minlength="6"></div>
+      <button class="btn btn-p btn-block" type="submit">Create Account</button>
+    </form>
+
+    <p style="text-align:center;margin-top:16px;font-size:13px">
+      <a href="#" id="toggle-link" style="color:var(--red);text-decoration:underline">Don't have an account? Create one</a>
+    </p>
+    <p style="text-align:center;margin-top:8px"><a href="../index.html" style="font-size:12px;color:var(--muted)">← Back to shop</a></p>
+  </div>
+</div>
+
+<script src="./account-api.js"></script>
+<script>
+const loginForm = document.getElementById('login-form');
+const registerForm = document.getElementById('register-form');
+const toggle = document.getElementById('toggle-link');
+const err = document.getElementById('err');
+
+toggle.addEventListener('click', e => {
+  e.preventDefault();
+  const showingLogin = loginForm.style.display !== 'none';
+  loginForm.style.display = showingLogin ? 'none' : 'block';
+  registerForm.style.display = showingLogin ? 'block' : 'none';
+  document.getElementById('title').textContent = showingLogin ? 'Create Account' : 'Welcome Back';
+  document.getElementById('sub').textContent = showingLogin ? 'Join Barefoot Gifting to track your orders.' : 'Sign in to view your orders and account details.';
+  toggle.textContent = showingLogin ? 'Already have an account? Sign in' : "Don't have an account? Create one";
+  err.classList.remove('show');
+});
+
+loginForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  err.classList.remove('show');
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: document.getElementById('email').value, password: document.getElementById('password').value }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Login failed');
+    AccountAPI.login(data.token, data.user);
+    location.href = './dashboard.html';
+  } catch (e2) { err.textContent = e2.message; err.classList.add('show'); }
+});
+
+registerForm.addEventListener('submit', async e => {
+  e.preventDefault();
+  err.classList.remove('show');
+  try {
+    const res = await fetch('/api/auth/register', {
+      method: 'POST', headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        name: document.getElementById('r-name').value,
+        email: document.getElementById('r-email').value,
+        phone: document.getElementById('r-phone').value,
+        password: document.getElementById('r-password').value,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Registration failed');
+    AccountAPI.login(data.token, data.user);
+    location.href = './dashboard.html';
+  } catch (e2) { err.textContent = e2.message; err.classList.add('show'); }
+});
+
+if (AccountAPI.getToken() && AccountAPI.getUser()) location.href = './dashboard.html';
+</script>
+</body>
+</html>

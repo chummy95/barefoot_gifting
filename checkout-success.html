@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Order Confirmation — Barefoot Gifting</title>
+<style>
+:root { --red:#dd4040; --red-d:#c93535; --peach:#ffe9d0; --cream:#fff0e3; --sage:#daeab0; --ink:#161616; }
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:Arial,Helvetica,sans-serif;background:var(--cream);color:var(--ink);min-height:100vh;display:flex;align-items:center;justify-content:center;padding:24px;}
+.card{background:#fff;border-radius:16px;padding:48px;max-width:480px;text-align:center;box-shadow:0 10px 40px rgba(0,0,0,.06);}
+.icon{font-size:48px;margin-bottom:16px;}
+h1{font-size:22px;margin-bottom:8px;}
+p{color:#8a8378;font-size:14px;margin-bottom:20px;line-height:1.6;}
+.btn{display:inline-flex;align-items:center;gap:8px;padding:13px 28px;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;border-radius:2px;background:var(--red);color:#fff;text-decoration:none;}
+.btn:hover{background:var(--red-d);}
+.ref{font-size:12px;color:#8a8378;margin-top:18px;}
+</style>
+</head>
+<body>
+<div class="card" id="card">
+  <div class="icon">⏳</div>
+  <h1>Verifying your payment…</h1>
+  <p>Please wait a moment while we confirm your order with Paystack.</p>
+</div>
+
+<script>
+(function () {
+  const params = new URLSearchParams(location.search);
+  const reference = params.get('reference') || params.get('trxref');
+  const card = document.getElementById('card');
+
+  if (!reference) {
+    card.innerHTML = `
+      <div class="icon">📦</div>
+      <h1>Order Received</h1>
+      <p>Thank you! Your order has been placed and our team will reach out to confirm delivery details.</p>
+      <a href="./shop.html" class="btn">Continue Shopping →</a>`;
+    return;
+  }
+
+  fetch(`/api/paystack/verify?reference=${encodeURIComponent(reference)}`)
+    .then(r => r.json())
+    .then(data => {
+      if (data.paid) {
+        try { localStorage.removeItem('bfg_cart'); } catch {}
+        card.innerHTML = `
+          <div class="icon">🎉</div>
+          <h1>Payment Successful!</h1>
+          <p>Your order #${data.order ? data.order.id : ''} has been confirmed. A receipt has been sent to your email, and we'll notify you as it's prepared and shipped.</p>
+          <a href="./account/dashboard.html" class="btn">View My Orders →</a>
+          <div class="ref">Reference: ${reference}</div>`;
+      } else {
+        card.innerHTML = `
+          <div class="icon">⚠️</div>
+          <h1>Payment Not Completed</h1>
+          <p>We couldn't confirm your payment. If you were charged, please contact us with the reference below and we'll sort it out.</p>
+          <a href="./checkout.html" class="btn">Back to Checkout →</a>
+          <div class="ref">Reference: ${reference}</div>`;
+      }
+    })
+    .catch(() => {
+      card.innerHTML = `
+        <div class="icon">⚠️</div>
+        <h1>Something Went Wrong</h1>
+        <p>We couldn't verify your payment automatically. Please contact us with the reference below.</p>
+        <a href="./contact.html" class="btn">Contact Us →</a>
+        <div class="ref">Reference: ${reference}</div>`;
+    });
+})();
+</script>
+</body>
+</html>

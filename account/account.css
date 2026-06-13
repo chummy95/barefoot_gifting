@@ -1,0 +1,9 @@
+@import url("../admin/admin.css");
+
+/* Customer-facing tweaks: warmer, matches storefront */
+body { background:var(--cream); }
+.login-wrap { background:linear-gradient(135deg,var(--cream),var(--peach)); }
+.shell .sidebar { background:var(--ink2); }
+.sidebar .brand span { color:var(--red); }
+.topbar { background:var(--cream); }
+.panel, .stat-card { border-radius:16px; }

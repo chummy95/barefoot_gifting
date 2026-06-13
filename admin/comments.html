@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Comments &amp; Reviews — Barefoot Gifting Admin</title>
+<link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">Barefoot<span>.</span> Admin</div>
+    <nav>
+      <a href="./dashboard.html" data-nav="dashboard">📊 Dashboard</a>
+      <a href="./products.html" data-nav="products">🎁 Products</a>
+      <a href="./media.html" data-nav="media">🖼️ Media Library</a>
+      <a href="./orders.html" data-nav="orders">📦 Orders</a>
+      <a href="./comments.html" data-nav="comments">💬 Comments &amp; Reviews</a>
+      <a href="./customers.html" data-nav="customers">👤 Customers</a>
+      <a href="./settings.html" data-nav="settings">⚙️ Settings &amp; Paystack</a>
+    </nav>
+    <div class="foot">
+      <div data-who>—</div>
+      <button class="btn btn-o btn-sm btn-block" data-logout>Log Out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h1>Comments &amp; Reviews</h1>
+      <div class="who" data-who>—</div>
+    </div>
+    <div class="content">
+      <div class="panel">
+        <div class="toolbar">
+          <select id="status-filter">
+            <option value="pending">Pending</option>
+            <option value="approved">Approved</option>
+            <option value="spam">Spam</option>
+            <option value="trash">Trash</option>
+            <option value="">All</option>
+          </select>
+        </div>
+        <table>
+          <thead><tr><th>Author</th><th>Comment</th><th>On</th><th>Rating</th><th>Status</th><th>Date</th><th></th></tr></thead>
+          <tbody id="rows"><tr><td colspan="7" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./admin-api.js"></script>
+<script>
+if (AdminAPI.requireAuth()) {
+  renderAdminShell('comments');
+
+  async function load() {
+    const status = document.getElementById('status-filter').value;
+    const items = await AdminAPI.get('/comments' + (status ? `?status=${status}` : ''));
+    const rows = document.getElementById('rows');
+    if (!items.length) { rows.innerHTML = '<tr><td colspan="7" class="empty">Nothing here.</td></tr>'; return; }
+    rows.innerHTML = items.map(c => `
+      <tr>
+        <td>${c.name}<br><span class="muted">${c.email || '—'}</span></td>
+        <td>${c.body}</td>
+        <td>${c.product_id ? 'Product #' + c.product_id : (c.post_id || '—')}</td>
+        <td>${c.rating ? '<span class="rating">' + '★'.repeat(c.rating) + '☆'.repeat(5-c.rating) + '</span>' : '—'}</td>
+        <td><span class="tag tag-${c.status}">${c.status}</span></td>
+        <td>${AdminAPI.date(c.created_at)}</td>
+        <td style="white-space:nowrap">
+          ${c.status !== 'approved' ? `<button class="btn btn-o btn-sm" onclick="setStatus(${c.id},'approved')">Approve</button>` : ''}
+          ${c.status !== 'spam' ? `<button class="btn btn-o btn-sm" onclick="setStatus(${c.id},'spam')">Spam</button>` : ''}
+          <button class="btn btn-danger btn-sm" onclick="remove(${c.id})">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  window.setStatus = async (id, status) => { await AdminAPI.patch(`/comments/${id}`, { status }); load(); };
+  window.remove = async (id) => { if (confirm('Delete this comment?')) { await AdminAPI.del(`/comments/${id}`); load(); } };
+
+  document.getElementById('status-filter').addEventListener('change', load);
+  load();
+}
+</script>
+</body>
+</html>

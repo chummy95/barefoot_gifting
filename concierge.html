@@ -1,0 +1,506 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Concierge Gifting — Barefoot Gifting</title>
+<style>
+@font-face { font-family:'Atirose'; src:url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/otf.otf') format('opentype'),url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/ttf.ttf') format('truetype'); font-weight:normal; font-style:normal; font-display:swap; }
+@font-face { font-family:'AstridGrotesk'; src:url('./Astrid.Grotesk.Font/AstridGrotesk-UltraLight.otf') format('opentype'); font-weight:100; font-display:swap; }
+@font-face { font-family:'AstridGrotesk'; src:url('./Astrid.Grotesk.Font/AstridGrotesk-Light.otf') format('opentype'); font-weight:300; font-display:swap; }
+@font-face { font-family:'AstridGrotesk'; src:url('./Astrid.Grotesk.Font/AstridGrotesk-Regular.otf') format('opentype'); font-weight:400; font-display:swap; }
+@font-face { font-family:'AstridGrotesk'; src:url('./Astrid.Grotesk.Font/AstridGrotesk-Medium.otf') format('opentype'); font-weight:500; font-display:swap; }
+@font-face { font-family:'AstridGrotesk'; src:url('./Astrid.Grotesk.Font/AstridGrotesk-Bold.otf') format('opentype'); font-weight:700; font-display:swap; }
+@font-face { font-family:'AstridGrotesk'; src:url('./Astrid.Grotesk.Font/AstridGrotesk-ExtraBold.otf') format('opentype'); font-weight:800; font-display:swap; }
+:root { --red:#dd4040; --red-d:#c93535; --peach:#ffe9d0; --cream:#fff0e3; --tan:#eeddc0; --gold:#ffd744; --sage:#daeab0; --ink:#161616; --ink2:#252728; --font-h:'Atirose',Georgia,serif; --font-b:'AstridGrotesk',system-ui,sans-serif; --max:1320px; --gut:clamp(24px,5vw,80px); }
+*,*::before,*::after { box-sizing:border-box; margin:0; padding:0; }
+html { scroll-behavior:smooth; }
+body { font-family:var(--font-b); font-weight:400; color:var(--ink); overflow-x:hidden; -webkit-font-smoothing:antialiased; background:var(--cream); }
+img { display:block; width:100%; height:100%; object-fit:cover; }
+a { text-decoration:none; color:inherit; }
+ul { list-style:none; }
+.wrap { max-width:var(--max); margin:0 auto; padding:0 var(--gut); }
+.wave { display:block; overflow:hidden; line-height:0; margin-bottom: -2px;}
+.wave svg { display:block; width:100%; }
+.btn { display:inline-flex; align-items:center; gap:10px; padding:14px 34px; font-family:var(--font-b); font-size:11px; font-weight:700; letter-spacing:0.18em; text-transform:uppercase; border-radius:2px; cursor:pointer; transition:background .22s,color .22s,border-color .22s; white-space:nowrap; border:1.5px solid transparent; }
+.btn-p { background:var(--red); color:#fff; border-color:var(--red); }
+.btn-p:hover { background:var(--red-d); border-color:var(--red-d); }
+.btn-o { background:transparent; color:var(--ink); border-color:var(--ink); }
+.btn-o:hover { background:var(--ink); color:var(--cream); }
+.arr { transition:transform .2s; }
+.btn:hover .arr { transform:translateX(4px); }
+.label { font-family:var(--font-b); font-size:11px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; }
+.label-red { color:var(--red); }
+.sec-h { font-family:var(--font-h); font-size:clamp(34px,3.8vw,58px); line-height:1.08; margin:12px 0 16px; }
+.sec-body { font-size:clamp(14px,1vw,17px); font-weight:300; line-height:1.85; color:rgba(22,22,22,.6); max-width:540px; }
+.sec-hd { margin-bottom:52px; }
+.sec-hd-c { text-align:center; }
+.sec-hd-c .sec-body { margin-left:auto; margin-right:auto; }
+.announce { background:var(--sage); padding:10px var(--gut); text-align:center; font-size:12px; font-weight:300; letter-spacing:.06em; color:var(--ink); }
+.announce strong { color:var(--red); font-weight:700; }
+.nav-shell { position:sticky; top:0; z-index:200; background:var(--cream); border-bottom:1px solid rgba(22,22,22,.07); }
+.nav { display:grid; grid-template-columns:1fr auto 1fr; align-items:center; height:110px; gap:20px; }
+.nav-links { display:flex; align-items:center; gap:clamp(12px,2vw,32px); }
+.nav-links a { font-size:10px; font-weight:500; letter-spacing:.10em; text-transform:uppercase; color:var(--ink2); transition:color .2s; }
+.nav-links a:hover,.nav-links a.hi { color:var(--red); }
+.nav-logo img { height: 100px; width:auto; object-fit:contain; display:block; }
+.nav-r { display:flex; align-items:center; justify-content:flex-end; gap:clamp(10px,1.6vw,26px); }
+/* ---- NAV DROPDOWN ---- */
+.nav-dd { position: relative; }
+.nav-dd > a::after { content: ' ▾'; font-size: 13px; opacity: .7; vertical-align: middle; }
+.nav-dd-menu {
+  position: absolute; top: 100%; left: 0;
+  padding-top: 12px;
+  background: transparent;
+  min-width: 210px; z-index: 300;
+  opacity: 0; pointer-events: none;
+  transform: translateY(4px);
+  transition: opacity .2s, transform .2s;
+}
+.nav-dd-menu-inner {
+  background: var(--cream); border: 1px solid rgba(22,22,22,.09);
+  padding: 8px 0;
+  box-shadow: 0 12px 40px rgba(22,22,22,.1);
+}
+.nav-dd:hover .nav-dd-menu { opacity: 1; pointer-events: auto; transform: translateY(0); }
+.nav-dd-menu a {
+  display: block; padding: 11px 22px;
+  font-size: 10px; font-weight: 600; letter-spacing: .13em; text-transform: uppercase;
+  color: var(--ink2); transition: color .2s, background .2s;
+}
+.nav-dd-menu a:hover { color: var(--red); background: rgba(22,22,22,.03); }
+.nav-dd-menu .dd-divider { height: 1px; background: rgba(22,22,22,.07); margin: 6px 0; }
+
+.ico { width:19px; height:19px; stroke:var(--ink2); fill:none; stroke-width:1.5; cursor:pointer; transition:stroke .2s; flex-shrink:0; }
+.ico:hover { stroke:var(--red); }
+.cart-w { position:relative; }
+.cart-badge { position:absolute; top:-7px; right:-8px; background:var(--red); color:#fff; font-size:9px; font-weight:800; width:16px; height:16px; border-radius:50%; display:flex; align-items:center; justify-content:center; }
+.footer { background:var(--sage); color:var(--ink); position:relative; overflow:hidden; }
+.footer-mark { position:absolute; bottom:-40px; left:-40px; width:360px; height:360px; opacity:.1; pointer-events:none; }
+.footer-mark img { width:100%; height:100%; object-fit:contain; }
+.footer-top { display:grid; grid-template-columns:2fr 1fr 1fr 1fr 2fr; align-items:start; gap:40px; padding:64px 0 48px; border-bottom:1px solid rgba(22,22,22,.12); position:relative; z-index:1; }
+.f-logo { margin-bottom: 6px; }
+.f-logo img { height: 120px; width: auto; object-fit: contain; display: block; margin-left: -8px; }
+.f-desc { font-size:13px; font-weight:300; line-height:1.8; color:#000000; margin-bottom:22px; }
+.f-soc { display:flex; gap:10px; }
+.f-s { width:33px; height:33px; border-radius:50%; border:1px solid rgba(22,22,22,.2); display:flex; align-items:center; justify-content:center; color:var(--ink); transition:background .2s,border-color .2s,color .2s; }
+.f-s:hover { background:var(--red); border-color:var(--red); color:#fff; }
+.f-ct { font-size:10px; font-weight:700; letter-spacing:.2em; text-transform:uppercase; color:#000000; margin-bottom:16px; }
+.f-links { display:flex; flex-direction:column; gap:9px; }
+.f-links a { font-size:13px; font-weight:300; color:#000000; transition:color .2s; }
+.f-links a:hover { color:var(--red); }
+.f-nl-form { display: flex; align-items: stretch; max-width: 380px; }
+.f-nl-i {
+  flex: 1; min-width: 0; height: 46px; box-sizing: border-box;
+  background: rgba(255,255,255,.6); border: 1px solid rgba(22,22,22,.15);
+  border-right: none; padding: 0 14px;
+  color: var(--ink); font-family: var(--font-b); font-size: 12px; line-height: 1; outline: none;
+}
+.f-nl-i::placeholder { color: rgba(22,22,22,.4); }
+.f-nl-b {
+  flex-shrink: 0; height: 46px; box-sizing: border-box;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--red); border: 1px solid var(--red);
+  padding: 0 22px; margin: 0; color: #fff;
+  font-family: var(--font-b); font-size: 10px; font-weight: 800; line-height: 1;
+  letter-spacing: .14em; text-transform: uppercase; cursor: pointer;
+  transition: background .2s; white-space: nowrap;
+}
+.f-nl-b:hover { background: var(--red-d); }
+.f-nl-note { font-size:11px; color:#000000; margin-top:7px; line-height:1.5; }
+
+/* ---- ALL SAGE BG SECTIONS: black text ---- */
+.thc *, .faq-cta *, .tiers-sec *, .hiw-sec *, .addons-sec * { color: #000000; }
+.thc .btn-p, .faq-cta .btn-p, .tiers-sec .btn-p { color: #fff !important; }
+.thc .label-red, .faq-cta .label-red, .tiers-sec .label-red { color: var(--red) !important; }
+.thc .tp, .tiers-sec .tp { color: var(--red) !important; }
+.tier-f::before { color: #fff !important; }
+.footer-bot { display:flex; align-items:center; justify-content:space-between; gap:20px; padding:20px 0; position:relative; z-index:1; }
+.f-copy { font-size:12px; font-weight:300; color:#000000; }
+.f-legal { display:flex; gap:20px; }
+.f-legal a { font-size:12px; font-weight:300; color:#000000; transition:color .2s; }
+.f-legal a:hover { color:var(--ink); }
+
+/* PAGE SPECIFIC */
+.conc-hero { background:var(--cream); padding:clamp(56px,6vw,84px) 0 clamp(80px,9vw,120px); overflow:hidden; }
+.conc-hero-grid { display:grid; grid-template-columns:1fr 1fr; gap:clamp(40px,6vw,96px); align-items:center; }
+.conc-hero-content { }
+.conc-hero h1 { font-family:var(--font-h); font-size:clamp(28px,3.4vw,48px); line-height:1.12; color:var(--ink); margin:14px 0 22px; max-width:520px; }
+.conc-hero h1 em { font-style:italic; color:var(--red); }
+.conc-hero-sub { font-size:clamp(14px,1vw,17px); font-weight:300; line-height:1.85; color:rgba(22,22,22,.65); margin-bottom:36px; }
+.conc-hero-visual { display:flex; justify-content:center; }
+.conc-hero-img { aspect-ratio:4/5; overflow:hidden; border-radius:3px; background:var(--gold); width:min(100%, 360px); margin-inline:auto; box-shadow:0 18px 34px rgba(22,22,22,.16); }
+.conc-hero-img img { width:100%; height:100%; object-fit:cover; object-position:center center; }
+
+/* How it Works */
+.hiw-sec { background:var(--gold); padding:clamp(80px,9vw,120px) 0; }
+.hiw-steps { display:grid; grid-template-columns:repeat(3,1fr); gap:24px; margin-top:52px; }
+.hiw-step { background:rgba(255,255,255,.45); padding:40px; border-radius:3px; border:1px solid rgba(22,22,22,.08); position:relative; overflow:hidden; transition:background .25s; }
+.hiw-step:hover { background:rgba(255,255,255,.68); }
+.hiw-num { font-family:var(--font-h); font-size:80px; line-height:1; color:var(--ink); opacity:.12; position:absolute; top:16px; right:20px; }
+.hiw-dot { width:8px; height:8px; border-radius:50%; background:var(--red); margin-bottom:20px; }
+.hiw-title { font-family:var(--font-h); font-size:clamp(20px,1.8vw,26px); color:var(--ink); margin-bottom:14px; }
+.hiw-desc { font-size:14px; font-weight:300; line-height:1.75; color:rgba(22,22,22,.65); }
+
+/* Gallery */
+.gallery-sec { background:var(--peach); padding:clamp(80px,9vw,120px) 0; }
+.masonry { columns:3; column-gap:16px; margin-top:48px; }
+.masonry-item { break-inside:avoid; margin-bottom:16px; position:relative; overflow:hidden; border-radius:3px; cursor:pointer; }
+.masonry-item img { width:100%; display:block; border-radius:3px; transition:transform .4s; }
+.masonry-item:hover img { transform:scale(1.04); }
+.masonry-overlay { position:absolute; inset:0; background:rgba(22,22,22,.5); opacity:0; transition:opacity .3s; display:flex; align-items:flex-end; padding:20px; border-radius:3px; }
+.masonry-item:hover .masonry-overlay { opacity:1; }
+.masonry-label { font-family:var(--font-h); font-size:16px; color:#fff; }
+
+/* Inquiry Form */
+.inquiry-sec { background:var(--cream); padding:clamp(80px,9vw,120px) 0; }
+.inquiry-grid { display:grid; grid-template-columns:3fr 2fr; gap:40px; align-items:start; }
+.inquiry-form h2 { font-family:var(--font-h); font-size:clamp(28px,3vw,42px); margin:10px 0 28px; line-height:1.1; }
+.form-row { display:grid; grid-template-columns:1fr 1fr; gap:16px; }
+.form-field { margin-bottom:0; }
+input[type=text], input[type=email], input[type=tel], select, textarea {
+  border:1px solid rgba(22,22,22,.15);
+  padding:14px 18px;
+  font-family:var(--font-b);
+  font-size:14px;
+  outline:none;
+  width:100%;
+  background:white;
+  margin-bottom:16px;
+  display:block;
+  color:var(--ink);
+  border-radius:2px;
+  transition:border-color .2s;
+}
+input[type=text]:focus, input[type=email]:focus, input[type=tel]:focus, select:focus, textarea:focus { border-color:var(--red); }
+textarea { resize:vertical; min-height:130px; }
+.inquiry-panel { background:var(--red); padding:40px; color:var(--cream); border-radius:3px; }
+.inquiry-panel h3 { font-family:var(--font-h); font-size:clamp(22px,2vw,30px); color:var(--cream); margin-bottom:20px; }
+.panel-item { display:flex; gap:14px; margin-bottom:22px; padding-bottom:22px; border-bottom:1px solid rgba(255,240,227,.18); }
+.panel-item:last-child { border-bottom:none; margin-bottom:0; }
+.panel-dot { width:8px; height:8px; border-radius:50%; background:var(--gold); flex-shrink:0; margin-top:6px; }
+.panel-text strong { display:block; font-size:13px; font-weight:700; letter-spacing:.08em; text-transform:uppercase; color:var(--gold); margin-bottom:5px; }
+.panel-text p { font-size:13px; font-weight:300; line-height:1.7; color:rgba(255,240,227,.8); }
+</style>
+</head>
+<body>
+
+<div class="announce">Free delivery above <strong>₦45,000</strong> within Abuja &nbsp;·&nbsp; Same day delivery on orders placed before <strong>noon</strong></div>
+<div class="nav-shell">
+  <div class="wrap">
+    <nav class="nav">
+      <ul class="nav-links">
+        <li class="nav-dd"><a href="./shop.html">Shop</a>
+          <div class="nav-dd-menu">
+            <div class="nav-dd-menu-inner">
+              <a href="./shop.html">All Products</a>
+              <div class="dd-divider"></div>
+              <a href="./shop.html">Greeting Cards</a>
+              <a href="./shop.html">Little Luxes</a>
+              <a href="./shop.html">Stationery</a>
+              <a href="./shop.html">Gift Boxes</a>
+            </div>
+          </div>
+        </li>
+        <li><a href="./corporate.html">Corporate Gifting</a></li>
+        <li><a href="./concierge.html">Concierge Gifting</a></li>
+      </ul>
+      <a href="./index.html" class="nav-logo"><img src="./Png Files/Logo.png" alt="Barefoot Gifting"></a>
+      <div class="nav-r">
+        <ul class="nav-links">
+          <li><a href="./thc.html">Husbands Club</a></li>
+          <li><a href="./about.html">About</a></li>
+          <li><a href="./journal.html">Keepsake Edit</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+        </ul>
+        <a href="./account/index.html" aria-label="My Account" style="display:flex;align-items:center;margin-right:8px"><svg class="ico" viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a href="./cart.html" class="cart-w" aria-label="View cart">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="cart-badge">0</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- Hero -->
+<section class="conc-hero">
+  <div class="wrap">
+    <div class="conc-hero-grid">
+      <div class="conc-hero-content">
+        <span class="label label-red">Bespoke Gifting</span>
+        <h1>We do the thinking.<br>You get the <em>credit.</em></h1>
+        <p class="conc-hero-sub">Tell us who you're gifting and why it matters — we'll handle every detail, from curation to delivery, with intention at every step.</p>
+        <a href="#inquiry" class="btn btn-p">Start Your Enquiry <span class="arr">→</span></a>
+      </div>
+      <div class="conc-hero-visual">
+        <div class="conc-hero-img">
+          <img src="./mockup/BOX.png" alt="Beautifully wrapped gift box">
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave: cream → gold -->
+<div class="wave" style="background:#fff0e3">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffd744"/>
+  </svg>
+</div>
+
+<!-- How It Works -->
+<section class="hiw-sec">
+  <div class="wrap">
+    <div class="sec-hd sec-hd-c">
+      <span class="label" style="color:rgba(22,22,22,.55)">Simple &amp; Personal</span>
+      <h2 class="sec-h">The Concierge Process</h2>
+      <p class="sec-body" style="color:rgba(22,22,22,.65)">Three thoughtful steps from your first message to the moment the bow is tied.</p>
+    </div>
+    <div class="hiw-steps">
+      <div class="hiw-step">
+        <div class="hiw-num">01</div>
+        <div class="hiw-dot"></div>
+        <div class="hiw-title">Consultation</div>
+        <p class="hiw-desc">Tell us about the recipient — who they are, what the occasion is, and what budget you're working with. There's no wrong answer; we're listening.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">02</div>
+        <div class="hiw-dot"></div>
+        <div class="hiw-title">Curation</div>
+        <p class="hiw-desc">Our team handpicks and assembles your gift with intention — sourcing the right products, the right packaging, the right message to make it unforgettable.</p>
+      </div>
+      <div class="hiw-step">
+        <div class="hiw-num">03</div>
+        <div class="hiw-dot"></div>
+        <div class="hiw-title">Delivery</div>
+        <p class="hiw-desc">Beautifully wrapped and delivered on time, every time — whether it's across Abuja or anywhere in Nigeria. We handle the logistics so you don't have to.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave: gold → peach -->
+<div class="wave" style="background:#ffd744">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffe9d0"/>
+  </svg>
+</div>
+
+<!-- Gallery -->
+<section class="gallery-sec">
+  <div class="wrap">
+    <div class="sec-hd">
+      <span class="label label-red">Past Work</span>
+      <h2 class="sec-h">Boxes we've built with love.</h2>
+      <p class="sec-body">A glimpse into the care that goes into every concierge gift we curate.</p>
+    </div>
+    <div class="masonry">
+      <div class="masonry-item">
+        <img src="./PRODUCTS/Held gently.JPG" alt="Birthday gift box">
+        <div class="masonry-overlay"><span class="masonry-label">Birthday Surprise</span></div>
+      </div>
+      <div class="masonry-item">
+        <img src="./PRODUCTS/Candle Trio.JPG" alt="Wellness gift">
+        <div class="masonry-overlay"><span class="masonry-label">Self-Care Edit</span></div>
+      </div>
+      <div class="masonry-item">
+        <img src="./PRODUCTS/Wallets trio.JPG" alt="Farewell gift">
+        <div class="masonry-overlay"><span class="masonry-label">Farewell Gift</span></div>
+      </div>
+      <div class="masonry-item">
+        <img src="./PRODUCTS/Chatty Mugs full.JPG" alt="Housewarming gift">
+        <div class="masonry-overlay"><span class="masonry-label">Housewarming</span></div>
+      </div>
+      <div class="masonry-item">
+        <img src="./PRODUCTS/Large notebooks.JPG" alt="New job gift">
+        <div class="masonry-overlay"><span class="masonry-label">New Chapter</span></div>
+      </div>
+      <div class="masonry-item">
+        <img src="./PRODUCTS/flowers.JPG" alt="Romance gift">
+        <div class="masonry-overlay"><span class="masonry-label">Just Because</span></div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave: peach → cream -->
+<div class="wave" style="background:#ffe9d0">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#fff0e3"/>
+  </svg>
+</div>
+
+<!-- Inquiry Form -->
+<section class="inquiry-sec" id="inquiry">
+  <div class="wrap">
+    <div class="inquiry-grid">
+      <div class="inquiry-form">
+        <span class="label label-red">Book a Consultation</span>
+        <h2>Let's curate something just for them.</h2>
+        <p style="font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.6);margin-bottom:28px;max-width:480px;">We'll handpick products — including items not listed on the site — based on who you're gifting and why. Submit this form and one of our team will reach out within 24–48 hours to begin your consultation.</p>
+        <form>
+          <div class="form-row">
+            <input type="text" placeholder="Your Name" required>
+            <input type="email" placeholder="Email Address" required>
+          </div>
+          <input type="tel" placeholder="WhatsApp / Phone Number" required>
+          <div class="form-row">
+            <select required>
+              <option value="" disabled selected>Who is the gift for?</option>
+              <option>Partner / Spouse</option>
+              <option>Parent</option>
+              <option>Friend</option>
+              <option>Colleague</option>
+              <option>Child</option>
+              <option>Client</option>
+              <option>Other</option>
+            </select>
+            <select required>
+              <option value="" disabled selected>Occasion</option>
+              <option>Birthday</option>
+              <option>Wedding / Anniversary</option>
+              <option>Naming Ceremony</option>
+              <option>Graduation</option>
+              <option>Just Because</option>
+              <option>Other</option>
+            </select>
+          </div>
+          <select required>
+            <option value="" disabled selected>Budget Range</option>
+            <option>₦15,000 – ₦30,000</option>
+            <option>₦30,000 – ₦60,000</option>
+            <option>₦60,000 – ₦120,000</option>
+            <option>₦120,000+</option>
+          </select>
+          <input type="text" placeholder="Any specific products or ideas in mind? (e.g. perfume, jewellery, skincare)" required>
+          <textarea placeholder="Tell us about the recipient — their personality, interests, and what makes them special..." required></textarea>
+          <button type="submit" class="btn btn-p">Request Consultation <span class="arr">→</span></button>
+        </form>
+      </div>
+      <div class="inquiry-panel">
+        <h3>What's included</h3>
+        <div class="panel-item">
+          <div class="panel-dot"></div>
+          <div class="panel-text">
+            <strong>Personal Consultation</strong>
+            <p>A dedicated call or chat with our gifting team to understand your recipient and vision.</p>
+          </div>
+        </div>
+        <div class="panel-item">
+          <div class="panel-dot"></div>
+          <div class="panel-text">
+            <strong>Handpicked Curation</strong>
+            <p>We source and assemble products chosen specifically for your recipient — nothing generic.</p>
+          </div>
+        </div>
+        <div class="panel-item">
+          <div class="panel-dot"></div>
+          <div class="panel-text">
+            <strong>Premium Packaging</strong>
+            <p>Every box is wrapped and presented beautifully, with a handwritten card included.</p>
+          </div>
+        </div>
+        <div class="panel-item">
+          <div class="panel-dot"></div>
+          <div class="panel-text">
+            <strong>Turnaround &amp; Delivery</strong>
+            <p>Standard: 3–5 business days. Express available. Delivery nationwide across Nigeria.</p>
+          </div>
+        </div>
+        <div class="panel-item">
+          <div class="panel-dot"></div>
+          <div class="panel-text">
+            <strong>Starting from</strong>
+            <p>Concierge gifting starts at ₦15,000. Final price depends on products and delivery.</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- Wave: cream → sage -->
+<div class="wave" style="background:#fff0e3">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#daeab0"/>
+  </svg>
+</div>
+
+<!-- Footer -->
+<footer class="footer">
+  <div class="footer-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="f-logo"><img src="./Png Files/Logo-cropped.png" alt="Barefoot Gifting"></div>
+        <p class="f-desc">Thoughtful gifts for every milestone, celebration, and just-because moment. Based in Abuja — delivering meaning across Nigeria.</p>
+        <div class="f-soc">
+          <a href="https://instagram.com/barefootgifting" class="f-s" aria-label="Instagram" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#" class="f-s" aria-label="Twitter / X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L2.25 2.25h6.093l4.26 5.635 5.641-5.635Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="#" class="f-s" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a><a href="https://wa.me/2349011287992" class="f-s" aria-label="WhatsApp" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <div class="f-ct">Shop</div>
+        <ul class="f-links">
+          <li><a href="./index.html">All Products</a></li>
+          <li><a href="./shop-cards.html">Greeting Cards</a></li>
+          <li><a href="./shop-luxes.html">Little Luxes</a></li>
+          <li><a href="./shop-stationery.html">Stationery</a></li>
+          <li><a href="./index.html">Gift Boxes</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">By Occasion</div>
+        <ul class="f-links">
+          <li><a href="#">Mother's Day</a></li>
+          <li><a href="#">Father's Day</a></li>
+          <li><a href="#">Birthdays</a></li>
+          <li><a href="#">Naming Ceremony</a></li>
+          <li><a href="#">Law School Grad</a></li>
+          <li><a href="#">Weddings</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Services</div>
+        <ul class="f-links">
+          <li><a href="./concierge.html">Concierge Gifting</a></li>
+          <li><a href="./corporate.html">Corporate Gifting</a></li>
+          <li><a href="./index.html#thc">Husbands Club</a></li>
+          <li><a href="./thc.html">Husbands Club</a></li>
+          <li><a href="./journal.html">Journal</a></li>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Stay in the Loop</div>
+        <p style="font-size:13px;font-weight:300;color:rgba(22,22,22,.6);line-height:1.75;margin-bottom:0">Gift guides, new arrivals, and seasonal edits — with intention.</p>
+        <div class="f-nl-form">
+          <input class="f-nl-i" type="email" placeholder="Your email address" required>
+          <button class="f-nl-b">Subscribe</button>
+        </div>
+        <p class="f-nl-note">No spam. Just beautiful things worth knowing about.</p>
+        <div style="margin-top:26px">
+          <div class="f-ct">Contact</div>
+          <ul class="f-links" style="margin-top:10px">
+            <li><a href="mailto:hello@barefootgifting.com">hello@barefootgifting.com</a></li>
+            <li><a href="https://wa.me/2349011287992">+234 901 128 7992</a></li>
+            <li><a href="#">Abuja, Nigeria</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span class="f-copy">© 2025 Barefoot Gifting. All rights reserved.</span>
+      <div class="f-legal">
+        <a href="#">Privacy Policy</a>
+        <a href="#">Design Credits</a>
+        <a href="#">Shipping Policy</a>
+        <a href="#">Returns</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+</body>
+</html>

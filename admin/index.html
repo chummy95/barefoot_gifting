@@ -1,0 +1,58 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Admin Login — Barefoot Gifting</title>
+<link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+<div class="login-wrap">
+  <div class="login-card">
+    <h1>Barefoot Gifting</h1>
+    <p>Admin Dashboard — sign in to continue</p>
+    <div class="error-msg" id="err"></div>
+    <form id="login-form">
+      <div class="field">
+        <label>Email</label>
+        <input type="email" id="email" required placeholder="admin@barefootgifting.com">
+      </div>
+      <div class="field">
+        <label>Password</label>
+        <input type="password" id="password" required placeholder="••••••••">
+      </div>
+      <button class="btn btn-p btn-block" type="submit">Sign In</button>
+    </form>
+  </div>
+</div>
+<script src="./admin-api.js"></script>
+<script>
+document.getElementById('login-form').addEventListener('submit', async e => {
+  e.preventDefault();
+  const err = document.getElementById('err');
+  err.classList.remove('show');
+  try {
+    const res = await fetch('/api/auth/login', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({
+        email: document.getElementById('email').value,
+        password: document.getElementById('password').value,
+      }),
+    });
+    const data = await res.json();
+    if (!res.ok) throw new Error(data.error || 'Login failed');
+    if (data.user.role !== 'admin') throw new Error('This account does not have admin access');
+    AdminAPI.login(data.token, data.user);
+    location.href = './dashboard.html';
+  } catch (e2) {
+    err.textContent = e2.message;
+    err.classList.add('show');
+  }
+});
+
+// already logged in? skip straight to dashboard
+if (AdminAPI.getToken() && AdminAPI.getUser()?.role === 'admin') location.href = './dashboard.html';
+</script>
+</body>
+</html>

@@ -1,0 +1,86 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Dashboard — Barefoot Gifting Admin</title>
+<link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">Barefoot<span>.</span> Admin</div>
+    <nav>
+      <a href="./dashboard.html" data-nav="dashboard">📊 Dashboard</a>
+      <a href="./products.html" data-nav="products">🎁 Products</a>
+      <a href="./media.html" data-nav="media">🖼️ Media Library</a>
+      <a href="./orders.html" data-nav="orders">📦 Orders</a>
+      <a href="./comments.html" data-nav="comments">💬 Comments &amp; Reviews</a>
+      <a href="./customers.html" data-nav="customers">👤 Customers</a>
+      <a href="./settings.html" data-nav="settings">⚙️ Settings &amp; Paystack</a>
+    </nav>
+    <div class="foot">
+      <div data-who>—</div>
+      <button class="btn btn-o btn-sm btn-block" data-logout>Log Out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h1>Dashboard</h1>
+      <div class="who" data-who>—</div>
+    </div>
+    <div class="content">
+      <div class="stat-grid" id="stats">
+        <div class="stat-card"><div class="num">—</div><div class="lbl">Loading…</div></div>
+      </div>
+
+      <div class="panel">
+        <div class="panel-head">
+          <h2>Recent Orders</h2>
+          <a href="./orders.html" class="btn btn-o btn-sm">View All</a>
+        </div>
+        <table>
+          <thead><tr><th>Order</th><th>Customer</th><th>Total</th><th>Status</th><th>Date</th></tr></thead>
+          <tbody id="recent-orders"><tr><td colspan="5" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./admin-api.js"></script>
+<script>
+if (AdminAPI.requireAuth()) {
+  renderAdminShell('dashboard');
+
+  AdminAPI.get('/stats').then(s => {
+    document.getElementById('stats').innerHTML = `
+      <div class="stat-card"><div class="num">${AdminAPI.money(s.revenue)}</div><div class="lbl">Revenue (Paid Orders)</div></div>
+      <div class="stat-card"><div class="num">${s.orders}</div><div class="lbl">Paid Orders</div></div>
+      <div class="stat-card"><div class="num">${s.products}</div><div class="lbl">Products</div></div>
+      <div class="stat-card"><div class="num">${s.customers}</div><div class="lbl">Customers</div></div>
+      <div class="stat-card"><div class="num">${s.pendingComments}</div><div class="lbl">Pending Comments</div></div>
+    `;
+
+    const tbody = document.getElementById('recent-orders');
+    if (!s.recentOrders.length) {
+      tbody.innerHTML = '<tr><td colspan="5" class="empty">No orders yet.</td></tr>';
+      return;
+    }
+    tbody.innerHTML = s.recentOrders.map(o => `
+      <tr>
+        <td>#${o.id}</td>
+        <td>${o.name}<br><span class="muted">${o.email}</span></td>
+        <td>${AdminAPI.money(o.total)}</td>
+        <td><span class="tag tag-${o.status}">${o.status}</span></td>
+        <td>${AdminAPI.date(o.created_at)}</td>
+      </tr>
+    `).join('');
+  }).catch(e => {
+    document.getElementById('stats').innerHTML = `<div class="error-msg show">${e.message}</div>`;
+  });
+}
+</script>
+</body>
+</html>

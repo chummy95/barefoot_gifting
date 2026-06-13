@@ -1,0 +1,270 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Products — Barefoot Gifting Admin</title>
+<link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">Barefoot<span>.</span> Admin</div>
+    <nav>
+      <a href="./dashboard.html" data-nav="dashboard">📊 Dashboard</a>
+      <a href="./products.html" data-nav="products">🎁 Products</a>
+      <a href="./media.html" data-nav="media">🖼️ Media Library</a>
+      <a href="./orders.html" data-nav="orders">📦 Orders</a>
+      <a href="./comments.html" data-nav="comments">💬 Comments &amp; Reviews</a>
+      <a href="./customers.html" data-nav="customers">👤 Customers</a>
+      <a href="./settings.html" data-nav="settings">⚙️ Settings &amp; Paystack</a>
+    </nav>
+    <div class="foot">
+      <div data-who>—</div>
+      <button class="btn btn-o btn-sm btn-block" data-logout>Log Out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h1>Products</h1>
+      <div class="who" data-who>—</div>
+    </div>
+    <div class="content">
+      <div class="panel">
+        <div class="toolbar">
+          <input type="search" id="search" placeholder="Search products…">
+          <select id="cat-filter">
+            <option value="">All categories</option>
+            <option>Greeting Cards</option>
+            <option>Barefoot Bits</option>
+            <option>Little Luxes</option>
+            <option>Stationery</option>
+          </select>
+          <select id="status-filter">
+            <option value="">All statuses</option>
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+          <button class="btn btn-p" id="add-btn" style="margin-left:auto">+ Add Product</button>
+        </div>
+        <table>
+          <thead><tr><th></th><th>Name</th><th>Category</th><th>Price</th><th>Stock</th><th>Status</th><th></th></tr></thead>
+          <tbody id="rows"><tr><td colspan="7" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Add / Edit modal -->
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <h3 id="modal-title">Add Product</h3>
+    <div class="error-msg" id="modal-err"></div>
+    <form id="product-form">
+      <div class="field"><label>Name</label><input type="text" id="f-name" required></div>
+      <div class="row">
+        <div class="field">
+          <label>Category</label>
+          <select id="f-category" required>
+            <option>Greeting Cards</option>
+            <option>Barefoot Bits</option>
+            <option>Little Luxes</option>
+            <option>Stationery</option>
+          </select>
+        </div>
+        <div class="field"><label>Price (₦)</label><input type="number" id="f-price" min="0" required></div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Stock</label><input type="number" id="f-stock" min="0" value="0"></div>
+        <div class="field">
+          <label>Status</label>
+          <select id="f-status">
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field">
+          <label>Badge</label>
+          <select id="f-badge">
+            <option value="">None</option>
+            <option>New</option>
+            <option>Bestseller</option>
+            <option>Fan Fave</option>
+          </select>
+        </div>
+        <div class="field">
+          <label>Customizable (Little Luxes upload/text)</label>
+          <select id="f-customizable">
+            <option value="false">No</option>
+            <option value="true">Yes</option>
+          </select>
+        </div>
+      </div>
+      <div class="field"><label>Description</label><textarea id="f-description" rows="3"></textarea></div>
+
+      <div class="field">
+        <label>Product Image Gallery</label>
+        <div class="img-grid" id="gallery"></div>
+        <div style="margin-top:10px; display:flex; gap:10px; align-items:center;">
+          <input type="file" id="gallery-upload" accept="image/*" multiple>
+        </div>
+        <p class="muted" style="font-size:12px;margin:6px 0 0">Uploads go to the Media Library and are attached to this product. Drag order isn't supported yet — first image is the cover.</p>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-o" id="cancel-btn">Cancel</button>
+        <button type="submit" class="btn btn-p" id="save-btn">Save Product</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="./admin-api.js"></script>
+<script>
+if (AdminAPI.requireAuth()) {
+  renderAdminShell('products');
+
+  let products = [];
+  let editingId = null;
+  let galleryImages = []; // {url, alt}
+
+  async function load() {
+    const params = new URLSearchParams();
+    const cat = document.getElementById('cat-filter').value;
+    const search = document.getElementById('search').value;
+    if (cat) params.set('category', cat);
+    if (search) params.set('search', search);
+    products = await AdminAPI.get('/products?' + params.toString());
+
+    const statusFilter = document.getElementById('status-filter').value;
+    const filtered = statusFilter ? products.filter(p => p.status === statusFilter) : products;
+
+    const rows = document.getElementById('rows');
+    if (!filtered.length) {
+      rows.innerHTML = '<tr><td colspan="7" class="empty">No products found.</td></tr>';
+      return;
+    }
+    rows.innerHTML = filtered.map(p => `
+      <tr>
+        <td>${p.images?.[0] ? `<img class="thumb" src="${p.images[0].url}">` : '—'}</td>
+        <td>${p.name}</td>
+        <td>${p.category}</td>
+        <td>${AdminAPI.money(p.price)}</td>
+        <td>${p.stock}</td>
+        <td><span class="tag tag-${p.status}">${p.status}</span></td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-o btn-sm" onclick="editProduct(${p.id})">Edit</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function openModal(title) {
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-err').classList.remove('show');
+    document.getElementById('modal-bg').classList.add('show');
+  }
+  function closeModal() {
+    document.getElementById('modal-bg').classList.remove('show');
+    document.getElementById('product-form').reset();
+    editingId = null;
+    galleryImages = [];
+    renderGallery();
+  }
+
+  function renderGallery() {
+    const g = document.getElementById('gallery');
+    if (!galleryImages.length) { g.innerHTML = '<p class="muted" style="font-size:12px">No images yet.</p>'; return; }
+    g.innerHTML = galleryImages.map((img, i) => `
+      <div class="img-card">
+        <img src="${img.url}">
+        <div class="meta">
+          <div class="name">${i === 0 ? 'Cover image' : 'Image ' + (i+1)}</div>
+          <button type="button" class="btn btn-danger btn-sm" onclick="removeGalleryImage(${i})">Remove</button>
+        </div>
+      </div>
+    `).join('');
+  }
+  window.removeGalleryImage = (i) => { galleryImages.splice(i, 1); renderGallery(); };
+
+  window.editProduct = (id) => {
+    const p = products.find(x => x.id === id);
+    editingId = id;
+    document.getElementById('f-name').value = p.name;
+    document.getElementById('f-category').value = p.category;
+    document.getElementById('f-price').value = p.price;
+    document.getElementById('f-stock').value = p.stock;
+    document.getElementById('f-status').value = p.status;
+    document.getElementById('f-badge').value = p.badge || '';
+    document.getElementById('f-customizable').value = String(!!p.customizable);
+    document.getElementById('f-description').value = p.description || '';
+    galleryImages = (p.images || []).map(im => ({ url: im.url, alt: im.alt }));
+    renderGallery();
+    openModal('Edit Product');
+  };
+
+  window.deleteProduct = async (id) => {
+    if (!confirm('Delete this product? This cannot be undone.')) return;
+    await AdminAPI.del(`/products/${id}`);
+    load();
+  };
+
+  document.getElementById('add-btn').addEventListener('click', () => {
+    galleryImages = [];
+    renderGallery();
+    openModal('Add Product');
+  });
+  document.getElementById('cancel-btn').addEventListener('click', closeModal);
+  document.getElementById('search').addEventListener('input', load);
+  document.getElementById('cat-filter').addEventListener('change', load);
+  document.getElementById('status-filter').addEventListener('change', load);
+
+  document.getElementById('gallery-upload').addEventListener('change', async (e) => {
+    const files = [...e.target.files];
+    for (const file of files) {
+      try {
+        const media = await AdminAPI.uploadFile(file, document.getElementById('f-name').value || file.name);
+        galleryImages.push({ url: media.url, alt: media.alt });
+      } catch (err) {
+        alert('Upload failed: ' + err.message);
+      }
+    }
+    renderGallery();
+    e.target.value = '';
+  });
+
+  document.getElementById('product-form').addEventListener('submit', async (e) => {
+    e.preventDefault();
+    const payload = {
+      name: document.getElementById('f-name').value,
+      category: document.getElementById('f-category').value,
+      price: Number(document.getElementById('f-price').value),
+      stock: Number(document.getElementById('f-stock').value),
+      status: document.getElementById('f-status').value,
+      badge: document.getElementById('f-badge').value || null,
+      customizable: document.getElementById('f-customizable').value === 'true',
+      description: document.getElementById('f-description').value,
+      images: galleryImages,
+    };
+    try {
+      if (editingId) await AdminAPI.put(`/products/${editingId}`, payload);
+      else await AdminAPI.post('/products', payload);
+      closeModal();
+      load();
+    } catch (err) {
+      const e2 = document.getElementById('modal-err');
+      e2.textContent = err.message;
+      e2.classList.add('show');
+    }
+  });
+
+  load();
+}
+</script>
+</body>
+</html>

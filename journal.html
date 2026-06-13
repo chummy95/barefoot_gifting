@@ -1,0 +1,397 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Keepsake Edit — Barefoot Gifting</title>
+<style>
+@font-face{font-family:'Atirose';src:url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/otf.otf') format('opentype'),url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/ttf.ttf') format('truetype');font-weight:normal;font-style:normal;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Light.otf') format('opentype');font-weight:300;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Regular.otf') format('opentype');font-weight:400;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Medium.otf') format('opentype');font-weight:500;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Bold.otf') format('opentype');font-weight:700;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-ExtraBold.otf') format('opentype');font-weight:800;font-display:swap;}
+:root{--red:#dd4040;--red-d:#c93535;--peach:#ffe9d0;--cream:#fff0e3;--tan:#eeddc0;--gold:#ffd744;--sage:#daeab0;--ink:#161616;--ink2:#252728;--font-h:'Atirose',Georgia,serif;--font-b:'AstridGrotesk',system-ui,sans-serif;--max:1320px;--gut:clamp(24px,5vw,80px);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-b);font-weight:400;color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;background:var(--cream);}
+img{display:block;width:100%;height:100%;object-fit:cover;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut);}
+.wave{display:block;overflow:hidden;line-height:0; margin-bottom: -2px;}
+.wave svg{display:block;width:100%;}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 34px;font-family:var(--font-b);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:background .22s,color .22s,border-color .22s;white-space:nowrap;border:1.5px solid transparent;}
+.btn-p{background:var(--red);color:#fff;border-color:var(--red);}
+.btn-p:hover{background:var(--red-d);border-color:var(--red-d);}
+.btn-o{background:transparent;color:var(--sage);border-color:var(--sage);}
+.btn-o:hover{background:var(--sage);color:var(--ink);border-color:var(--sage);}
+.btn-ol{background:transparent;color:var(--cream);border-color:rgba(255,240,227,.45);}
+.btn-ol:hover{border-color:var(--cream);background:rgba(255,240,227,.1);}
+.arr{transition:transform .2s;}
+.btn:hover .arr{transform:translateX(4px);}
+.label{font-family:var(--font-b);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;}
+.label-red{color:var(--red);}
+.sec-h{font-family:var(--font-h);font-size:clamp(34px,3.8vw,58px);line-height:1.08;margin:12px 0 16px;}
+.announce{background:var(--sage);padding:10px var(--gut);text-align:center;font-size:12px;font-weight:300;letter-spacing:.06em;color:var(--ink);}
+.announce strong{color:var(--red);font-weight:700;}
+.nav-shell{position:sticky;top:0;z-index:200;background:var(--cream);border-bottom:1px solid rgba(22,22,22,.07);}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:110px;gap:20px;}
+.nav-links{display:flex;align-items:center;gap:clamp(12px,2vw,32px);}
+.nav-links a{font-size:10px;font-weight:500;letter-spacing:.10em;text-transform:uppercase;color:var(--ink2);transition:color .2s;}
+.nav-links a:hover,.nav-links a.hi{color:var(--red);}
+.nav-logo img{ height: 100px;width:auto;object-fit:contain;display:block;}
+.nav-r{display:flex;align-items:center;justify-content:flex-end;gap:clamp(8px,1vw,18px);}.nav-dd{position:relative;}.nav-dd>a::after{content:" ▾";font-size:13px;opacity:.7;vertical-align:middle;}.nav-dd-menu{position:absolute;top:100%;left:0;padding-top:12px;background:transparent;min-width:210px;z-index:300;opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .2s,transform .2s;}.nav-dd-menu-inner{background:var(--cream);border:1px solid rgba(22,22,22,.09);padding:8px 0;box-shadow:0 12px 40px rgba(22,22,22,.1);}.nav-dd:hover .nav-dd-menu{opacity:1;pointer-events:auto;transform:translateY(0);}.nav-dd-menu a{display:block;padding:11px 22px;font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink2);transition:color .2s,background .2s;}.nav-dd-menu a:hover{color:var(--red);background:rgba(22,22,22,.03);}.nav-dd-menu .dd-divider{height:1px;background:rgba(22,22,22,.07);margin:6px 0;}
+.ico{width:19px;height:19px;stroke:var(--ink2);fill:none;stroke-width:1.5;cursor:pointer;transition:stroke .2s;flex-shrink:0;}
+.ico:hover{stroke:var(--red);}
+.cart-w{position:relative;}
+.cart-badge{position:absolute;top:-7px;right:-8px;background:var(--red);color:#fff;font-size:9px;font-weight:800;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+
+/* HERO */
+.jh{background:var(--tan);padding:clamp(80px,10vw,130px) 0;position:relative;overflow:hidden;}
+.jh-mark{position:absolute;bottom:-60px;right:-60px;width:500px;height:500px;opacity:.09;pointer-events:none;}
+.jh-mark img{width:100%;height:100%;object-fit:contain;}
+.jh-inner{max-width:680px;position:relative;z-index:1;}
+.jh h1{font-family:var(--font-h);font-size:clamp(48px,6vw,88px);line-height:1.0;color:var(--ink);margin:14px 0 20px;}
+.jh h1 em{font-style:italic;color:var(--red);}
+.jh p{font-size:clamp(14px,1vw,17px);font-weight:300;line-height:1.85;color:rgba(22,22,22,.65);max-width:500px;}
+
+/* FEATURED */
+.feat-sec{background:var(--cream);padding:clamp(80px,9vw,120px) 0;}
+.feat-grid{display:grid;grid-template-columns:55fr 45fr;gap:64px;align-items:center;}
+.feat-img{aspect-ratio:16/10;overflow:hidden;border-radius:3px;background:var(--peach);}
+.feat-img img{width:100%;height:100%;object-fit:cover;transition:transform .6s;}
+.feat-img:hover img{transform:scale(1.03);}
+.feat-tag{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:14px;}
+.feat-title{font-family:var(--font-h);font-size:clamp(26px,2.8vw,42px);line-height:1.15;margin-bottom:16px;}
+.feat-exc{font-size:14px;font-weight:300;line-height:1.85;color:rgba(22,22,22,.65);margin-bottom:10px;}
+.feat-meta{font-size:11px;color:rgba(22,22,22,.42);letter-spacing:.06em;margin-bottom:28px;}
+
+/* FILTER */
+.filter-sec{background:var(--peach);padding:clamp(16px,2vw,24px) 0;border-bottom:1px solid rgba(22,22,22,.06);}
+.filter-row{display:flex;gap:8px;flex-wrap:wrap;}
+.fpill{display:inline-flex;padding:9px 20px;border-radius:100px;font-size:11px;font-weight:700;letter-spacing:.12em;text-transform:uppercase;cursor:pointer;border:1.5px solid rgba(22,22,22,.15);background:transparent;color:var(--ink);font-family:var(--font-b);transition:background .2s,color .2s,border-color .2s;}
+.fpill:hover{border-color:var(--red);color:var(--red);}
+.fpill.active{background:var(--red);color:#fff;border-color:var(--red);}
+
+/* GRID */
+.grid-sec{background:var(--peach);padding:clamp(48px,6vw,80px) 0 clamp(80px,9vw,120px);}
+.art-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:32px;}
+.ac{display:flex;flex-direction:column;cursor:pointer;transition:opacity .2s;}
+.ac:hover{opacity:.88;}
+.ac-img{aspect-ratio:16/10;overflow:hidden;border-radius:3px;background:var(--cream);}
+.ac-img img{width:100%;height:100%;object-fit:cover;transition:transform .5s;}
+.ac:hover .ac-img img{transform:scale(1.04);}
+.ac-bd{padding:18px 0 0;}
+.ac-cat{font-size:10px;font-weight:800;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:8px;}
+.ac-t{font-family:var(--font-h);font-size:clamp(17px,1.5vw,22px);line-height:1.25;margin-bottom:8px;color:var(--ink);}
+.ac-exc{font-size:13px;font-weight:300;line-height:1.75;color:rgba(22,22,22,.62);margin-bottom:10px;}
+.ac-meta{font-size:11px;color:rgba(22,22,22,.4);letter-spacing:.05em;}
+.load-more{text-align:center;margin-top:56px;}
+
+/* NEWSLETTER */
+.nl-sec{background:var(--gold);padding:clamp(72px,9vw,110px) 0;position:relative;overflow:hidden;text-align:center;}
+.nl-mark{position:absolute;inset:0;opacity:.06;pointer-events:none;display:flex;align-items:center;justify-content:center;}
+.nl-mark img{width:100%;height:100%;object-fit:cover;}
+.nl-inner{max-width:520px;margin:0 auto;position:relative;z-index:1;}
+.nl-h{font-family:var(--font-h);font-size:clamp(34px,4vw,58px);color:var(--ink);line-height:1.1;margin:14px 0 14px;}
+.nl-sub{font-size:14px;font-weight:300;line-height:1.75;color:rgba(22,22,22,.65);margin-bottom:32px;}
+.nl-form{display:flex;max-width:420px;margin:0 auto;}
+.nl-input{flex:1;background:rgba(255,255,255,.5);border:1.5px solid rgba(22,22,22,.2);border-right:none;padding:14px 18px;color:var(--ink);font-family:var(--font-b);font-size:13px;outline:none;}
+.nl-input::placeholder{color:rgba(22,22,22,.4);}
+.nl-btn{background:var(--red);border:1.5px solid var(--red);padding:14px 22px;color:#fff;font-family:var(--font-b);font-size:10px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;transition:background .2s;white-space:nowrap;align-self:stretch;padding-top:0;padding-bottom:0;}
+.nl-btn:hover{background:var(--red-d);}
+.nl-note{font-size:11px;color:rgba(22,22,22,.45);margin-top:10px;}
+
+/* FOOTER */
+.footer{background:var(--sage);color:var(--ink);position:relative;overflow:hidden;}
+.footer-mark{position:absolute;bottom:-40px;left:-40px;width:360px;height:360px;opacity:.1;pointer-events:none;}
+.footer-mark img{width:100%;height:100%;object-fit:contain;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;align-items:start;gap:40px;padding:64px 0 48px;border-bottom:1px solid rgba(22,22,22,.12);position:relative;z-index:1;}
+.f-logo { margin-bottom: 6px; }
+.f-logo img { height: 120px; width: auto; object-fit: contain; display: block; margin-left: -8px; }
+.f-desc{font-size:13px;font-weight:300;line-height:1.8;color:#000000;margin-bottom:22px;}
+.f-soc{display:flex;gap:10px;}
+.f-s{width:33px;height:33px;border-radius:50%;border:1px solid rgba(22,22,22,.2);display:flex;align-items:center;justify-content:center;color:var(--ink);transition:background .2s,border-color .2s,color .2s;}
+.f-s:hover{background:var(--red);border-color:var(--red);color:#fff;}
+.f-ct{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#000000;margin-bottom:16px;}
+.f-links{display:flex;flex-direction:column;gap:9px;}
+.f-links a{font-size:13px;font-weight:300;color:#000000;transition:color .2s;}
+.f-links a:hover{color:var(--red);}
+.f-nl-form { display: flex; align-items: stretch; max-width: 380px; }
+.f-nl-i {
+  flex: 1; min-width: 0; height: 46px; box-sizing: border-box;
+  background: rgba(255,255,255,.6); border: 1px solid rgba(22,22,22,.15);
+  border-right: none; padding: 0 14px;
+  color: var(--ink); font-family: var(--font-b); font-size: 12px; line-height: 1; outline: none;
+}
+.f-nl-i::placeholder { color: rgba(22,22,22,.4); }
+.f-nl-b {
+  flex-shrink: 0; height: 46px; box-sizing: border-box;
+  display: inline-flex; align-items: center; justify-content: center;
+  background: var(--red); border: 1px solid var(--red);
+  padding: 0 22px; margin: 0; color: #fff;
+  font-family: var(--font-b); font-size: 10px; font-weight: 800; line-height: 1;
+  letter-spacing: .14em; text-transform: uppercase; cursor: pointer;
+  transition: background .2s; white-space: nowrap;
+}
+.f-nl-b:hover { background: var(--red-d); }
+.f-nl-note{font-size:11px;color:#000000;margin-top:7px;line-height:1.5;}
+.footer-bot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 0;position:relative;z-index:1;}
+.f-copy{font-size:12px;font-weight:300;color:#000000;}
+.f-legal{display:flex;gap:20px;}
+.f-legal a{font-size:12px;font-weight:300;color:#000000;transition:color .2s;}
+.f-legal a:hover{color:var(--ink);}
+</style>
+</head>
+<body>
+
+<div class="announce">Free delivery above <strong>₦45,000</strong> within Abuja &nbsp;·&nbsp; Same day delivery on orders placed before <strong>noon</strong></div>
+<div class="nav-shell">
+  <div class="wrap">
+    <nav class="nav">
+      <ul class="nav-links">
+        <li class="nav-dd"><a href="./shop.html">Shop</a>
+          <div class="nav-dd-menu">
+            <div class="nav-dd-menu-inner">
+              <a href="./shop.html">All Products</a>
+              <div class="dd-divider"></div>
+              <a href="./shop.html">Greeting Cards</a>
+              <a href="./shop.html">Little Luxes</a>
+              <a href="./shop.html">Stationery</a>
+              <a href="./shop.html">Gift Boxes</a>
+            </div>
+          </div>
+        </li>
+        <li><a href="./corporate.html">Corporate Gifting</a></li>
+        <li><a href="./concierge.html">Concierge Gifting</a></li>
+      </ul>
+      <a href="./index.html" class="nav-logo"><img src="./Png Files/Logo.png" alt="Barefoot Gifting"></a>
+      <div class="nav-r">
+        <ul class="nav-links">
+          <li><a href="./thc.html">Husbands Club</a></li>
+          <li><a href="./about.html">About</a></li>
+          <li><a href="./journal.html">Keepsake Edit</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+        </ul>
+        <a href="./account/index.html" aria-label="My Account" style="display:flex;align-items:center;margin-right:8px"><svg class="ico" viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a href="./cart.html" class="cart-w" aria-label="View cart">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="cart-badge">0</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- HERO -->
+<section class="jh">
+  <div class="jh-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="jh-inner">
+      <span class="label label-red">Stories Worth Keeping</span>
+      <h1>The Keepsake<br><em>Edit.</em></h1>
+      <p>Gifting stories, product spotlights, nostalgic memories, and themed holiday guides — from the heart of Barefoot Gifting, Abuja.</p>
+    </div>
+  </div>
+</section>
+
+<div class="wave" style="background:var(--tan)">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#fff0e3"/></svg>
+</div>
+
+<!-- FEATURED ARTICLE -->
+<section class="feat-sec">
+  <div class="wrap">
+    <div style="margin-bottom:14px"><span class="label label-red">Featured Story</span></div>
+    <div class="feat-grid">
+      <div class="feat-img"><img src="./mockup/flowers.png" alt="Mother's Day Gift Guide"></div>
+      <div>
+        <div class="feat-tag">Gift Guide · May 2025</div>
+        <h2 class="feat-title">The Ultimate Mother's Day Gift Guide for 2025 — from Abuja with Love</h2>
+        <p class="feat-exc">From the card that makes her cry (happy tears) to the gift box that makes her feel truly seen — our most comprehensive Mother's Day guide yet, curated with intention for every kind of mum.</p>
+        <div class="feat-meta">8 min read &nbsp;·&nbsp; May 2025</div>
+        <a href="#" class="btn btn-p">Read the Full Guide <span class="arr">→</span></a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave" style="background:var(--cream)">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffe9d0"/></svg>
+</div>
+
+<!-- FILTER + GRID -->
+<section class="filter-sec">
+  <div class="wrap">
+    <div class="filter-row">
+      <button class="fpill active">All</button>
+      <button class="fpill">Gift Guides</button>
+      <button class="fpill">Nostalgic Stories</button>
+      <button class="fpill">Product Spotlights</button>
+      <button class="fpill">Behind the Scenes</button>
+      <button class="fpill">Seasonal Edits</button>
+    </div>
+  </div>
+</section>
+
+<section class="grid-sec">
+  <div class="wrap">
+    <div class="art-grid">
+
+      <div class="ac">
+        <div class="ac-img"><img src="./PRODUCTS/Coke and Fanta.JPG" alt="Nostalgia"></div>
+        <div class="ac-bd">
+          <div class="ac-cat">Nostalgic Stories</div>
+          <h3 class="ac-t">Why Nigerian Nostalgia Is the Most Powerful Gift Language</h3>
+          <p class="ac-exc">Coke and Fanta, suya at the junction, "Nepa light" — how childhood memories make the best gifts.</p>
+          <div class="ac-meta">5 min read &nbsp;·&nbsp; April 2025</div>
+        </div>
+      </div>
+
+      <div class="ac">
+        <div class="ac-img"><img src="./PRODUCTS/learned colleague.JPG" alt="Graduation"></div>
+        <div class="ac-bd">
+          <div class="ac-cat">Gift Guide</div>
+          <h3 class="ac-t">Gifting the Learned Colleague: What to Get a New Lawyer in Nigeria</h3>
+          <p class="ac-exc">They passed the bar. Now help them celebrate in style — from statement notebooks to keepsake cards.</p>
+          <div class="ac-meta">4 min read &nbsp;·&nbsp; March 2025</div>
+        </div>
+      </div>
+
+      <div class="ac">
+        <div class="ac-img"><img src="./PRODUCTS/Candle Trio.JPG" alt="Behind the Scenes"></div>
+        <div class="ac-bd">
+          <div class="ac-cat">Behind the Scenes</div>
+          <h3 class="ac-t">How We Build a Little Luxe Box — Every Step, Every Intention</h3>
+          <p class="ac-exc">From first sketch to final ribbon — a behind-the-curtain look at how our gift boxes come to life.</p>
+          <div class="ac-meta">6 min read &nbsp;·&nbsp; February 2025</div>
+        </div>
+      </div>
+
+      <div class="ac">
+        <div class="ac-img"><img src="./PRODUCTS/Sunshine birthday.JPG" alt="Birthday"></div>
+        <div class="ac-bd">
+          <div class="ac-cat">Seasonal Edit</div>
+          <h3 class="ac-t">The Birthday Gifting Edit: Cards &amp; Boxes for Every Personality</h3>
+          <p class="ac-exc">Whether they're the extra one or the minimalist — we've matched a gift to every kind of birthday energy.</p>
+          <div class="ac-meta">5 min read &nbsp;·&nbsp; January 2025</div>
+        </div>
+      </div>
+
+      <div class="ac">
+        <div class="ac-img"><img src="./PRODUCTS/Wallets trio.JPG" alt="Product Spotlight"></div>
+        <div class="ac-bd">
+          <div class="ac-cat">Product Spotlight</div>
+          <h3 class="ac-t">Meet the Wallet Collection: Small Gift, Big Statement</h3>
+          <p class="ac-exc">Our leather wallet range — why small gifts often carry the most meaning, and who to give them to.</p>
+          <div class="ac-meta">3 min read &nbsp;·&nbsp; December 2024</div>
+        </div>
+      </div>
+
+      <div class="ac">
+        <div class="ac-img"><img src="./PRODUCTS/Safe Place.JPG" alt="Story"></div>
+        <div class="ac-bd">
+          <div class="ac-cat">Nostalgic Stories</div>
+          <h3 class="ac-t">The Card That Made Her Cry: Real Stories from Our Customers</h3>
+          <p class="ac-exc">Five Barefoot Gifting customers share the moment a card said everything they couldn't.</p>
+          <div class="ac-meta">7 min read &nbsp;·&nbsp; November 2024</div>
+        </div>
+      </div>
+
+    </div>
+    <div class="load-more">
+      <a href="#" class="btn btn-o">Load More Stories <span class="arr">→</span></a>
+    </div>
+  </div>
+</section>
+
+<div class="wave" style="background:var(--peach)">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffd744"/></svg>
+</div>
+
+<!-- NEWSLETTER -->
+<section class="nl-sec">
+  <div class="nl-mark"><img src="./SVG/Artboard 1 copy 2.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="nl-inner">
+      <span class="label" style="color:var(--ink);opacity:.55">The Keepsake Letter</span>
+      <h2 class="nl-h">Never miss a story.</h2>
+      <p class="nl-sub">New gift guides, behind-the-scenes stories, and seasonal edits — delivered to your inbox with intention. No spam, ever.</p>
+      <div class="nl-form">
+        <input class="nl-input" type="email" placeholder="Your email address">
+        <button class="nl-btn">Subscribe</button>
+      </div>
+      <p class="nl-note">Join 2,400+ thoughtful givers already on the list.</p>
+    </div>
+  </div>
+</section>
+
+<div class="wave" style="background:var(--gold)">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#daeab0"/></svg>
+</div>
+
+<footer class="footer">
+  <div class="footer-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="f-logo"><img src="./Png Files/Logo-cropped.png" alt="Barefoot Gifting"></div>
+        <p class="f-desc">Thoughtful gifts for every milestone, celebration, and just-because moment. Based in Abuja — delivering meaning across Nigeria.</p>
+        <div class="f-soc"><a href="https://instagram.com/barefootgifting" class="f-s" aria-label="Instagram" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a><a href="#" class="f-s" aria-label="Twitter / X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L2.25 2.25h6.093l4.26 5.635 5.641-5.635Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a><a href="#" class="f-s" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a><a href="https://wa.me/2349011287992" class="f-s" aria-label="WhatsApp" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a></div>
+      </div>
+      <div>
+        <div class="f-ct">Shop</div>
+        <ul class="f-links">
+          <li><a href="./index.html">All Products</a></li>
+          <li><a href="./index.html">Greeting Cards</a></li>
+          <li><a href="./index.html">Little Luxes</a></li>
+          <li><a href="./index.html">Stationery</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">By Occasion</div>
+        <ul class="f-links">
+          <li><a href="#">Mother's Day</a></li>
+          <li><a href="#">Father's Day</a></li>
+          <li><a href="#">Birthdays</a></li>
+          <li><a href="#">Naming Ceremony</a></li>
+          <li><a href="#">Weddings</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Services</div>
+        <ul class="f-links">
+          <li><a href="./concierge.html">Concierge Gifting</a></li>
+          <li><a href="./corporate.html">Corporate Gifting</a></li>
+          <li><a href="./thc.html">Husbands Club</a></li>
+          <li><a href="./journal.html">Journal</a></li>
+          <li><a href="./about.html">About Us</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+          <li><a href="./journal.html">Keepsake Edit</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Stay in the Loop</div>
+        <p style="font-size:13px;font-weight:300;color:rgba(22,22,22,.6);line-height:1.75;margin-bottom:0">Gift guides, new arrivals, and seasonal edits — with intention.</p>
+        <div class="f-nl-form"><input class="f-nl-i" type="email" placeholder="Your email address" required><button class="f-nl-b">Subscribe</button></div>
+        <p class="f-nl-note">No spam. Just beautiful things worth knowing about.</p>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span class="f-copy">© 2025 Barefoot Gifting. All rights reserved.</span>
+      <div class="f-legal"><a href="#">Privacy Policy</a><a href="#">Design Credits</a><a href="#">Shipping Policy</a><a href="#">Returns</a></div>
+    </div>
+  </div>
+</footer>
+
+<script>
+  document.querySelectorAll('.fpill').forEach(btn => {
+    btn.addEventListener('click', () => {
+      document.querySelectorAll('.fpill').forEach(b => b.classList.remove('active'));
+      btn.classList.add('active');
+    });
+  });
+</script>
+</body>
+</html>

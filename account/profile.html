@@ -1,0 +1,75 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>My Details — Barefoot Gifting</title>
+<link rel="stylesheet" href="./account.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">Barefoot<span>.</span> Account</div>
+    <nav>
+      <a href="./dashboard.html">📦 My Orders</a>
+      <a href="./profile.html" class="active">👤 My Details</a>
+      <a href="../shop.html">🛍️ Continue Shopping</a>
+    </nav>
+    <div class="foot">
+      <div data-who>—</div>
+      <button class="btn btn-o btn-sm btn-block" data-logout>Log Out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h1>My Details</h1>
+      <div class="who" data-who>—</div>
+    </div>
+    <div class="content">
+      <div class="panel" style="max-width:480px">
+        <div class="error-msg" id="err"></div>
+        <div class="field"><label>Full Name</label><input id="f-name"></div>
+        <div class="field"><label>Email</label><input id="f-email" disabled></div>
+        <div class="field"><label>Phone</label><input id="f-phone"></div>
+        <div class="field"><label>Delivery Address</label><textarea id="f-address" rows="3"></textarea></div>
+        <button class="btn btn-p" id="save">Save Changes</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<script src="./account-api.js"></script>
+<script>
+if (AccountAPI.requireAuth()) {
+  const user = AccountAPI.getUser();
+  document.querySelectorAll('[data-who]').forEach(el => el.textContent = `${user.name} (${user.email})`);
+  document.querySelector('[data-logout]').addEventListener('click', () => AccountAPI.logout());
+
+  AccountAPI.get('/auth/me').then(u => {
+    document.getElementById('f-name').value = u.name || '';
+    document.getElementById('f-email').value = u.email || '';
+    document.getElementById('f-phone').value = u.phone || '';
+    document.getElementById('f-address').value = u.address || '';
+  });
+
+  document.getElementById('save').addEventListener('click', async () => {
+    try {
+      const updated = await AccountAPI.put('/auth/me', {
+        name: document.getElementById('f-name').value,
+        phone: document.getElementById('f-phone').value,
+        address: document.getElementById('f-address').value,
+      });
+      const stored = AccountAPI.getUser();
+      stored.name = updated.name;
+      localStorage.setItem(AccountAPI.userKey, JSON.stringify(stored));
+      alert('Saved!');
+    } catch (e) {
+      const el = document.getElementById('err');
+      el.textContent = e.message; el.classList.add('show');
+    }
+  });
+}
+</script>
+</body>
+</html>

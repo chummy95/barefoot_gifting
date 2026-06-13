@@ -1,0 +1,472 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Product — Barefoot Gifting</title>
+<style>
+@font-face{font-family:'Atirose';src:url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/otf.otf') format('opentype'),url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/ttf.ttf') format('truetype');font-weight:normal;font-style:normal;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Light.otf') format('opentype');font-weight:300;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Regular.otf') format('opentype');font-weight:400;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Medium.otf') format('opentype');font-weight:500;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Bold.otf') format('opentype');font-weight:700;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-ExtraBold.otf') format('opentype');font-weight:800;font-display:swap;}
+:root{--red:#dd4040;--red-d:#c93535;--peach:#ffe9d0;--cream:#fff0e3;--tan:#eeddc0;--gold:#ffd744;--sage:#daeab0;--ink:#161616;--ink2:#252728;--font-h:'Atirose',Georgia,serif;--font-b:'AstridGrotesk',system-ui,sans-serif;--max:1320px;--gut:clamp(24px,5vw,80px);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-b);font-weight:400;color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;background:var(--cream);}
+img{display:block;width:100%;height:100%;object-fit:cover;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut);}
+.wave{display:block;overflow:hidden;line-height:0;margin-bottom:-2px;}
+.wave svg{display:block;width:100%;}
+.btn{display:inline-flex;align-items:center;gap:10px;padding:14px 34px;font-family:var(--font-b);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:background .22s,color .22s,border-color .22s;white-space:nowrap;border:1.5px solid transparent;}
+.btn-p{background:var(--red);color:#fff;border-color:var(--red);}
+.btn-p:hover{background:var(--red-d);border-color:var(--red-d);}
+.btn-o{background:transparent;color:var(--ink);border-color:var(--ink);}
+.btn-o:hover{background:var(--ink);color:var(--cream);}
+.arr{transition:transform .2s;}
+.btn:hover .arr{transform:translateX(4px);}
+.label{font-family:var(--font-b);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;}
+.label-red{color:var(--red);}
+/* announce */
+.announce{background:var(--sage);padding:10px var(--gut);text-align:center;font-size:12px;font-weight:300;letter-spacing:.06em;color:var(--ink);}
+.announce strong{color:var(--red);font-weight:700;}
+/* nav */
+.nav-shell{position:sticky;top:0;z-index:200;background:var(--cream);border-bottom:1px solid rgba(22,22,22,.07);}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:110px;gap:20px;}
+.nav-links{display:flex;align-items:center;gap:clamp(12px,2vw,32px);}
+.nav-links a{font-size:10px;font-weight:500;letter-spacing:.10em;text-transform:uppercase;color:var(--ink2);transition:color .2s;}
+.nav-links a:hover{color:var(--red);}
+.nav-logo img{height:100px;width:auto;object-fit:contain;display:block;}
+.nav-r{display:flex;align-items:center;justify-content:flex-end;gap:clamp(8px,1vw,18px);}
+.nav-dd{position:relative;}
+.nav-dd>a::after{content:" ▾";font-size:13px;opacity:.7;vertical-align:middle;}
+.nav-dd-menu{position:absolute;top:100%;left:0;padding-top:12px;background:transparent;min-width:210px;z-index:300;opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .2s,transform .2s;}
+.nav-dd-menu-inner{background:var(--cream);border:1px solid rgba(22,22,22,.09);padding:8px 0;box-shadow:0 12px 40px rgba(22,22,22,.1);}
+.nav-dd:hover .nav-dd-menu{opacity:1;pointer-events:auto;transform:translateY(0);}
+.nav-dd-menu a{display:block;padding:11px 22px;font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink2);transition:color .2s,background .2s;}
+.nav-dd-menu a:hover{color:var(--red);background:rgba(22,22,22,.03);}
+.dd-divider{height:1px;background:rgba(22,22,22,.07);margin:6px 0;}
+.ico{width:19px;height:19px;stroke:var(--ink2);fill:none;stroke-width:1.5;cursor:pointer;transition:stroke .2s;flex-shrink:0;}
+.ico:hover{stroke:var(--red);}
+.cart-w{position:relative;}
+.cart-badge{position:absolute;top:-7px;right:-8px;background:var(--red);color:#fff;font-size:9px;font-weight:800;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+
+/* ── BREADCRUMB ── */
+.breadcrumb{padding:20px 0 0;font-size:12px;color:rgba(22,22,22,.45);}
+.breadcrumb a{color:rgba(22,22,22,.45);transition:color .2s;}
+.breadcrumb a:hover{color:var(--red);}
+.breadcrumb span{color:var(--ink);}
+
+/* ── PRODUCT LAYOUT ── */
+.pd-sec{background:var(--cream);padding:clamp(32px,4vw,56px) 0 clamp(72px,9vw,120px);}
+.pd-grid{display:grid;grid-template-columns:1fr 1fr;gap:clamp(48px,7vw,96px);align-items:start;}
+.pd-gallery{position:sticky;top:130px;}
+.pd-main-img{aspect-ratio:4/5;overflow:hidden;border-radius:3px;background:var(--peach);}
+.pd-thumbs{display:flex;gap:10px;margin-top:12px;}
+.pd-thumb{width:72px;height:72px;border-radius:2px;overflow:hidden;border:2px solid transparent;cursor:pointer;flex-shrink:0;background:var(--tan);}
+.pd-thumb.active,.pd-thumb:hover{border-color:var(--red);}
+.pd-thumb img{width:100%;height:100%;object-fit:cover;}
+
+/* ── PRODUCT INFO ── */
+.pd-cat{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
+.pd-name{font-family:var(--font-h);font-size:clamp(30px,3.5vw,52px);line-height:1.1;margin-bottom:16px;}
+.pd-price{font-family:var(--font-h);font-size:clamp(26px,2.8vw,38px);color:var(--ink);margin-bottom:22px;}
+.pd-desc{font-size:15px;font-weight:300;line-height:1.85;color:rgba(22,22,22,.7);margin-bottom:28px;max-width:480px;}
+.pd-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;}
+.pd-tag{font-size:11px;padding:5px 12px;background:var(--peach);color:rgba(22,22,22,.7);border-radius:2px;}
+
+/* ── CUSTOMIZATION ── */
+.pd-custom{background:#ffffff;border:1px solid rgba(22,22,22,.08);border-radius:3px;padding:28px;margin-bottom:28px;}
+.pd-custom-title{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--ink);margin-bottom:18px;display:flex;align-items:center;gap:8px;}
+.pd-custom-title::before{content:'✦';color:var(--red);font-size:10px;}
+.pd-custom label{display:block;font-size:12px;font-weight:600;letter-spacing:.08em;text-transform:uppercase;color:rgba(22,22,22,.55);margin-bottom:7px;margin-top:16px;}
+.pd-custom label:first-of-type{margin-top:0;}
+.pd-custom input[type="text"],.pd-custom textarea{width:100%;border:1.5px solid rgba(22,22,22,.15);border-radius:2px;padding:11px 14px;font-family:var(--font-b);font-size:13px;color:var(--ink);outline:none;background:#fff;resize:none;transition:border-color .2s;}
+.pd-custom input[type="text"]:focus,.pd-custom textarea:focus{border-color:var(--red);}
+.pd-custom textarea{min-height:80px;}
+.pd-upload-area{border:2px dashed rgba(22,22,22,.2);border-radius:3px;padding:28px;text-align:center;cursor:pointer;transition:border-color .2s,background .2s;background:var(--cream);position:relative;}
+.pd-upload-area:hover,.pd-upload-area.dragover{border-color:var(--red);background:rgba(221,64,64,.04);}
+.pd-upload-area input{position:absolute;inset:0;opacity:0;cursor:pointer;}
+.pd-upload-ico{font-size:28px;margin-bottom:8px;}
+.pd-upload-label{font-size:13px;font-weight:500;color:var(--ink);}
+.pd-upload-sub{font-size:11px;color:rgba(22,22,22,.4);margin-top:4px;}
+.pd-upload-preview{display:none;font-size:12px;color:var(--red);margin-top:8px;font-weight:600;}
+
+.pd-atc{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
+.pd-atc .btn{flex:1;justify-content:center;}
+.pd-note{font-size:12px;color:rgba(22,22,22,.45);line-height:1.6;}
+.pd-note strong{font-weight:600;color:var(--ink);}
+
+/* ── DIVIDER ── */
+.pd-divider{height:1px;background:rgba(22,22,22,.08);margin:32px 0;}
+
+/* ── WHAT'S INSIDE ── */
+.pd-inside-title{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;margin-bottom:16px;}
+.pd-inside-list{display:flex;flex-direction:column;gap:10px;}
+.pd-inside-item{display:flex;align-items:flex-start;gap:12px;font-size:14px;font-weight:300;line-height:1.6;color:rgba(22,22,22,.75);}
+.pd-inside-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:6px;}
+
+/* ── RELATED ── */
+.related-sec{background:#ffffff;padding:clamp(60px,7vw,96px) 0;}
+.related-sec h2{font-family:var(--font-h);font-size:clamp(26px,2.8vw,40px);margin-bottom:40px;}
+.related-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.rel-card{background:var(--cream);border-radius:3px;overflow:hidden;cursor:pointer;transition:transform .3s,box-shadow .3s;}
+.rel-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(22,22,22,.1);}
+.rel-img{aspect-ratio:4/3;overflow:hidden;background:var(--peach);}
+.rel-img img{transition:transform .5s;}
+.rel-card:hover .rel-img img{transform:scale(1.04);}
+.rel-bd{padding:18px 20px 22px;}
+.rel-cat{font-size:10px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:6px;}
+.rel-name{font-family:var(--font-h);font-size:18px;margin-bottom:4px;}
+.rel-price{font-size:14px;font-weight:600;}
+
+/* ── FOOTER ── */
+.footer{background:var(--sage);color:var(--ink);position:relative;overflow:hidden;}
+.footer-mark{position:absolute;bottom:-40px;left:-40px;width:360px;height:360px;opacity:.1;pointer-events:none;}
+.footer-mark img{width:100%;height:100%;object-fit:contain;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 2fr;align-items:start;gap:40px;padding:64px 0 48px;border-bottom:1px solid rgba(22,22,22,.12);position:relative;z-index:1;}
+.f-logo{margin-bottom:6px;}
+.f-logo img{height:120px;width:auto;object-fit:contain;display:block;margin-left:-8px;}
+.f-desc{font-size:13px;font-weight:300;line-height:1.8;color:#000;margin-bottom:22px;}
+.f-soc{display:flex;gap:10px;}
+.f-s{width:33px;height:33px;border-radius:50%;border:1px solid rgba(22,22,22,.2);display:flex;align-items:center;justify-content:center;color:var(--ink);transition:background .2s,border-color .2s,color .2s;}
+.f-s:hover{background:var(--red);border-color:var(--red);color:#fff;}
+.f-ct{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#000;margin-bottom:16px;}
+.f-links{display:flex;flex-direction:column;gap:9px;}
+.f-links a{font-size:13px;font-weight:300;color:#000;transition:color .2s;}
+.f-links a:hover{color:var(--red);}
+.f-nl-form{display:flex;align-items:stretch;max-width:380px;}
+.f-nl-i{flex:1;min-width:0;height:46px;box-sizing:border-box;background:rgba(255,255,255,.6);border:1px solid rgba(22,22,22,.15);border-right:none;padding:0 14px;color:var(--ink);font-family:var(--font-b);font-size:12px;line-height:1;outline:none;}
+.f-nl-i::placeholder{color:rgba(22,22,22,.4);}
+.f-nl-b{flex-shrink:0;height:46px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;background:var(--red);border:1px solid var(--red);padding:0 22px;margin:0;color:#fff;font-family:var(--font-b);font-size:10px;font-weight:800;line-height:1;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .2s;}
+.f-nl-b:hover{background:var(--red-d);}
+.footer-bot{display:flex;align-items:center;justify-content:space-between;padding:22px 0;font-size:12px;font-weight:300;color:rgba(22,22,22,.5);position:relative;z-index:1;}
+
+/* loading state */
+.pd-loading{display:flex;align-items:center;justify-content:center;min-height:60vh;font-size:14px;color:rgba(22,22,22,.4);}
+.pd-not-found{text-align:center;padding:120px var(--gut);font-family:var(--font-h);font-size:32px;}
+</style>
+</head>
+<body>
+
+<div class="announce">Free delivery above <strong>₦45,000</strong> within Abuja &nbsp;·&nbsp; Same day delivery on orders placed before <strong>noon</strong></div>
+
+<div class="nav-shell">
+  <div class="wrap">
+    <nav class="nav">
+      <ul class="nav-links">
+        <li class="nav-dd"><a href="./shop.html">Shop</a>
+          <div class="nav-dd-menu"><div class="nav-dd-menu-inner">
+            <a href="./shop.html">All Products</a>
+            <div class="dd-divider"></div>
+            <a href="./shop.html">Greeting Cards</a>
+            <a href="./shop.html">Little Luxes</a>
+            <a href="./shop.html">Barefoot Bits</a>
+            <a href="./shop.html">Stationery</a>
+          </div></div>
+        </li>
+        <li><a href="./corporate.html">Corporate Gifting</a></li>
+        <li><a href="./concierge.html">Concierge Gifting</a></li>
+      </ul>
+      <a href="./index.html" class="nav-logo"><img src="./Png Files/Logo.png" alt="Barefoot Gifting"></a>
+      <div class="nav-r">
+        <ul class="nav-links">
+          <li><a href="./thc.html">Husbands Club</a></li>
+          <li><a href="./about.html">About</a></li>
+          <li><a href="./journal.html">Keepsake Edit</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+        </ul>
+        <a href="./account/index.html" aria-label="My Account" style="display:flex;align-items:center;margin-right:8px"><svg class="ico" viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a href="./cart.html" class="cart-w" aria-label="Cart">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="cart-badge" id="cart-badge">0</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<!-- PRODUCT CONTENT (JS-populated) -->
+<div id="pd-root"></div>
+
+<!-- RELATED SECTION (JS-populated) -->
+<div id="related-root"></div>
+
+<!-- WAVE + FOOTER -->
+<div class="wave" style="background:#ffffff">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#daeab0"/></svg>
+</div>
+<footer class="footer">
+  <div class="footer-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="f-logo"><img src="./Png Files/Logo-cropped.png" alt="Barefoot Gifting"></div>
+        <p class="f-desc">Thoughtful gifts, beautifully wrapped.<br>Based in Abuja. Delivering across Nigeria.</p>
+        <div class="f-soc">
+          <a href="https://instagram.com/barefootgifting" class="f-s" target="_blank" rel="noopener" aria-label="Instagram"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="https://wa.me/2349011287992" class="f-s" target="_blank" rel="noopener" aria-label="WhatsApp"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <div class="f-ct">Shop</div>
+        <ul class="f-links">
+          <li><a href="./shop.html">All Products</a></li>
+          <li><a href="./shop.html">Greeting Cards</a></li>
+          <li><a href="./shop.html">Little Luxes</a></li>
+          <li><a href="./shop.html">Barefoot Bits</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Services</div>
+        <ul class="f-links">
+          <li><a href="./corporate.html">Corporate Gifting</a></li>
+          <li><a href="./concierge.html">Concierge Gifting</a></li>
+          <li><a href="./thc.html">Husbands Club</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Company</div>
+        <ul class="f-links">
+          <li><a href="./about.html">About</a></li>
+          <li><a href="./journal.html">Journal</a></li>
+          <li><a href="./journal.html">Keepsake Edit</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+        </ul>
+      </div>
+      <div>
+        <div class="f-ct">Stay in the loop</div>
+        <p style="font-size:13px;font-weight:300;color:#000;margin-bottom:14px;line-height:1.6;">Gift guides, new arrivals, and seasonal edits.</p>
+        <form class="f-nl-form" onsubmit="return false">
+          <input class="f-nl-i" type="email" placeholder="Your email address" required>
+          <button class="f-nl-b" type="submit">Join</button>
+        </form>
+        <div style="margin-top:22px;">
+          <div class="f-ct">Contact</div>
+          <ul class="f-links" style="margin-top:0">
+            <li><a href="mailto:hello@barefootgifting.com">hello@barefootgifting.com</a></li>
+            <li><a href="https://wa.me/2349011287992" target="_blank">WhatsApp Us</a></li>
+          </ul>
+        </div>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <span>© 2025 Barefoot Gifting. All rights reserved.</span>
+      <span>Made with intention in Abuja, Nigeria.</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+/* ── Cart ── */
+const BFCart = {
+  key:'bfg_cart',
+  get(){try{return JSON.parse(localStorage.getItem(this.key))||[];}catch{return [];}},
+  save(c){localStorage.setItem(this.key,JSON.stringify(c));},
+  add(item){const c=this.get();const e=c.find(i=>i.id===item.id);if(e)e.qty++;else c.push({...item,qty:1});this.save(c);this.updateBadge();},
+  count(){return this.get().reduce((s,i)=>s+i.qty,0);},
+  updateBadge(){document.querySelectorAll('.cart-badge').forEach(b=>b.textContent=this.count());}
+};
+
+function fmt(n){return'₦'+n.toLocaleString('en-NG');}
+
+/* ── Product Data ── */
+const PRODUCTS = {
+  'for-your-heart':{
+    id:'for-your-heart', category:'Little Luxes', customizable:true,
+    name:'For Your Heart',
+    price:75000,
+    img:'./mockup/boxes2.png',
+    imgs:['./mockup/boxes2.png','./mockup/BOX.png'],
+    desc:'A little reminder that they\'re loved — a personalised keychain, A5 notepad, fridge magnet, scented candle, and a "Thinking of You" card, all wrapped with love.',
+    items:['Personalised Keychain','A5 Notepad','Fridge Magnet','120g Scented Candle','Handwritten Greeting Card','Branded Gift Wrap & Ribbon'],
+    badge:'Bestseller',
+  },
+  'graced-and-grounded':{
+    id:'graced-and-grounded', category:'Little Luxes', customizable:true,
+    name:'Graced and Grounded',
+    price:80000,
+    img:'./mockup/BOX.png',
+    imgs:['./mockup/BOX.png','./mockup/boxes2.png'],
+    desc:'A gentle, grounding gesture — a curated mix of mug, journal, notes, and treats for the people who quietly hold it all together.',
+    items:['Mini Mug','Bookmark','A5 Notepad','Journal','Handwritten Note','Scented Candle','Treat Jar','Branded Gift Wrap & Ribbon'],
+    badge:null,
+  },
+  'some-thank-you-love':{
+    id:'some-thank-you-love', category:'Little Luxes', customizable:true,
+    name:'Some "Thank You Love"',
+    price:85000,
+    img:'./mockup/bv.png',
+    imgs:['./mockup/bv.png','./mockup/BOX.png'],
+    desc:'A heartfelt thank-you, beautifully done — a handwritten note, scented candle, engraved chopping board, and a curated basket of fine teas.',
+    items:['Handwritten Note','200g Scented Candle','Engraved Chopping Board','Fine Teas Basket','Branded Gift Wrap & Ribbon'],
+    badge:null,
+  },
+  'candle-trio':{
+    id:'candle-trio', category:'Little Luxes', customizable:false,
+    name:'Candle Trio',
+    price:45000,
+    img:'./PRODUCTS/Candle Trio.JPG',
+    imgs:['./PRODUCTS/Candle Trio.JPG'],
+    desc:'Three beautifully scented candles, curated for warmth and ambiance. A perfect gift for anyone who appreciates the soft glow of intentional living.',
+    items:['3 × Scented Candles (assorted)','Branded Gift Box & Tissue Paper'],
+    badge:'Bestseller',
+  },
+  'wallets-trio':{
+    id:'wallets-trio', category:'Little Luxes', customizable:false,
+    name:'Wallets Trio',
+    price:110000,
+    img:'./PRODUCTS/Wallets trio.JPG',
+    imgs:['./PRODUCTS/Wallets trio.JPG'],
+    desc:'Three premium leather wallets, elegantly packaged. An elevated gift for the person who appreciates craftsmanship and refined taste.',
+    items:['3 × Premium Leather Wallets','Branded Gift Box & Ribbon'],
+    badge:'Premium',
+  },
+  'chatty-mugs':{
+    id:'chatty-mugs', category:'Barefoot Bits', customizable:false,
+    name:'Chatty Mugs',
+    price:12000,
+    img:'./PRODUCTS/Chatty Mugs full.JPG',
+    imgs:['./PRODUCTS/Chatty Mugs full.JPG'],
+    desc:'A pair of playful, conversation-starting mugs for the friends, couples, or colleagues who finish each other\'s sentences. Ready-to-gift, no guesswork.',
+    items:['2 × Printed Mugs','Branded Wrapping'],
+    badge:'Affordable',
+  },
+};
+
+function renderProduct(p){
+  const root = document.getElementById('pd-root');
+  document.title = p.name + ' — Barefoot Gifting';
+
+  const customHTML = p.customizable ? `
+    <div class="pd-custom">
+      <div class="pd-custom-title">Personalise This Box</div>
+      <label>Upload Image(s) for Customisation</label>
+      <div class="pd-upload-area" id="upload-area">
+        <input type="file" id="file-input" accept="image/*" multiple>
+        <div class="pd-upload-ico">🖼️</div>
+        <div class="pd-upload-label">Click to upload or drag & drop</div>
+        <div class="pd-upload-sub">PNG, JPG, WEBP — up to 10MB each</div>
+        <div class="pd-upload-preview" id="upload-preview"></div>
+      </div>
+      <label>Text to Print / Engrave</label>
+      <input type="text" id="custom-text" placeholder="e.g. 'Happy Birthday, Amara 🎉'" maxlength="80">
+      <label>Additional Notes for Our Team</label>
+      <textarea id="custom-notes" placeholder="Any specific colours, messages, or preferences..."></textarea>
+    </div>` : '';
+
+  root.innerHTML = `
+  <section class="pd-sec">
+    <div class="wrap">
+      <div class="breadcrumb">
+        <a href="./index.html">Home</a> &nbsp;/&nbsp;
+        <a href="./shop.html">Shop</a> &nbsp;/&nbsp;
+        <a href="./shop.html">${p.category}</a> &nbsp;/&nbsp;
+        <span>${p.name}</span>
+      </div>
+      <div class="pd-grid" style="margin-top:32px">
+        <div class="pd-gallery">
+          <div class="pd-main-img" id="main-img-wrap">
+            <img id="main-img" src="${p.imgs[0]}" alt="${p.name}">
+          </div>
+          ${p.imgs.length > 1 ? `<div class="pd-thumbs">${p.imgs.map((im,i)=>`<div class="pd-thumb${i===0?' active':''}" onclick="switchImg('${im}',this)"><img src="${im}" alt=""></div>`).join('')}</div>` : ''}
+        </div>
+        <div class="pd-info">
+          <div class="pd-cat">${p.category}${p.badge ? ` · <span style="color:var(--gold)">${p.badge}</span>` : ''}</div>
+          <h1 class="pd-name">${p.name}</h1>
+          <div class="pd-price">${fmt(p.price)}</div>
+          <p class="pd-desc">${p.desc}</p>
+          <div class="pd-tags">${(p.items||[]).map(t=>`<span class="pd-tag">${t}</span>`).join('')}</div>
+          ${customHTML}
+          <div class="pd-atc">
+            <button class="btn btn-p" id="atc-btn">Add to Cart <span class="arr">→</span></button>
+            <a href="./cart.html" class="btn btn-o">View Cart</a>
+          </div>
+          <p class="pd-note"><strong>Free delivery</strong> on orders above ₦45,000 within Abuja · Same-day delivery on orders before noon.</p>
+          <div class="pd-divider"></div>
+          <div class="pd-inside-title">What's Inside</div>
+          <div class="pd-inside-list">
+            ${(p.items||[]).map(i=>`<div class="pd-inside-item"><div class="pd-inside-dot"></div>${i}</div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>`;
+
+  // Thumb switcher
+  window.switchImg = (src, el) => {
+    document.getElementById('main-img').src = src;
+    document.querySelectorAll('.pd-thumb').forEach(t=>t.classList.remove('active'));
+    el.classList.add('active');
+  };
+
+  // Upload feedback
+  if(p.customizable){
+    const inp = document.getElementById('file-input');
+    const prev = document.getElementById('upload-preview');
+    const area = document.getElementById('upload-area');
+    inp.addEventListener('change', () => {
+      if(inp.files.length){
+        prev.style.display='block';
+        prev.textContent = inp.files.length + ' file(s) selected: ' + Array.from(inp.files).map(f=>f.name).join(', ');
+      }
+    });
+    area.addEventListener('dragover', e=>{e.preventDefault();area.classList.add('dragover');});
+    area.addEventListener('dragleave', ()=>area.classList.remove('dragover'));
+    area.addEventListener('drop', e=>{
+      e.preventDefault();area.classList.remove('dragover');
+      inp.files = e.dataTransfer.files;
+      inp.dispatchEvent(new Event('change'));
+    });
+  }
+
+  // Add to cart
+  document.getElementById('atc-btn').addEventListener('click', () => {
+    BFCart.add({id:p.id, name:p.name, price:p.price, img:p.imgs[0]});
+    const btn = document.getElementById('atc-btn');
+    btn.textContent = 'Added ✓';
+    setTimeout(()=>{btn.innerHTML='Add to Cart <span class="arr">→</span>';},900);
+  });
+}
+
+function renderRelated(currentId){
+  const others = Object.values(PRODUCTS).filter(p=>p.id!==currentId).slice(0,3);
+  if(!others.length) return;
+  document.getElementById('related-root').innerHTML = `
+  <section class="related-sec">
+    <div class="wrap">
+      <h2>You might also love</h2>
+      <div class="related-grid">
+        ${others.map(p=>`
+        <a class="rel-card" href="./product.html?id=${p.id}">
+          <div class="rel-img"><img src="${p.imgs[0]}" alt="${p.name}"></div>
+          <div class="rel-bd">
+            <div class="rel-cat">${p.category}</div>
+            <div class="rel-name">${p.name}</div>
+            <div class="rel-price">${fmt(p.price)}</div>
+          </div>
+        </a>`).join('')}
+      </div>
+    </div>
+  </section>`;
+}
+
+/* ── Init ── */
+document.addEventListener('DOMContentLoaded', () => {
+  BFCart.updateBadge();
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  const product = PRODUCTS[id];
+  if(!product){
+    document.getElementById('pd-root').innerHTML = `<div class="pd-not-found">Product not found. <a href="./shop.html" style="color:var(--red);text-decoration:underline">Back to Shop</a></div>`;
+    return;
+  }
+  renderProduct(product);
+  renderRelated(id);
+});
+</script>
+</body>
+</html>
