@@ -38,15 +38,23 @@ module.exports = async (req, res) => {
 
     if (req.method === 'POST') {
       const { productId, postId, name, email, rating, body } = req.body || {};
-      if (!name || !body || (!productId && !postId)) {
+      const cleanName = String(name || '').trim();
+      const cleanBody = String(body || '').trim();
+      const cleanEmail = email ? String(email).trim().toLowerCase() : null;
+      const numericRating = rating === undefined || rating === null || rating === '' ? null : Number(rating);
+
+      if (!cleanName || !cleanBody || (!productId && !postId)) {
         return res.status(400).json({ error: 'name, body and either productId or postId are required' });
+      }
+      if (numericRating !== null && (!Number.isInteger(numericRating) || numericRating < 1 || numericRating > 5)) {
+        return res.status(400).json({ error: 'rating must be an integer between 1 and 5' });
       }
       const token = getTokenFromReq(req);
       const payload = token ? verifyToken(token) : null;
 
       const { rows } = await sql`
         INSERT INTO comments (product_id, post_id, user_id, name, email, rating, body, status)
-        VALUES (${productId || null}, ${postId || null}, ${payload ? payload.id : null}, ${name}, ${email || null}, ${rating || null}, ${body}, 'pending')
+        VALUES (${productId || null}, ${postId || null}, ${payload ? payload.id : null}, ${cleanName}, ${cleanEmail}, ${numericRating}, ${cleanBody}, 'pending')
         RETURNING *
       `;
       return res.status(201).json(rows[0]);

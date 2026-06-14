@@ -72,10 +72,13 @@ ul{list-style:none;}
 
 /* ── PRODUCT INFO ── */
 .pd-cat{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
+.pd-subtitle{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:rgba(22,22,22,.48);margin-bottom:14px;}
 .pd-name{font-family:var(--font-h);font-size:clamp(30px,3.5vw,52px);line-height:1.1;margin-bottom:16px;}
 .pd-price{font-family:var(--font-h);font-size:clamp(26px,2.8vw,38px);color:var(--ink);margin-bottom:22px;}
 .pd-stock{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:18px;}
 .pd-desc{font-size:15px;font-weight:300;line-height:1.85;color:rgba(22,22,22,.7);margin-bottom:28px;max-width:480px;}
+.pd-highlight-list{display:flex;flex-wrap:wrap;gap:9px;margin:-4px 0 24px;}
+.pd-highlight{font-size:11px;font-weight:500;padding:7px 12px;background:#fff;border:1px solid rgba(22,22,22,.08);color:rgba(22,22,22,.75);border-radius:2px;}
 .pd-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;}
 .pd-tag{font-size:11px;padding:5px 12px;background:var(--peach);color:rgba(22,22,22,.7);border-radius:2px;}
 
@@ -110,6 +113,38 @@ ul{list-style:none;}
 .pd-inside-list{display:flex;flex-direction:column;gap:10px;}
 .pd-inside-item{display:flex;align-items:flex-start;gap:12px;font-size:14px;font-weight:300;line-height:1.6;color:rgba(22,22,22,.75);}
 .pd-inside-dot{width:6px;height:6px;border-radius:50%;background:var(--red);flex-shrink:0;margin-top:6px;}
+
+/* ── REVIEWS ── */
+.pd-reviews-sec{background:var(--cream);padding:0 0 clamp(60px,7vw,96px);}
+.pd-reviews-box{background:#fff;border-radius:3px;padding:clamp(26px,4vw,40px);border:1px solid rgba(22,22,22,.08);}
+.pd-reviews-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:28px;}
+.pd-reviews-kicker{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+.pd-reviews-title{font-family:var(--font-h);font-size:clamp(28px,3vw,42px);line-height:1.08;}
+.pd-reviews-sub{font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.64);max-width:520px;}
+.pd-reviews-count{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,22,22,.45);white-space:nowrap;}
+.pd-reviews-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);gap:24px;align-items:start;}
+.pd-review-list{display:flex;flex-direction:column;gap:16px;}
+.pd-review-empty{background:var(--cream);border:1px solid rgba(22,22,22,.06);border-radius:3px;padding:22px;font-size:14px;line-height:1.8;color:rgba(22,22,22,.65);}
+.pd-review-card{background:var(--cream);border:1px solid rgba(22,22,22,.06);border-radius:3px;padding:22px;}
+.pd-review-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:12px;}
+.pd-review-name{font-size:14px;font-weight:700;color:var(--ink);}
+.pd-review-date{font-size:12px;color:rgba(22,22,22,.45);margin-top:4px;}
+.pd-review-stars{font-size:13px;letter-spacing:.14em;color:var(--red);white-space:nowrap;}
+.pd-review-body{font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.75);}
+.pd-review-form-card{background:linear-gradient(180deg,#fff 0%,#fff8ef 100%);border:1px solid rgba(22,22,22,.08);border-radius:3px;padding:24px;}
+.pd-review-form-card h3{font-family:var(--font-h);font-size:30px;line-height:1.08;margin-bottom:10px;}
+.pd-review-form-card p{font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.64);margin-bottom:18px;}
+.pd-review-form{display:flex;flex-direction:column;gap:14px;}
+.pd-form-row{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:12px;}
+.pd-review-form label{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,22,22,.55);margin-bottom:7px;}
+.pd-review-form input,.pd-review-form select,.pd-review-form textarea{width:100%;border:1.5px solid rgba(22,22,22,.14);border-radius:2px;padding:12px 14px;font-family:var(--font-b);font-size:13px;color:var(--ink);outline:none;background:#fff;transition:border-color .2s;resize:none;}
+.pd-review-form input:focus,.pd-review-form select:focus,.pd-review-form textarea:focus{border-color:var(--red);}
+.pd-review-form textarea{min-height:136px;}
+.pd-review-feedback{display:none;border-radius:3px;padding:12px 14px;font-size:13px;line-height:1.6;}
+.pd-review-feedback.show{display:block;}
+.pd-review-feedback.ok{background:rgba(218,234,176,.45);color:var(--ink);}
+.pd-review-feedback.err{background:rgba(221,64,64,.08);color:var(--red);}
+.pd-review-note{font-size:11px;color:rgba(22,22,22,.42);line-height:1.7;}
 
 /* ── RELATED ── */
 .related-sec{background:#ffffff;padding:clamp(60px,7vw,96px) 0;}
@@ -150,6 +185,20 @@ ul{list-style:none;}
 /* loading state */
 .pd-loading{display:flex;align-items:center;justify-content:center;min-height:60vh;font-size:14px;color:rgba(22,22,22,.4);}
 .pd-not-found{text-align:center;padding:120px var(--gut);font-family:var(--font-h);font-size:32px;}
+
+@media (max-width:980px){
+  .pd-grid,.pd-reviews-grid,.related-grid{grid-template-columns:1fr;}
+  .pd-gallery{position:static;}
+  .pd-reviews-head{align-items:flex-start;flex-direction:column;}
+}
+
+@media (max-width:680px){
+  .pd-atc{flex-direction:column;}
+  .pd-atc .btn{width:100%;}
+  .pd-form-row{grid-template-columns:1fr;}
+  .pd-thumbs{overflow:auto;padding-bottom:4px;}
+  .pd-review-top{flex-direction:column;}
+}
 </style>
 </head>
 <body>
@@ -276,6 +325,31 @@ const StoreAPI = {
     const res = await fetch(`/api/products/__root__${params.toString() ? `?${params.toString()}` : ''}`);
     if (!res.ok) throw new Error('Could not load related products');
     return res.json();
+  },
+
+  async getProfiles() {
+    const res = await fetch('./data/real-little-luxes.json');
+    if (!res.ok) return [];
+    return res.json();
+  },
+
+  async getComments(productId) {
+    const res = await fetch(`/api/comments/__root__?productId=${encodeURIComponent(productId)}`);
+    if (!res.ok) throw new Error('Could not load reviews');
+    return res.json();
+  },
+
+  async createComment(payload) {
+    const res = await fetch('/api/comments/__root__', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({ error: 'Could not save review' }));
+      throw new Error(error.error || 'Could not save review');
+    }
+    return res.json();
   }
 };
 
@@ -304,18 +378,34 @@ function productKey(product){
   return product.slug || String(product.id);
 }
 
-function getProductImages(product){
-  if (Array.isArray(product.images) && product.images.length) {
-    return product.images.map((image) => ({
-      url: image.url,
-      alt: image.alt || product.name,
-    }));
-  }
+function buildProfileMap(profiles) {
+  return new Map((profiles || []).map((profile) => [profile.slug, profile]));
+}
 
-  return [{
-    url: './Png Files/Logo-cropped.png',
-    alt: product.name,
-  }];
+function buildProductViewModel(product, profileMap) {
+  const profile = profileMap.get(productKey(product)) || null;
+  const productImages = Array.isArray(product.images) ? product.images
+    .filter((image) => image && image.url)
+    .map((image) => ({ url: image.url, alt: image.alt || product.name })) : [];
+  const profileImages = Array.isArray(profile?.images) ? profile.images
+    .filter((image) => image && image.url)
+    .map((image) => ({ url: image.url, alt: image.alt || profile.name || product.name })) : [];
+
+  return {
+    ...product,
+    name: product.name || profile?.name || 'Barefoot Gifting Product',
+    category: product.category || profile?.category || 'Little Luxes',
+    badge: product.badge || profile?.badge || null,
+    customizable: typeof product.customizable === 'boolean' ? product.customizable : !!profile?.customizable,
+    description: String(product.description || '').trim() || profile?.description || '',
+    subtitle: profile?.subtitle || '',
+    highlightItems: Array.isArray(profile?.highlights) ? profile.highlights.filter(Boolean) : [],
+    insideItems: Array.isArray(profile?.insideItems) ? profile.insideItems.filter(Boolean) : [],
+    images: productImages.length ? productImages : (profileImages.length ? profileImages : [{
+      url: './Png Files/Logo-cropped.png',
+      alt: product.name,
+    }]),
+  };
 }
 
 function buildProductDetails(product){
@@ -327,16 +417,29 @@ function buildProductDetails(product){
   return details;
 }
 
+function renderStars(rating) {
+  const safeRating = Math.max(0, Math.min(5, Number(rating) || 0));
+  return `${'★'.repeat(safeRating)}${'☆'.repeat(5 - safeRating)}`;
+}
+
+function formatReviewDate(value) {
+  return new Date(value).toLocaleDateString('en-NG', { day: 'numeric', month: 'short', year: 'numeric' });
+}
+
 function renderProduct(product){
   const root = document.getElementById('pd-root');
-  const images = getProductImages(product);
+  const images = product.images;
   const inStock = Number(product.stock || 0) > 0;
-  const details = buildProductDetails(product);
+  const details = product.insideItems.length ? product.insideItems : buildProductDetails(product);
   const tags = [
     product.badge,
     product.customizable ? 'Customizable' : null,
     inStock ? `${product.stock} in stock` : 'Sold Out',
   ].filter(Boolean);
+  const highlightsHTML = product.highlightItems.length ? `
+    <div class="pd-highlight-list">
+      ${product.highlightItems.map((item) => `<span class="pd-highlight">${escapeHTML(item)}</span>`).join('')}
+    </div>` : '';
   document.title = product.name + ' — Barefoot Gifting';
 
   const customHTML = product.customizable ? `
@@ -374,10 +477,12 @@ function renderProduct(product){
         </div>
         <div class="pd-info">
           <div class="pd-cat">${escapeHTML(product.category)}${product.badge ? ` · <span style="color:var(--gold)">${escapeHTML(product.badge)}</span>` : ''}</div>
+          ${product.subtitle ? `<div class="pd-subtitle">${escapeHTML(product.subtitle)}</div>` : ''}
           <h1 class="pd-name">${escapeHTML(product.name)}</h1>
           <div class="pd-price">${fmt(product.price)}</div>
           <div class="pd-stock">${inStock ? 'In Stock' : 'Sold Out'}</div>
           <p class="pd-desc">${escapeHTML(product.description || 'A thoughtfully selected gift from Barefoot Gifting, curated to make everyday moments feel intentional.')}</p>
+          ${highlightsHTML}
           <div class="pd-tags">${tags.map(tag=>`<span class="pd-tag">${escapeHTML(tag)}</span>`).join('')}</div>
           ${customHTML}
           <div class="pd-atc">
@@ -386,9 +491,61 @@ function renderProduct(product){
           </div>
           <p class="pd-note"><strong>Free delivery</strong> on orders above ₦45,000 within Abuja · Same-day delivery on orders before noon.</p>
           <div class="pd-divider"></div>
-          <div class="pd-inside-title">Product Details</div>
+          <div class="pd-inside-title">${product.insideItems.length ? 'What’s Inside' : 'Product Details'}</div>
           <div class="pd-inside-list">
             ${details.map(item=>`<div class="pd-inside-item"><div class="pd-inside-dot"></div>${escapeHTML(item)}</div>`).join('')}
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+  <section class="pd-reviews-sec">
+    <div class="wrap">
+      <div class="pd-reviews-box">
+        <div class="pd-reviews-head">
+          <div>
+            <div class="pd-reviews-kicker">Reviews & Notes</div>
+            <h2 class="pd-reviews-title">What customers are saying</h2>
+            <p class="pd-reviews-sub">Let future gifters know how this piece landed. New reviews go to the Barefoot team for approval before they appear here.</p>
+          </div>
+          <div class="pd-reviews-count" id="reviews-count">Loading reviews…</div>
+        </div>
+        <div class="pd-reviews-grid">
+          <div class="pd-review-list" id="reviews-list">
+            <div class="pd-review-empty">Loading reviews…</div>
+          </div>
+          <div class="pd-review-form-card">
+            <h3>Leave a review</h3>
+            <p>Share the occasion, the experience, or the little detail that made this gift feel right.</p>
+            <div class="pd-review-feedback" id="review-feedback"></div>
+            <form class="pd-review-form" id="review-form">
+              <div class="pd-form-row">
+                <div>
+                  <label for="review-name">Name</label>
+                  <input id="review-name" name="name" type="text" maxlength="80" required>
+                </div>
+                <div>
+                  <label for="review-email">Email</label>
+                  <input id="review-email" name="email" type="email" maxlength="120" required>
+                </div>
+              </div>
+              <div>
+                <label for="review-rating">Rating</label>
+                <select id="review-rating" name="rating" required>
+                  <option value="5">5 Stars</option>
+                  <option value="4">4 Stars</option>
+                  <option value="3">3 Stars</option>
+                  <option value="2">2 Stars</option>
+                  <option value="1">1 Star</option>
+                </select>
+              </div>
+              <div>
+                <label for="review-body">Your Review</label>
+                <textarea id="review-body" name="body" maxlength="1200" required></textarea>
+              </div>
+              <button class="btn btn-p" id="review-submit" type="submit">Submit Review <span class="arr">→</span></button>
+              <p class="pd-review-note">By submitting, you agree that Barefoot Gifting may display your first name, rating, and comment once approved.</p>
+            </form>
           </div>
         </div>
       </div>
@@ -453,7 +610,7 @@ function renderRelated(currentProduct, allProducts){
       <div class="related-grid">
         ${others.map(product=>`
         <a class="rel-card" href="./product.html?id=${encodeURIComponent(productKey(product))}">
-          <div class="rel-img"><img src="${escapeHTML(getProductImages(product)[0].url)}" alt="${escapeHTML(product.name)}"></div>
+          <div class="rel-img"><img src="${escapeHTML(product.images[0].url)}" alt="${escapeHTML(product.name)}"></div>
           <div class="rel-bd">
             <div class="rel-cat">${escapeHTML(product.category)}</div>
             <div class="rel-name">${escapeHTML(product.name)}</div>
@@ -463,6 +620,78 @@ function renderRelated(currentProduct, allProducts){
       </div>
     </div>
   </section>`;
+}
+
+function renderReviews(reviews) {
+  const count = document.getElementById('reviews-count');
+  const list = document.getElementById('reviews-list');
+  if (!count || !list) return;
+
+  count.textContent = reviews.length
+    ? `${reviews.length} approved review${reviews.length === 1 ? '' : 's'}`
+    : 'No approved reviews yet';
+
+  if (!reviews.length) {
+    list.innerHTML = '<div class="pd-review-empty">No approved reviews have been shared for this product yet. Be the first to leave one for the Barefoot team to review.</div>';
+    return;
+  }
+
+  list.innerHTML = reviews.map((review) => `
+    <article class="pd-review-card">
+      <div class="pd-review-top">
+        <div>
+          <div class="pd-review-name">${escapeHTML(review.name)}</div>
+          <div class="pd-review-date">${escapeHTML(formatReviewDate(review.created_at))}</div>
+        </div>
+        <div class="pd-review-stars" aria-label="${Number(review.rating || 0)} out of 5 stars">${escapeHTML(renderStars(review.rating || 0))}</div>
+      </div>
+      <p class="pd-review-body">${escapeHTML(review.body)}</p>
+    </article>
+  `).join('');
+}
+
+function bindReviewForm(product) {
+  const form = document.getElementById('review-form');
+  const feedback = document.getElementById('review-feedback');
+  const submit = document.getElementById('review-submit');
+  if (!form || !feedback || !submit) return;
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const formData = new FormData(form);
+    const payload = {
+      productId: product.id,
+      name: String(formData.get('name') || '').trim(),
+      email: String(formData.get('email') || '').trim(),
+      rating: Number(formData.get('rating')),
+      body: String(formData.get('body') || '').trim(),
+    };
+
+    feedback.className = 'pd-review-feedback';
+
+    if (!payload.name || !payload.email || !payload.body || !payload.rating) {
+      feedback.textContent = 'Please complete every review field before submitting.';
+      feedback.classList.add('show', 'err');
+      return;
+    }
+
+    submit.disabled = true;
+    submit.textContent = 'Submitting…';
+
+    try {
+      await StoreAPI.createComment(payload);
+      form.reset();
+      document.getElementById('review-rating').value = '5';
+      feedback.textContent = 'Thank you. Your review has been sent to the Barefoot team for approval.';
+      feedback.classList.add('show', 'ok');
+    } catch (error) {
+      feedback.textContent = error.message || 'Your review could not be submitted right now.';
+      feedback.classList.add('show', 'err');
+    } finally {
+      submit.disabled = false;
+      submit.innerHTML = 'Submit Review <span class="arr">→</span>';
+    }
+  });
 }
 
 /* ── Init ── */
@@ -477,10 +706,22 @@ document.addEventListener('DOMContentLoaded', () => {
 
   document.getElementById('pd-root').innerHTML = '<div class="pd-loading">Loading product…</div>';
 
-  Promise.all([StoreAPI.getProduct(id), StoreAPI.getProducts()])
-    .then(([product, products]) => {
-      renderProduct(product);
-      renderRelated(product, products);
+  Promise.all([StoreAPI.getProduct(id), StoreAPI.getProducts(), StoreAPI.getProfiles()])
+    .then(async ([product, products, profiles]) => {
+      const profileMap = buildProfileMap(profiles);
+      const currentProduct = buildProductViewModel(product, profileMap);
+      const hydratedProducts = products.map((item) => buildProductViewModel(item, profileMap));
+
+      renderProduct(currentProduct);
+      renderRelated(currentProduct, hydratedProducts);
+      bindReviewForm(currentProduct);
+
+      try {
+        const reviews = await StoreAPI.getComments(currentProduct.id);
+        renderReviews(reviews);
+      } catch {
+        renderReviews([]);
+      }
     })
     .catch(() => {
       document.getElementById('pd-root').innerHTML = `<div class="pd-not-found">Product not found. <a href="./shop.html" style="color:var(--red);text-decoration:underline">Back to Shop</a></div>`;

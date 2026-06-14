@@ -59,12 +59,15 @@ module.exports = async (req, res) => {
       const user = requireAuth(req, res, ['admin']);
       if (!user) return;
 
-      const { name, category, price, description, stock, customizable, badge, status, images } = req.body || {};
+      const { name, slug: requestedSlug, category, price, description, stock, customizable, badge, status, images } = req.body || {};
       if (!name || !category || price == null) {
         return res.status(400).json({ error: 'name, category and price are required' });
       }
 
-      let slug = slugify(name);
+      let slug = slugify(requestedSlug || name);
+      if (!slug) {
+        return res.status(400).json({ error: 'A valid slug could not be generated for this product' });
+      }
       const existing = await sql`SELECT id FROM products WHERE slug = ${slug}`;
       if (existing.rows.length) slug = `${slug}-${Date.now().toString().slice(-5)}`;
 
@@ -112,10 +115,27 @@ module.exports = async (req, res) => {
     if (!product) return res.status(404).json({ error: 'Product not found' });
 
     if (req.method === 'PUT' || req.method === 'PATCH') {
-      const { name, category, price, description, stock, customizable, badge, status, images } = req.body || {};
+      const { name, slug: requestedSlug, category, price, description, stock, customizable, badge, status, images } = req.body || {};
+      let nextSlug = null;
+
+      if (requestedSlug !== undefined) {
+        nextSlug = slugify(requestedSlug);
+        if (!nextSlug) {
+          return res.status(400).json({ error: 'A valid slug could not be generated for this product' });
+        }
+
+        if (nextSlug !== product.slug) {
+          const conflict = await sql`SELECT id FROM products WHERE slug = ${nextSlug} AND id <> ${product.id}`;
+          if (conflict.rows.length) {
+            return res.status(409).json({ error: 'Another product already uses that slug' });
+          }
+        }
+      }
+
       const { rows } = await sql`
         UPDATE products
         SET
+          slug = COALESCE(${nextSlug}, slug),
           name = COALESCE(${name}, name),
           category = COALESCE(${category}, category),
           price = COALESCE(${price}, price),

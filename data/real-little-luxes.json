@@ -1,0 +1,114 @@
+[
+  {
+    "slug": "for-your-heart",
+    "name": "For Your Heart",
+    "category": "Little Luxes",
+    "price": 75000,
+    "status": "published",
+    "customizable": true,
+    "stock": 10,
+    "badge": "Bestseller",
+    "subtitle": "For Her · Birthday & Encouragement",
+    "description": "A little reminder that they're loved — a personalised keychain, A5 notepad, fridge magnet, scented candle, and a \"Thinking of You\" card, all wrapped with love.",
+    "highlights": [
+      "Personalised Keychain",
+      "A5 Notepad",
+      "120g Candle",
+      "Greeting Card"
+    ],
+    "insideItems": [
+      "Personalised keychain",
+      "A5 notepad",
+      "Fridge magnet",
+      "120g scented candle",
+      "Thinking of You card",
+      "Branded gift wrap and ribbon"
+    ],
+    "images": [
+      {
+        "url": "./mockup/boxes2.png",
+        "alt": "For Your Heart gift set"
+      },
+      {
+        "url": "./mockup/BOX.png",
+        "alt": "For Your Heart wrapped gift box"
+      }
+    ]
+  },
+  {
+    "slug": "graced-and-grounded",
+    "name": "Grâced and Grounded",
+    "category": "Little Luxes",
+    "price": 80000,
+    "status": "published",
+    "customizable": true,
+    "stock": 10,
+    "badge": "Fan Fave",
+    "subtitle": "For Anyone · Thank You & Appreciation",
+    "description": "A gentle, grounding gesture — a curated mix of mug, journal, notes, and treats for the people who quietly hold it all together.",
+    "highlights": [
+      "Mini Mug",
+      "Bookmark",
+      "Notepad",
+      "Journal",
+      "Handwritten Note",
+      "Scented Candle",
+      "Treat Jar"
+    ],
+    "insideItems": [
+      "Mini mug",
+      "Bookmark",
+      "A5 notepad",
+      "Journal",
+      "Handwritten note",
+      "Scented candle",
+      "Treat jar",
+      "Branded gift wrap and ribbon"
+    ],
+    "images": [
+      {
+        "url": "./mockup/BOX.png",
+        "alt": "Grâced and Grounded wrapped gift box"
+      },
+      {
+        "url": "./mockup/boxes2.png",
+        "alt": "Grâced and Grounded gift set"
+      }
+    ]
+  },
+  {
+    "slug": "some-thank-you-love",
+    "name": "Some \"Thank You Love\"",
+    "category": "Little Luxes",
+    "price": 85000,
+    "status": "published",
+    "customizable": true,
+    "stock": 10,
+    "badge": "New",
+    "subtitle": "For Her · Milestones & Appreciation",
+    "description": "A heartfelt thank-you, beautifully done — a handwritten note, scented candle, engraved chopping board, and a curated basket of fine teas.",
+    "highlights": [
+      "Handwritten Note",
+      "200g Candle",
+      "Engraved Chopping Board",
+      "Teas Basket"
+    ],
+    "insideItems": [
+      "Handwritten note",
+      "200g scented candle",
+      "Engraved chopping board",
+      "Fine teas basket",
+      "Branded gift wrap and ribbon"
+    ],
+    "images": [
+      {
+        "url": "./mockup/bv.png",
+        "alt": "Some Thank You Love hanging gift boxes"
+      },
+      {
+        "url": "./mockup/BOX.png",
+        "alt": "Some Thank You Love wrapped gift box"
+      }
+    ]
+  }
+]
