@@ -66,7 +66,7 @@ ul{list-style:none;}
 .pd-gallery{position:sticky;top:130px;}
 .pd-main-img{aspect-ratio:4/5;overflow:hidden;border-radius:3px;background:var(--peach);}
 .pd-thumbs{display:flex;gap:10px;margin-top:12px;}
-.pd-thumb{width:72px;height:72px;border-radius:2px;overflow:hidden;border:2px solid transparent;cursor:pointer;flex-shrink:0;background:var(--tan);}
+.pd-thumb{width:72px;height:72px;border-radius:2px;overflow:hidden;border:2px solid transparent;cursor:pointer;flex-shrink:0;background:var(--tan);padding:0;}
 .pd-thumb.active,.pd-thumb:hover{border-color:var(--red);}
 .pd-thumb img{width:100%;height:100%;object-fit:cover;}
 
@@ -74,6 +74,7 @@ ul{list-style:none;}
 .pd-cat{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:var(--red);margin-bottom:12px;}
 .pd-name{font-family:var(--font-h);font-size:clamp(30px,3.5vw,52px);line-height:1.1;margin-bottom:16px;}
 .pd-price{font-family:var(--font-h);font-size:clamp(26px,2.8vw,38px);color:var(--ink);margin-bottom:22px;}
+.pd-stock{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);margin-bottom:18px;}
 .pd-desc{font-size:15px;font-weight:300;line-height:1.85;color:rgba(22,22,22,.7);margin-bottom:28px;max-width:480px;}
 .pd-tags{display:flex;flex-wrap:wrap;gap:8px;margin-bottom:32px;}
 .pd-tag{font-size:11px;padding:5px 12px;background:var(--peach);color:rgba(22,22,22,.7);border-radius:2px;}
@@ -97,6 +98,7 @@ ul{list-style:none;}
 
 .pd-atc{display:flex;gap:14px;flex-wrap:wrap;margin-bottom:18px;}
 .pd-atc .btn{flex:1;justify-content:center;}
+.pd-atc button.btn[disabled]{opacity:.55;cursor:not-allowed;background:rgba(22,22,22,.1);border-color:rgba(22,22,22,.1);color:rgba(22,22,22,.55);}
 .pd-note{font-size:12px;color:rgba(22,22,22,.45);line-height:1.6;}
 .pd-note strong{font-weight:600;color:var(--ink);}
 
@@ -261,6 +263,22 @@ ul{list-style:none;}
 </footer>
 
 <script>
+const StoreAPI = {
+  async getProduct(id) {
+    const res = await fetch(`/api/products/${encodeURIComponent(id)}`);
+    if (!res.ok) throw new Error('Product not found');
+    return res.json();
+  },
+
+  async getProducts(category) {
+    const params = new URLSearchParams();
+    if (category) params.set('category', category);
+    const res = await fetch(`/api/products${params.toString() ? `?${params.toString()}` : ''}`);
+    if (!res.ok) throw new Error('Could not load related products');
+    return res.json();
+  }
+};
+
 /* ── Cart ── */
 const BFCart = {
   key:'bfg_cart',
@@ -273,75 +291,55 @@ const BFCart = {
 
 function fmt(n){return'₦'+n.toLocaleString('en-NG');}
 
-/* ── Product Data ── */
-const PRODUCTS = {
-  'for-your-heart':{
-    id:'for-your-heart', category:'Little Luxes', customizable:true,
-    name:'For Your Heart',
-    price:75000,
-    img:'./mockup/boxes2.png',
-    imgs:['./mockup/boxes2.png','./mockup/BOX.png'],
-    desc:'A little reminder that they\'re loved — a personalised keychain, A5 notepad, fridge magnet, scented candle, and a "Thinking of You" card, all wrapped with love.',
-    items:['Personalised Keychain','A5 Notepad','Fridge Magnet','120g Scented Candle','Handwritten Greeting Card','Branded Gift Wrap & Ribbon'],
-    badge:'Bestseller',
-  },
-  'graced-and-grounded':{
-    id:'graced-and-grounded', category:'Little Luxes', customizable:true,
-    name:'Graced and Grounded',
-    price:80000,
-    img:'./mockup/BOX.png',
-    imgs:['./mockup/BOX.png','./mockup/boxes2.png'],
-    desc:'A gentle, grounding gesture — a curated mix of mug, journal, notes, and treats for the people who quietly hold it all together.',
-    items:['Mini Mug','Bookmark','A5 Notepad','Journal','Handwritten Note','Scented Candle','Treat Jar','Branded Gift Wrap & Ribbon'],
-    badge:null,
-  },
-  'some-thank-you-love':{
-    id:'some-thank-you-love', category:'Little Luxes', customizable:true,
-    name:'Some "Thank You Love"',
-    price:85000,
-    img:'./mockup/bv.png',
-    imgs:['./mockup/bv.png','./mockup/BOX.png'],
-    desc:'A heartfelt thank-you, beautifully done — a handwritten note, scented candle, engraved chopping board, and a curated basket of fine teas.',
-    items:['Handwritten Note','200g Scented Candle','Engraved Chopping Board','Fine Teas Basket','Branded Gift Wrap & Ribbon'],
-    badge:null,
-  },
-  'candle-trio':{
-    id:'candle-trio', category:'Little Luxes', customizable:false,
-    name:'Candle Trio',
-    price:45000,
-    img:'./PRODUCTS/Candle Trio.JPG',
-    imgs:['./PRODUCTS/Candle Trio.JPG'],
-    desc:'Three beautifully scented candles, curated for warmth and ambiance. A perfect gift for anyone who appreciates the soft glow of intentional living.',
-    items:['3 × Scented Candles (assorted)','Branded Gift Box & Tissue Paper'],
-    badge:'Bestseller',
-  },
-  'wallets-trio':{
-    id:'wallets-trio', category:'Little Luxes', customizable:false,
-    name:'Wallets Trio',
-    price:110000,
-    img:'./PRODUCTS/Wallets trio.JPG',
-    imgs:['./PRODUCTS/Wallets trio.JPG'],
-    desc:'Three premium leather wallets, elegantly packaged. An elevated gift for the person who appreciates craftsmanship and refined taste.',
-    items:['3 × Premium Leather Wallets','Branded Gift Box & Ribbon'],
-    badge:'Premium',
-  },
-  'chatty-mugs':{
-    id:'chatty-mugs', category:'Barefoot Bits', customizable:false,
-    name:'Chatty Mugs',
-    price:12000,
-    img:'./PRODUCTS/Chatty Mugs full.JPG',
-    imgs:['./PRODUCTS/Chatty Mugs full.JPG'],
-    desc:'A pair of playful, conversation-starting mugs for the friends, couples, or colleagues who finish each other\'s sentences. Ready-to-gift, no guesswork.',
-    items:['2 × Printed Mugs','Branded Wrapping'],
-    badge:'Affordable',
-  },
-};
+function escapeHTML(value){
+  return String(value ?? '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
 
-function renderProduct(p){
+function productKey(product){
+  return product.slug || String(product.id);
+}
+
+function getProductImages(product){
+  if (Array.isArray(product.images) && product.images.length) {
+    return product.images.map((image) => ({
+      url: image.url,
+      alt: image.alt || product.name,
+    }));
+  }
+
+  return [{
+    url: './Png Files/Logo-cropped.png',
+    alt: product.name,
+  }];
+}
+
+function buildProductDetails(product){
+  const details = [];
+  if (product.customizable) details.push('Personalize this product with your own text or uploaded artwork.');
+  if (Number(product.stock || 0) > 0) details.push(`${product.stock} ready to ship from the current collection.`);
+  else details.push('Currently unavailable while we restock this piece.');
+  if (product.badge) details.push(`${product.badge} in the Barefoot Gifting collection.`);
+  return details;
+}
+
+function renderProduct(product){
   const root = document.getElementById('pd-root');
-  document.title = p.name + ' — Barefoot Gifting';
+  const images = getProductImages(product);
+  const inStock = Number(product.stock || 0) > 0;
+  const details = buildProductDetails(product);
+  const tags = [
+    product.badge,
+    product.customizable ? 'Customizable' : null,
+    inStock ? `${product.stock} in stock` : 'Sold Out',
+  ].filter(Boolean);
+  document.title = product.name + ' — Barefoot Gifting';
 
-  const customHTML = p.customizable ? `
+  const customHTML = product.customizable ? `
     <div class="pd-custom">
       <div class="pd-custom-title">Personalise This Box</div>
       <label>Upload Image(s) for Customisation</label>
@@ -364,47 +362,51 @@ function renderProduct(p){
       <div class="breadcrumb">
         <a href="./index.html">Home</a> &nbsp;/&nbsp;
         <a href="./shop.html">Shop</a> &nbsp;/&nbsp;
-        <a href="./shop.html">${p.category}</a> &nbsp;/&nbsp;
-        <span>${p.name}</span>
+        <a href="./shop.html">${escapeHTML(product.category)}</a> &nbsp;/&nbsp;
+        <span>${escapeHTML(product.name)}</span>
       </div>
       <div class="pd-grid" style="margin-top:32px">
         <div class="pd-gallery">
           <div class="pd-main-img" id="main-img-wrap">
-            <img id="main-img" src="${p.imgs[0]}" alt="${p.name}">
+            <img id="main-img" src="${escapeHTML(images[0].url)}" alt="${escapeHTML(images[0].alt)}">
           </div>
-          ${p.imgs.length > 1 ? `<div class="pd-thumbs">${p.imgs.map((im,i)=>`<div class="pd-thumb${i===0?' active':''}" onclick="switchImg('${im}',this)"><img src="${im}" alt=""></div>`).join('')}</div>` : ''}
+          ${images.length > 1 ? `<div class="pd-thumbs">${images.map((image, index)=>`<button class="pd-thumb${index===0?' active':''}" type="button" data-thumb="${index}"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt)}"></button>`).join('')}</div>` : ''}
         </div>
         <div class="pd-info">
-          <div class="pd-cat">${p.category}${p.badge ? ` · <span style="color:var(--gold)">${p.badge}</span>` : ''}</div>
-          <h1 class="pd-name">${p.name}</h1>
-          <div class="pd-price">${fmt(p.price)}</div>
-          <p class="pd-desc">${p.desc}</p>
-          <div class="pd-tags">${(p.items||[]).map(t=>`<span class="pd-tag">${t}</span>`).join('')}</div>
+          <div class="pd-cat">${escapeHTML(product.category)}${product.badge ? ` · <span style="color:var(--gold)">${escapeHTML(product.badge)}</span>` : ''}</div>
+          <h1 class="pd-name">${escapeHTML(product.name)}</h1>
+          <div class="pd-price">${fmt(product.price)}</div>
+          <div class="pd-stock">${inStock ? 'In Stock' : 'Sold Out'}</div>
+          <p class="pd-desc">${escapeHTML(product.description || 'A thoughtfully selected gift from Barefoot Gifting, curated to make everyday moments feel intentional.')}</p>
+          <div class="pd-tags">${tags.map(tag=>`<span class="pd-tag">${escapeHTML(tag)}</span>`).join('')}</div>
           ${customHTML}
           <div class="pd-atc">
-            <button class="btn btn-p" id="atc-btn">Add to Cart <span class="arr">→</span></button>
+            <button class="btn btn-p" id="atc-btn" ${inStock ? '' : 'disabled'}>${inStock ? 'Add to Cart <span class="arr">→</span>' : 'Unavailable'}</button>
             <a href="./cart.html" class="btn btn-o">View Cart</a>
           </div>
           <p class="pd-note"><strong>Free delivery</strong> on orders above ₦45,000 within Abuja · Same-day delivery on orders before noon.</p>
           <div class="pd-divider"></div>
-          <div class="pd-inside-title">What's Inside</div>
+          <div class="pd-inside-title">Product Details</div>
           <div class="pd-inside-list">
-            ${(p.items||[]).map(i=>`<div class="pd-inside-item"><div class="pd-inside-dot"></div>${i}</div>`).join('')}
+            ${details.map(item=>`<div class="pd-inside-item"><div class="pd-inside-dot"></div>${escapeHTML(item)}</div>`).join('')}
           </div>
         </div>
       </div>
     </div>
   </section>`;
 
-  // Thumb switcher
-  window.switchImg = (src, el) => {
-    document.getElementById('main-img').src = src;
-    document.querySelectorAll('.pd-thumb').forEach(t=>t.classList.remove('active'));
-    el.classList.add('active');
-  };
+  document.querySelectorAll('[data-thumb]').forEach((thumb) => {
+    thumb.addEventListener('click', () => {
+      const image = images[Number(thumb.dataset.thumb)];
+      document.getElementById('main-img').src = image.url;
+      document.getElementById('main-img').alt = image.alt || product.name;
+      document.querySelectorAll('.pd-thumb').forEach(button => button.classList.remove('active'));
+      thumb.classList.add('active');
+    });
+  });
 
   // Upload feedback
-  if(p.customizable){
+  if(product.customizable){
     const inp = document.getElementById('file-input');
     const prev = document.getElementById('upload-preview');
     const area = document.getElementById('upload-area');
@@ -424,29 +426,38 @@ function renderProduct(p){
   }
 
   // Add to cart
-  document.getElementById('atc-btn').addEventListener('click', () => {
-    BFCart.add({id:p.id, name:p.name, price:p.price, img:p.imgs[0]});
-    const btn = document.getElementById('atc-btn');
-    btn.textContent = 'Added ✓';
-    setTimeout(()=>{btn.innerHTML='Add to Cart <span class="arr">→</span>';},900);
-  });
+  if (inStock) {
+    document.getElementById('atc-btn').addEventListener('click', () => {
+      BFCart.add({id:productKey(product), name:product.name, price:Number(product.price), img:images[0].url});
+      const btn = document.getElementById('atc-btn');
+      btn.textContent = 'Added ✓';
+      setTimeout(()=>{btn.innerHTML='Add to Cart <span class="arr">→</span>';},900);
+    });
+  }
 }
 
-function renderRelated(currentId){
-  const others = Object.values(PRODUCTS).filter(p=>p.id!==currentId).slice(0,3);
+function renderRelated(currentProduct, allProducts){
+  const others = allProducts
+    .filter(product => productKey(product) !== productKey(currentProduct))
+    .sort((a, b) => {
+      const aScore = a.category === currentProduct.category ? 1 : 0;
+      const bScore = b.category === currentProduct.category ? 1 : 0;
+      return bScore - aScore;
+    })
+    .slice(0,3);
   if(!others.length) return;
   document.getElementById('related-root').innerHTML = `
   <section class="related-sec">
     <div class="wrap">
       <h2>You might also love</h2>
       <div class="related-grid">
-        ${others.map(p=>`
-        <a class="rel-card" href="./product.html?id=${p.id}">
-          <div class="rel-img"><img src="${p.imgs[0]}" alt="${p.name}"></div>
+        ${others.map(product=>`
+        <a class="rel-card" href="./product.html?id=${encodeURIComponent(productKey(product))}">
+          <div class="rel-img"><img src="${escapeHTML(getProductImages(product)[0].url)}" alt="${escapeHTML(product.name)}"></div>
           <div class="rel-bd">
-            <div class="rel-cat">${p.category}</div>
-            <div class="rel-name">${p.name}</div>
-            <div class="rel-price">${fmt(p.price)}</div>
+            <div class="rel-cat">${escapeHTML(product.category)}</div>
+            <div class="rel-name">${escapeHTML(product.name)}</div>
+            <div class="rel-price">${fmt(product.price)}</div>
           </div>
         </a>`).join('')}
       </div>
@@ -459,13 +470,22 @@ document.addEventListener('DOMContentLoaded', () => {
   BFCart.updateBadge();
   const params = new URLSearchParams(window.location.search);
   const id = params.get('id');
-  const product = PRODUCTS[id];
-  if(!product){
+  if(!id){
     document.getElementById('pd-root').innerHTML = `<div class="pd-not-found">Product not found. <a href="./shop.html" style="color:var(--red);text-decoration:underline">Back to Shop</a></div>`;
     return;
   }
-  renderProduct(product);
-  renderRelated(id);
+
+  document.getElementById('pd-root').innerHTML = '<div class="pd-loading">Loading product…</div>';
+
+  Promise.all([StoreAPI.getProduct(id), StoreAPI.getProducts()])
+    .then(([product, products]) => {
+      renderProduct(product);
+      renderRelated(product, products);
+    })
+    .catch(() => {
+      document.getElementById('pd-root').innerHTML = `<div class="pd-not-found">Product not found. <a href="./shop.html" style="color:var(--red);text-decoration:underline">Back to Shop</a></div>`;
+      document.getElementById('related-root').innerHTML = '';
+    });
 });
 </script>
 </body>

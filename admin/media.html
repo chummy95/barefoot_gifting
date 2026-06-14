@@ -50,29 +50,52 @@
 if (AdminAPI.requireAuth()) {
   renderAdminShell('media');
 
+  function escapeHTML(value) {
+    return String(value ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function formatSize(size) {
+    if (!size) return 'Unknown size';
+    if (size < 1024) return `${size} B`;
+    if (size < 1024 * 1024) return `${Math.round(size / 1024)} KB`;
+    return `${(size / (1024 * 1024)).toFixed(1)} MB`;
+  }
+
   async function load() {
     const items = await AdminAPI.get('/media');
     const grid = document.getElementById('grid');
     if (!items.length) { grid.innerHTML = '<p class="empty">No media uploaded yet.</p>'; return; }
     grid.innerHTML = items.map(m => `
       <div class="img-card">
-        <img src="${m.url}" loading="lazy">
+        <img src="${escapeHTML(m.url)}" loading="lazy" alt="${escapeHTML(m.alt || m.filename)}">
         <div class="meta">
-          <div class="name" title="${m.filename}">${m.filename}</div>
-          <div class="muted">${(m.size_bytes/1024).toFixed(0)} KB</div>
-          <button class="btn btn-o btn-sm" onclick="copyUrl('${m.url}')">Copy URL</button>
-          <button class="btn btn-danger btn-sm" onclick="removeMedia(${m.id})">Delete</button>
+          <div class="name" title="${escapeHTML(m.filename)}">${escapeHTML(m.filename)}</div>
+          <div class="muted">${m.kind === 'site' ? 'Site asset' : 'Uploaded file'} · ${formatSize(m.size_bytes)}</div>
+          <button class="btn btn-o btn-sm" data-copy-url="${escapeHTML(m.url)}">Copy URL</button>
+          ${m.readonly ? '<button class="btn btn-o btn-sm" disabled>Read only</button>' : `<button class="btn btn-danger btn-sm" data-remove-id="${m.id}">Delete</button>`}
         </div>
       </div>
     `).join('');
-  }
 
-  window.copyUrl = (url) => { navigator.clipboard.writeText(url); };
-  window.removeMedia = async (id) => {
-    if (!confirm('Delete this file? Products using it will show a broken image.')) return;
-    await AdminAPI.del(`/media/${id}`);
-    load();
-  };
+    grid.querySelectorAll('[data-copy-url]').forEach((button) => {
+      button.addEventListener('click', () => {
+        navigator.clipboard.writeText(new URL(button.dataset.copyUrl, location.origin).href);
+      });
+    });
+
+    grid.querySelectorAll('[data-remove-id]').forEach((button) => {
+      button.addEventListener('click', async () => {
+        if (!confirm('Delete this file? Products using it will show a broken image.')) return;
+        await AdminAPI.del(`/media/${button.dataset.removeId}`);
+        load();
+      });
+    });
+  }
 
   document.getElementById('upload-btn').addEventListener('click', () => document.getElementById('upload').click());
   document.getElementById('upload').addEventListener('change', async (e) => {

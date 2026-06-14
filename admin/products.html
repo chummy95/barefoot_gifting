@@ -36,15 +36,11 @@
           <input type="search" id="search" placeholder="Search products…">
           <select id="cat-filter">
             <option value="">All categories</option>
-            <option>Greeting Cards</option>
-            <option>Barefoot Bits</option>
-            <option>Little Luxes</option>
-            <option>Stationery</option>
           </select>
           <select id="status-filter">
             <option value="">All statuses</option>
             <option value="published">Published</option>
-            <option value="draft">Draft</option>
+            <option value="draft">Unpublished</option>
           </select>
           <button class="btn btn-p" id="add-btn" style="margin-left:auto">+ Add Product</button>
         </div>
@@ -67,12 +63,8 @@
       <div class="row">
         <div class="field">
           <label>Category</label>
-          <select id="f-category" required>
-            <option>Greeting Cards</option>
-            <option>Barefoot Bits</option>
-            <option>Little Luxes</option>
-            <option>Stationery</option>
-          </select>
+          <input type="text" id="f-category" list="category-options" required>
+          <datalist id="category-options"></datalist>
         </div>
         <div class="field"><label>Price (₦)</label><input type="number" id="f-price" min="0" required></div>
       </div>
@@ -82,7 +74,7 @@
           <label>Status</label>
           <select id="f-status">
             <option value="published">Published</option>
-            <option value="draft">Draft</option>
+            <option value="draft">Unpublished</option>
           </select>
         </div>
       </div>
@@ -128,9 +120,48 @@
 if (AdminAPI.requireAuth()) {
   renderAdminShell('products');
 
+  const DEFAULT_CATEGORIES = ['Greeting Cards', 'Barefoot Bits', 'Little Luxes', 'Stationery'];
   let products = [];
   let editingId = null;
   let galleryImages = []; // {url, alt}
+
+  function escapeHTML(value) {
+    return String(value ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function statusLabel(status) {
+    return status === 'published' ? 'Published' : 'Unpublished';
+  }
+
+  function collectCategories() {
+    const seen = new Set();
+    const categories = [];
+    [...DEFAULT_CATEGORIES, ...products.map(product => product.category).filter(Boolean)].forEach((category) => {
+      if (seen.has(category)) return;
+      seen.add(category);
+      categories.push(category);
+    });
+    return categories;
+  }
+
+  function syncCategoryInputs() {
+    const categories = collectCategories();
+    const filter = document.getElementById('cat-filter');
+    const currentFilter = filter.value;
+    filter.innerHTML = '<option value="">All categories</option>' + categories.map(category => `
+      <option value="${escapeHTML(category)}">${escapeHTML(category)}</option>
+    `).join('');
+    if (categories.includes(currentFilter)) filter.value = currentFilter;
+
+    document.getElementById('category-options').innerHTML = categories.map(category => `
+      <option value="${escapeHTML(category)}"></option>
+    `).join('');
+  }
 
   async function load() {
     const params = new URLSearchParams();
@@ -139,6 +170,7 @@ if (AdminAPI.requireAuth()) {
     if (cat) params.set('category', cat);
     if (search) params.set('search', search);
     products = await AdminAPI.get('/products?' + params.toString());
+    syncCategoryInputs();
 
     const statusFilter = document.getElementById('status-filter').value;
     const filtered = statusFilter ? products.filter(p => p.status === statusFilter) : products;
@@ -150,14 +182,16 @@ if (AdminAPI.requireAuth()) {
     }
     rows.innerHTML = filtered.map(p => `
       <tr>
-        <td>${p.images?.[0] ? `<img class="thumb" src="${p.images[0].url}">` : '—'}</td>
-        <td>${p.name}</td>
-        <td>${p.category}</td>
+        <td>${p.images?.[0] ? `<img class="thumb" src="${escapeHTML(p.images[0].url)}" alt="${escapeHTML(p.name)}">` : '—'}</td>
+        <td>${escapeHTML(p.name)}</td>
+        <td>${escapeHTML(p.category)}</td>
         <td>${AdminAPI.money(p.price)}</td>
         <td>${p.stock}</td>
-        <td><span class="tag tag-${p.status}">${p.status}</span></td>
+        <td><span class="tag tag-${p.status}">${statusLabel(p.status)}</span></td>
         <td style="white-space:nowrap">
           <button class="btn btn-o btn-sm" onclick="editProduct(${p.id})">Edit</button>
+          <button class="btn btn-o btn-sm" onclick="duplicateProduct(${p.id})">Duplicate</button>
+          <button class="btn btn-o btn-sm" onclick="toggleProductStatus(${p.id})">${p.status === 'published' ? 'Unpublish' : 'Publish'}</button>
           <button class="btn btn-danger btn-sm" onclick="deleteProduct(${p.id})">Delete</button>
         </td>
       </tr>
@@ -174,6 +208,7 @@ if (AdminAPI.requireAuth()) {
     document.getElementById('product-form').reset();
     editingId = null;
     galleryImages = [];
+    document.getElementById('f-status').value = 'published';
     renderGallery();
   }
 
@@ -182,7 +217,7 @@ if (AdminAPI.requireAuth()) {
     if (!galleryImages.length) { g.innerHTML = '<p class="muted" style="font-size:12px">No images yet.</p>'; return; }
     g.innerHTML = galleryImages.map((img, i) => `
       <div class="img-card">
-        <img src="${img.url}">
+        <img src="${escapeHTML(img.url)}" alt="${escapeHTML(img.alt || '')}">
         <div class="meta">
           <div class="name">${i === 0 ? 'Cover image' : 'Image ' + (i+1)}</div>
           <button type="button" class="btn btn-danger btn-sm" onclick="removeGalleryImage(${i})">Remove</button>
@@ -208,6 +243,31 @@ if (AdminAPI.requireAuth()) {
     openModal('Edit Product');
   };
 
+  window.duplicateProduct = async (id) => {
+    const product = products.find(x => x.id === id);
+    if (!product) return;
+    const copyName = `${product.name} Copy`;
+    await AdminAPI.post('/products', {
+      name: copyName,
+      category: product.category,
+      price: Number(product.price),
+      stock: Number(product.stock || 0),
+      status: 'draft',
+      badge: product.badge || null,
+      customizable: !!product.customizable,
+      description: product.description || '',
+      images: (product.images || []).map(image => ({ url: image.url, alt: image.alt || copyName })),
+    });
+    load();
+  };
+
+  window.toggleProductStatus = async (id) => {
+    const product = products.find(x => x.id === id);
+    if (!product) return;
+    await AdminAPI.put(`/products/${id}`, { status: product.status === 'published' ? 'draft' : 'published' });
+    load();
+  };
+
   window.deleteProduct = async (id) => {
     if (!confirm('Delete this product? This cannot be undone.')) return;
     await AdminAPI.del(`/products/${id}`);
@@ -215,6 +275,8 @@ if (AdminAPI.requireAuth()) {
   };
 
   document.getElementById('add-btn').addEventListener('click', () => {
+    document.getElementById('product-form').reset();
+    document.getElementById('f-status').value = 'published';
     galleryImages = [];
     renderGallery();
     openModal('Add Product');

@@ -98,8 +98,13 @@ module.exports = async (req, res) => {
     const id = segments[0];
 
     if (req.method === 'GET') {
+      const auth = requireAuthOptional(req);
+      const isAdmin = auth && auth.role === 'admin';
       const product = await findProduct(id);
       if (!product) return res.status(404).json({ error: 'Product not found' });
+      if (!isAdmin && product.status !== 'published') {
+        return res.status(404).json({ error: 'Product not found' });
+      }
       const { rows: images } = await sql`SELECT * FROM product_images WHERE product_id = ${product.id} ORDER BY position ASC`;
       return res.status(200).json({ ...product, images });
     }

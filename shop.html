@@ -162,17 +162,22 @@ ul { list-style:none; }
 /* Products Grid */
 .products-sec { background:var(--cream); padding:clamp(48px,6vw,80px) 0; }
 .products-grid { display:grid; grid-template-columns:repeat(4,1fr); gap:24px; }
+.products-empty { grid-column:1 / -1; padding:44px 0; text-align:center; font-size:14px; color:rgba(22,22,22,.55); }
 .pc { display:flex; flex-direction:column; }
+.pc-img-link { display:block; width:100%; height:100%; }
+.pc-bd-link { display:block; padding:14px 0 0; color:inherit; }
 .pc-img { aspect-ratio:3/4; overflow:hidden; background:var(--peach); position:relative; border-radius:2px; }
 .pc-img img { transition:transform .5s; }
 .pc:hover .pc-img img { transform:scale(1.04); }
-.qadd { position:absolute; bottom:0; left:0; right:0; background:var(--sage); color:var(--ink); text-align:center; padding:12px; font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; transform:translateY(100%); transition:transform .25s; cursor:pointer; }
+.qadd { position:absolute; bottom:0; left:0; right:0; background:var(--sage); color:var(--ink); text-align:center; padding:12px; font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase; transform:translateY(100%); transition:transform .25s; cursor:pointer; border:none; font-family:var(--font-b); }
 .pc:hover .qadd { transform:translateY(0); }
+.qadd[disabled] { transform:translateY(0); cursor:not-allowed; background:rgba(22,22,22,.12); color:rgba(22,22,22,.6); }
 .pbadge { position:absolute; top:12px; left:12px; background:var(--red); color:#fff; font-size:9px; font-weight:800; letter-spacing:.1em; text-transform:uppercase; padding:4px 10px; }
 .pc-bd { padding:14px 0 0; }
 .pc-cat { font-size:10px; font-weight:600; letter-spacing:.15em; text-transform:uppercase; margin-bottom:4px; color:rgba(22,22,22,.45); }
 .pc-name { font-family:var(--font-h); font-size:clamp(14px,1.1vw,18px); line-height:1.25; margin-bottom:6px; }
 .pc-price { font-family:var(--font-h); font-size:18px; color:var(--red); }
+.products-meta { font-size:12px; color:rgba(22,22,22,.5); }
 .load-more { text-align:center; margin-top:52px; }
 
 /* Occasion Strip */
@@ -292,515 +297,17 @@ ul { list-style:none; }
 <!-- Filter Bar -->
 <div class="filter-bar">
   <div class="wrap">
-    <div class="filter-wrap">
-      <button class="filter-pill active">All</button>
-      <button class="filter-pill">Greeting Cards</button>
-      <button class="filter-pill">Barefoot Bits</button>
-      <button class="filter-pill">Little Luxes</button>
-      <button class="filter-pill">Stationery</button>
-            <button class="filter-pill">New Arrivals</button>
-    </div>
+    <div class="filter-wrap" id="filter-wrap"></div>
   </div>
 </div>
 
 <!-- Products Grid -->
 <section class="products-sec">
   <div class="wrap">
-    <div class="products-grid">
-
-      <div class="pc" data-cat="Greeting Cards" data-new="true" data-id="coke-fanta" data-name="Coke &amp; Fanta" data-price="4500" data-img="./PRODUCTS/Coke and Fanta.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Coke and Fanta.JPG" alt="Coke & Fanta Card">
-          <span class="pbadge">New</span>
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Coke &amp; Fanta</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-
-      <div class="pc" data-cat="Barefoot Bits" data-id="chatty-mugs" onclick="location.href='./product.html?id=chatty-mugs'" style="cursor:pointer" data-name="Chatty Mugs" data-price="12000" data-img="./PRODUCTS/Chatty Mugs full.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Chatty Mugs full.JPG" alt="Chatty Mugs">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Barefoot Bits</div>
-          <div class="pc-name">Chatty Mugs</div>
-          <div class="pc-price">₦12,000</div>
-        </div>
-      </div>
-
-      <div class="pc" data-cat="Little Luxes" data-id="candle-trio" onclick="location.href='./product.html?id=candle-trio'" style="cursor:pointer" data-name="Candle Trio" data-price="45000" data-img="./PRODUCTS/Candle Trio.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Candle Trio.JPG" alt="Candle Trio">
-          <span class="pbadge">Bestseller</span>
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Little Luxes</div>
-          <div class="pc-name">Candle Trio</div>
-          <div class="pc-price">₦45,000</div>
-        </div>
-      </div>
-
-      <div class="pc" data-cat="Stationery" data-id="large-notebooks" data-name="Large Notebooks" data-price="20000" data-img="./PRODUCTS/Large notebooks.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Large notebooks.JPG" alt="Large Notebooks">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Stationery</div>
-          <div class="pc-name">Large Notebooks</div>
-          <div class="pc-price">₦20,000</div>
-        </div>
-      </div>
-
-      <div class="pc" data-cat="Greeting Cards" data-id="safe-place" data-name="Safe Place" data-price="4500" data-img="./PRODUCTS/Safe Place.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Safe Place.JPG" alt="Safe Place Card">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Safe Place</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-
-      <div class="pc" data-cat="Greeting Cards" data-id="tear-rubber" data-name="Tear Rubber" data-price="4500" data-img="./PRODUCTS/Tear Rubber.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Tear Rubber.JPG" alt="Tear Rubber Card">
-          <span class="pbadge">Fan Fave</span>
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Tear Rubber</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-
-      <div class="pc" data-cat="Greeting Cards" data-id="vintage-birthday" data-name="Vintage Birthday" data-price="4500" data-img="./PRODUCTS/Vintage birthday.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Vintage birthday.JPG" alt="Vintage Birthday Card">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Vintage Birthday</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-
-      <div class="pc" data-cat="Little Luxes" data-id="wallets-trio" onclick="location.href='./product.html?id=wallets-trio'" style="cursor:pointer" data-name="Wallets Trio" data-price="110000" data-img="./PRODUCTS/Wallets trio.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Wallets trio.JPG" alt="Wallets Trio">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Little Luxes</div>
-          <div class="pc-name">Wallets Trio</div>
-          <div class="pc-price">₦110,000</div>
-        </div>
-      </div>
-
-      <div class="pc" data-cat="Greeting Cards" data-id="cool-kid" data-name="Cool Kid" data-price="4500" data-img="./PRODUCTS/Cool kid.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Cool kid.JPG" alt="Cool Kid Card">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Cool Kid</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-
-      <div class="pc" data-cat="Greeting Cards" data-new="true" data-id="money-birthday" data-name="Money Birthday" data-price="4500" data-img="./PRODUCTS/Money birthday card.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Money birthday card.JPG" alt="Money Birthday Card">
-          <span class="pbadge">New</span>
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Money Birthday</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-
-      <div class="pc" data-cat="Greeting Cards" data-id="sunshine-birthday" data-name="Sunshine Birthday" data-price="4500" data-img="./PRODUCTS/Sunshine birthday.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Sunshine birthday.JPG" alt="Sunshine Birthday Card">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Sunshine Birthday</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-
-      <div class="pc" data-cat="Greeting Cards" data-id="christmas-goat" data-name="Christmas Goat" data-price="4500" data-img="./PRODUCTS/Christmas Goat.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Christmas Goat.JPG" alt="Christmas Goat">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Christmas Goat</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="dj-hbd" data-name="DJ HBD" data-price="4500" data-img="./PRODUCTS/Dj HBD.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Dj HBD.JPG" alt="DJ HBD">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">DJ HBD</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="father-xmas" data-name="Father Xmas" data-price="4500" data-img="./PRODUCTS/Father Xmas.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Father Xmas.JPG" alt="Father Xmas">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Father Xmas</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="here-begins-a-new-beginning" data-name="Here Begins A New Beginning" data-price="4500" data-img="./PRODUCTS/Here begins a New beginning.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Here begins a New beginning.JPG" alt="Here Begins A New Beginning">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Here Begins A New Beginning</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="love-between-the-lines" data-name="Love Between The Lines" data-price="4500" data-img="./PRODUCTS/Love between the lines.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Love between the lines.JPG" alt="Love Between The Lines">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Love Between The Lines</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="sacred-xmas" data-name="Sacred Xmas" data-price="4500" data-img="./PRODUCTS/Sacred Xmas.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Sacred Xmas.JPG" alt="Sacred Xmas">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Sacred Xmas</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="belated-birthday" data-name="Belated Birthday" data-price="4500" data-img="./PRODUCTS/belated bday.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/belated bday.JPG" alt="Belated Birthday">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Belated Birthday</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="best-child-gift" data-name="Best Child Gift" data-price="4500" data-img="./PRODUCTS/best child gift.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/best child gift.JPG" alt="Best Child Gift">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Best Child Gift</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="forever-16" data-name="Forever 16" data-price="4500" data-img="./PRODUCTS/forever 16.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/forever 16.JPG" alt="Forever 16">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Forever 16</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="i-choose-you" data-name="I Choose You" data-price="4500" data-img="./PRODUCTS/i Choose You.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/i Choose You.JPG" alt="I Choose You">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">I Choose You</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="mustard-seed" data-name="Mustard Seed" data-price="4500" data-img="./PRODUCTS/mustard seed.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/mustard seed.JPG" alt="Mustard Seed">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Mustard Seed</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="summer-santa" data-name="Summer Santa" data-price="4500" data-img="./PRODUCTS/summer santa.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/summer santa.JPG" alt="Summer Santa">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Summer Santa</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="teenage-children-s-day" data-name="Teenage Children&#39;s Day" data-price="4500" data-img="./PRODUCTS/teenage childrens day.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/teenage childrens day.JPG" alt="Teenage Children's Day">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Teenage Children's Day</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="xmas-compound" data-name="Xmas Compound" data-price="4500" data-img="./PRODUCTS/xmas compound.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/xmas compound.JPG" alt="Xmas Compound">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Xmas Compound</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Greeting Cards" data-id="crossed-my-heart" data-name="Crossed My Heart" data-price="4500" data-img="./PRODUCTS/Crossed My heart.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Crossed My heart.JPG" alt="Crossed My Heart">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Greeting Cards</div>
-          <div class="pc-name">Crossed My Heart</div>
-          <div class="pc-price">₦4,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Barefoot Bits" data-id="cutie-pie-mug" data-name="Cutie Pie Mug" data-price="3000" data-img="./PRODUCTS/cutie_pie_mug.png">
-        <div class="pc-img">
-          <img src="./PRODUCTS/cutie_pie_mug.png" alt="Cutie Pie Mug">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Barefoot Bits</div>
-          <div class="pc-name">Cutie Pie Mug</div>
-          <div class="pc-price">₦3,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Barefoot Bits" data-id="handle-with-care-mug" data-name="Handle With Care Mug" data-price="3000" data-img="./PRODUCTS/handle_with_care_mug.png">
-        <div class="pc-img">
-          <img src="./PRODUCTS/handle_with_care_mug.png" alt="Handle With Care Mug">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Barefoot Bits</div>
-          <div class="pc-name">Handle With Care Mug</div>
-          <div class="pc-price">₦3,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Barefoot Bits" data-id="just-a-girl-mug" data-name="Just A Girl Mug" data-price="3000" data-img="./PRODUCTS/just_a_girl_mug.png">
-        <div class="pc-img">
-          <img src="./PRODUCTS/just_a_girl_mug.png" alt="Just A Girl Mug">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Barefoot Bits</div>
-          <div class="pc-name">Just A Girl Mug</div>
-          <div class="pc-price">₦3,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Barefoot Bits" data-id="loved-at-home-mug" data-name="Loved At Home Mug" data-price="3000" data-img="./PRODUCTS/loved_at_home_mug.png">
-        <div class="pc-img">
-          <img src="./PRODUCTS/loved_at_home_mug.png" alt="Loved At Home Mug">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Barefoot Bits</div>
-          <div class="pc-name">Loved At Home Mug</div>
-          <div class="pc-price">₦3,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Barefoot Bits" data-id="oga-madam-mug" data-name="Oga Madam Mug" data-price="3000" data-img="./PRODUCTS/oga_madam_mug.png">
-        <div class="pc-img">
-          <img src="./PRODUCTS/oga_madam_mug.png" alt="Oga Madam Mug">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Barefoot Bits</div>
-          <div class="pc-name">Oga Madam Mug</div>
-          <div class="pc-price">₦3,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Barefoot Bits" data-id="only-moneyger-mug" data-name="Only Moneyger Mug" data-price="3000" data-img="./PRODUCTS/only_moneyger_mug.png">
-        <div class="pc-img">
-          <img src="./PRODUCTS/only_moneyger_mug.png" alt="Only Moneyger Mug">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Barefoot Bits</div>
-          <div class="pc-name">Only Moneyger Mug</div>
-          <div class="pc-price">₦3,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Barefoot Bits" data-id="partner-par-excellence-mug" data-name="Partner Par Excellence Mug" data-price="3000" data-img="./PRODUCTS/partner_par_excellence_mug.png">
-        <div class="pc-img">
-          <img src="./PRODUCTS/partner_par_excellence_mug.png" alt="Partner Par Excellence Mug">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Barefoot Bits</div>
-          <div class="pc-name">Partner Par Excellence Mug</div>
-          <div class="pc-price">₦3,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Barefoot Bits" data-id="soft-era-mug" data-name="Soft Era Mug" data-price="3000" data-img="./PRODUCTS/soft_era_mug.png">
-        <div class="pc-img">
-          <img src="./PRODUCTS/soft_era_mug.png" alt="Soft Era Mug">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Barefoot Bits</div>
-          <div class="pc-name">Soft Era Mug</div>
-          <div class="pc-price">₦3,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Barefoot Bits" data-id="woman-of-impact-mug" data-name="Woman Of Impact Mug" data-price="3000" data-img="./PRODUCTS/woman_of_impact_mug.png">
-        <div class="pc-img">
-          <img src="./PRODUCTS/woman_of_impact_mug.png" alt="Woman Of Impact Mug">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Barefoot Bits</div>
-          <div class="pc-name">Woman Of Impact Mug</div>
-          <div class="pc-price">₦3,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Barefoot Bits" data-id="slate-chatty-mug" data-name="Slate Chatty Mug" data-price="3000" data-img="./PRODUCTS/Slate chatty mug.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Slate chatty mug.JPG" alt="Slate Chatty Mug">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Barefoot Bits</div>
-          <div class="pc-name">Slate Chatty Mug</div>
-          <div class="pc-price">₦3,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Stationery" data-id="baw-large-notebook" data-name="BAW Large Notebook" data-price="20000" data-img="./PRODUCTS/BAW Large notebook.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/BAW Large notebook.JPG" alt="BAW Large Notebook">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Stationery</div>
-          <div class="pc-name">BAW Large Notebook</div>
-          <div class="pc-price">₦20,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Stationery" data-id="blank-notepad" data-name="Blank Notepad" data-price="6500" data-img="./PRODUCTS/Blank noepad.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Blank noepad.JPG" alt="Blank Notepad">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Stationery</div>
-          <div class="pc-name">Blank Notepad</div>
-          <div class="pc-price">₦6,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Stationery" data-id="connecting-dots-large-notebook" data-name="Connecting Dots Large Notebook" data-price="20000" data-img="./PRODUCTS/Connecting dots Large Notebook.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Connecting dots Large Notebook.JPG" alt="Connecting Dots Large Notebook">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Stationery</div>
-          <div class="pc-name">Connecting Dots Large Notebook</div>
-          <div class="pc-price">₦20,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Stationery" data-id="little-lemons-notebook" data-name="Little Lemons Notebook" data-price="18000" data-img="./PRODUCTS/Little Lemons notebook.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Little Lemons notebook.JPG" alt="Little Lemons Notebook">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Stationery</div>
-          <div class="pc-name">Little Lemons Notebook</div>
-          <div class="pc-price">₦18,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Stationery" data-id="waves-and-shells-notepad" data-name="Waves And Shells Notepad" data-price="6500" data-img="./PRODUCTS/Notepads Waves and shells.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Notepads Waves and shells.JPG" alt="Waves And Shells Notepad">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Stationery</div>
-          <div class="pc-name">Waves And Shells Notepad</div>
-          <div class="pc-price">₦6,500</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Little Luxes" data-id="mini-candle" data-name="Mini Candle" data-price="15000" data-img="./PRODUCTS/Mini candle.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Mini candle.JPG" alt="Mini Candle">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Little Luxes</div>
-          <div class="pc-name">Mini Candle</div>
-          <div class="pc-price">₦15,000</div>
-        </div>
-      </div>
-      <div class="pc" data-cat="Little Luxes" data-id="standard-candle" data-name="Standard Candle" data-price="28000" data-img="./PRODUCTS/Standard Candle.JPG">
-        <div class="pc-img">
-          <img src="./PRODUCTS/Standard Candle.JPG" alt="Standard Candle">
-          <div class="qadd">Quick Add</div>
-        </div>
-        <div class="pc-bd">
-          <div class="pc-cat">Little Luxes</div>
-          <div class="pc-name">Standard Candle</div>
-          <div class="pc-price">₦28,000</div>
-        </div>
-      </div>
-
+    <div class="products-grid" id="products-grid">
+      <div class="products-empty">Loading the collection…</div>
     </div>
-    <div class="load-more">
-      <button class="btn btn-o">Load More <span class="arr">→</span></button>
-    </div>
+    <div class="load-more products-meta" id="products-meta"></div>
   </div>
 </section>
 
@@ -988,6 +495,14 @@ ul { list-style:none; }
 </footer>
 
 <script>
+const StoreAPI = {
+  async getProducts() {
+    const res = await fetch('/api/products');
+    if (!res.ok) throw new Error('Could not load products');
+    return res.json();
+  }
+};
+
 const BFCart = {
   key: 'bfg_cart',
   get() { return JSON.parse(localStorage.getItem(this.key) || '[]'); },
@@ -1011,33 +526,115 @@ const BFCart = {
   updateBadge() { document.querySelectorAll('.cart-badge').forEach(b => b.textContent = this.count()); }
 };
 
-document.addEventListener('DOMContentLoaded', () => {
-  BFCart.updateBadge();
+const SHOP_STATE = {
+  products: [],
+  activeFilter: 'All',
+};
 
-  // Filter pills
-  document.querySelectorAll('.filter-pill').forEach(pill => {
+function escapeHTML(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function fmt(n) {
+  return '₦' + Number(n || 0).toLocaleString('en-NG');
+}
+
+function productKey(product) {
+  return product.slug || String(product.id);
+}
+
+function productLink(product) {
+  return `./product.html?id=${encodeURIComponent(productKey(product))}`;
+}
+
+function coverImage(product) {
+  return product.images?.[0]?.url || './Png Files/Logo-cropped.png';
+}
+
+function isNewProduct(product) {
+  return String(product.badge || '').toLowerCase() === 'new';
+}
+
+function isInStock(product) {
+  return Number(product.stock || 0) > 0;
+}
+
+function getVisibleProducts() {
+  if (SHOP_STATE.activeFilter === 'All') return SHOP_STATE.products;
+  if (SHOP_STATE.activeFilter === 'New Arrivals') {
+    return SHOP_STATE.products.filter(isNewProduct);
+  }
+  return SHOP_STATE.products.filter(product => product.category === SHOP_STATE.activeFilter);
+}
+
+function renderFilters() {
+  const categories = [...new Set(SHOP_STATE.products.map(product => product.category).filter(Boolean))];
+  const labels = ['All', ...categories, 'New Arrivals'];
+  const filterWrap = document.getElementById('filter-wrap');
+
+  filterWrap.innerHTML = labels.map(label => `
+    <button class="filter-pill${SHOP_STATE.activeFilter === label ? ' active' : ''}" data-filter="${escapeHTML(label)}">${escapeHTML(label)}</button>
+  `).join('');
+
+  filterWrap.querySelectorAll('[data-filter]').forEach((pill) => {
     pill.addEventListener('click', () => {
-      document.querySelectorAll('.filter-pill').forEach(p => p.classList.remove('active'));
-      pill.classList.add('active');
-
-      const label = pill.textContent.trim();
-      document.querySelectorAll('.pc').forEach(card => {
-        if (label === 'All') {
-          card.style.display = '';
-        } else if (label === 'New Arrivals') {
-          card.style.display = card.dataset.new === 'true' ? '' : 'none';
-        } else {
-          card.style.display = card.dataset.cat === label ? '' : 'none';
-        }
-      });
+      SHOP_STATE.activeFilter = pill.dataset.filter;
+      renderFilters();
+      renderProducts();
     });
   });
+}
 
-  // Quick Add buttons
-  document.querySelectorAll('.qadd').forEach(btn => {
-    btn.addEventListener('click', e => {
-      e.stopPropagation();
-      const card = btn.closest('.pc');
+function renderProducts() {
+  const grid = document.getElementById('products-grid');
+  const meta = document.getElementById('products-meta');
+  const visibleProducts = getVisibleProducts();
+
+  if (!visibleProducts.length) {
+    grid.innerHTML = '<div class="products-empty">No products match this view yet.</div>';
+    meta.textContent = '';
+    return;
+  }
+
+  grid.innerHTML = visibleProducts.map((product) => {
+    const soldOut = !isInStock(product);
+    const badge = soldOut ? 'Sold Out' : product.badge;
+    const badgeHTML = badge ? `<span class="pbadge">${escapeHTML(badge)}</span>` : '';
+    const link = productLink(product);
+    const image = coverImage(product);
+    const key = productKey(product);
+
+    return `
+      <article class="pc" data-id="${escapeHTML(key)}" data-name="${escapeHTML(product.name)}" data-price="${Number(product.price || 0)}" data-img="${escapeHTML(image)}">
+        <div class="pc-img">
+          <a class="pc-img-link" href="${link}" aria-label="View ${escapeHTML(product.name)}">
+            <img src="${escapeHTML(image)}" alt="${escapeHTML(product.name)}">
+            ${badgeHTML}
+          </a>
+          <button class="qadd" type="button" ${soldOut ? 'disabled' : ''}>${soldOut ? 'Sold Out' : 'Quick Add'}</button>
+        </div>
+        <a class="pc-bd-link" href="${link}">
+          <div class="pc-bd">
+            <div class="pc-cat">${escapeHTML(product.category)}</div>
+            <div class="pc-name">${escapeHTML(product.name)}</div>
+            <div class="pc-price">${fmt(product.price)}</div>
+          </div>
+        </a>
+      </article>
+    `;
+  }).join('');
+
+  meta.textContent = `${visibleProducts.length} product${visibleProducts.length === 1 ? '' : 's'} showing`;
+
+  grid.querySelectorAll('.qadd:not([disabled])').forEach((button) => {
+    button.addEventListener('click', (event) => {
+      event.preventDefault();
+      const card = button.closest('.pc');
       BFCart.add({
         id: card.dataset.id,
         name: card.dataset.name,
@@ -1045,12 +642,34 @@ document.addEventListener('DOMContentLoaded', () => {
         img: card.dataset.img
       });
 
-      // Brief feedback
-      const orig = btn.textContent;
-      btn.textContent = 'Added!';
-      setTimeout(() => { btn.textContent = orig; }, 900);
+      const originalLabel = button.textContent;
+      button.textContent = 'Added!';
+      setTimeout(() => {
+        button.textContent = originalLabel;
+      }, 900);
     });
   });
+}
+
+async function loadProducts() {
+  const grid = document.getElementById('products-grid');
+  const meta = document.getElementById('products-meta');
+  grid.innerHTML = '<div class="products-empty">Loading the collection…</div>';
+  meta.textContent = '';
+
+  try {
+    SHOP_STATE.products = await StoreAPI.getProducts();
+    renderFilters();
+    renderProducts();
+  } catch (error) {
+    grid.innerHTML = '<div class="products-empty">The collection could not be loaded right now. Please try again shortly.</div>';
+  }
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  BFCart.updateBadge();
+  renderFilters();
+  loadProducts();
 });
 </script>
 </body>

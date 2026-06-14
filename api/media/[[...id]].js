@@ -1,12 +1,86 @@
+const fs = require('fs');
+const path = require('path');
 const { put } = require('@vercel/blob');
 const { del } = require('@vercel/blob');
 const { sql } = require('../_lib/db');
 const { requireAuth } = require('../_lib/auth');
 const { cors } = require('../_lib/cors');
 
+const SITE_MEDIA_DIRS = ['PRODUCTS', 'mockup', 'Png Files', 'Jpeg Files', 'SVG'];
+const IMAGE_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg']);
+
 function getSegments(queryValue) {
   if (!queryValue) return [];
   return Array.isArray(queryValue) ? queryValue : [queryValue];
+}
+
+function walkDir(dirPath, fileList = []) {
+  if (!fs.existsSync(dirPath)) return fileList;
+
+  for (const entry of fs.readdirSync(dirPath, { withFileTypes: true })) {
+    const fullPath = path.join(dirPath, entry.name);
+    if (entry.isDirectory()) {
+      walkDir(fullPath, fileList);
+      continue;
+    }
+    fileList.push(fullPath);
+  }
+
+  return fileList;
+}
+
+function humanizeFilename(filename) {
+  return filename
+    .replace(/\.[^.]+$/, '')
+    .replace(/[_-]+/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function getMimeType(ext) {
+  switch (ext) {
+    case '.png': return 'image/png';
+    case '.jpg':
+    case '.jpeg': return 'image/jpeg';
+    case '.webp': return 'image/webp';
+    case '.gif': return 'image/gif';
+    case '.svg': return 'image/svg+xml';
+    default: return null;
+  }
+}
+
+function getSiteMedia() {
+  const root = process.cwd();
+  const assets = [];
+
+  for (const dirName of SITE_MEDIA_DIRS) {
+    const absoluteDir = path.join(root, dirName);
+    const files = walkDir(absoluteDir);
+
+    for (const filePath of files) {
+      const ext = path.extname(filePath).toLowerCase();
+      if (!IMAGE_EXTENSIONS.has(ext)) continue;
+
+      const relativePath = path.relative(root, filePath).replace(/\\/g, '/');
+      const stat = fs.statSync(filePath);
+      assets.push({
+        id: `site:${relativePath}`,
+        url: encodeURI(`/${relativePath}`),
+        filename: path.basename(filePath),
+        mime_type: getMimeType(ext),
+        size_bytes: stat.size,
+        alt: humanizeFilename(path.basename(filePath)),
+        uploaded_by: null,
+        created_at: stat.mtime.toISOString(),
+        kind: 'site',
+        source: 'site',
+        readonly: true,
+      });
+    }
+  }
+
+  assets.sort((a, b) => a.filename.localeCompare(b.filename));
+  return assets;
 }
 
 module.exports = async (req, res) => {
@@ -20,7 +94,13 @@ module.exports = async (req, res) => {
   if (segments.length === 0) {
     if (req.method === 'GET') {
       const { rows } = await sql`SELECT * FROM media ORDER BY created_at DESC LIMIT 200`;
-      return res.status(200).json(rows);
+      const uploads = rows.map(row => ({
+        ...row,
+        kind: 'uploaded',
+        source: 'uploads',
+        readonly: false,
+      }));
+      return res.status(200).json([...uploads, ...getSiteMedia()]);
     }
 
     if (req.method === 'POST') {
