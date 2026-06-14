@@ -273,7 +273,7 @@ const StoreAPI = {
   async getProducts(category) {
     const params = new URLSearchParams();
     if (category) params.set('category', category);
-    const res = await fetch(`/api/products${params.toString() ? `?${params.toString()}` : ''}`);
+    const res = await fetch(`/api/products/__root__${params.toString() ? `?${params.toString()}` : ''}`);
     if (!res.ok) throw new Error('Could not load related products');
     return res.json();
   }

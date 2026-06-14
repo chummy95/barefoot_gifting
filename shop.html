@@ -497,7 +497,7 @@ ul { list-style:none; }
 <script>
 const StoreAPI = {
   async getProducts() {
-    const res = await fetch('/api/products');
+    const res = await fetch('/api/products/__root__');
     if (!res.ok) throw new Error('Could not load products');
     return res.json();
   }

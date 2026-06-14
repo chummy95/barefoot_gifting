@@ -169,7 +169,7 @@ if (AdminAPI.requireAuth()) {
     const search = document.getElementById('search').value;
     if (cat) params.set('category', cat);
     if (search) params.set('search', search);
-    products = await AdminAPI.get('/products?' + params.toString());
+    products = await AdminAPI.get('/products/__root__' + (params.toString() ? '?' + params.toString() : ''));
     syncCategoryInputs();
 
     const statusFilter = document.getElementById('status-filter').value;

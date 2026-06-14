@@ -57,7 +57,7 @@ if (AdminAPI.requireAuth()) {
 
   async function load() {
     const status = document.getElementById('status-filter').value;
-    const items = await AdminAPI.get('/comments' + (status ? `?status=${status}` : ''));
+    const items = await AdminAPI.get('/comments/__root__' + (status ? `?status=${status}` : ''));
     const rows = document.getElementById('rows');
     if (!items.length) { rows.innerHTML = '<tr><td colspan="7" class="empty">Nothing here.</td></tr>'; return; }
     rows.innerHTML = items.map(c => `

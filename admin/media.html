@@ -67,7 +67,7 @@ if (AdminAPI.requireAuth()) {
   }
 
   async function load() {
-    const items = await AdminAPI.get('/media');
+    const items = await AdminAPI.get('/media/__root__');
     const grid = document.getElementById('grid');
     if (!items.length) { grid.innerHTML = '<p class="empty">No media uploaded yet.</p>'; return; }
     grid.innerHTML = items.map(m => `
