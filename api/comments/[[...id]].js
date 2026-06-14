@@ -1,16 +1,12 @@
 const { sql } = require('../_lib/db');
 const { requireAuth, verifyToken, getTokenFromReq } = require('../_lib/auth');
 const { cors } = require('../_lib/cors');
-
-function getSegments(queryValue) {
-  if (!queryValue) return [];
-  return Array.isArray(queryValue) ? queryValue : [queryValue];
-}
+const { getSegments } = require('../_lib/path-segments');
 
 module.exports = async (req, res) => {
   if (cors(req, res)) return;
 
-  const segments = getSegments(req.query.id);
+  const segments = getSegments(req, '/api/comments');
 
   if (segments.length === 0) {
     if (req.method === 'GET') {

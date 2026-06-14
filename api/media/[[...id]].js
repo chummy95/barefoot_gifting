@@ -5,14 +5,10 @@ const { del } = require('@vercel/blob');
 const { sql } = require('../_lib/db');
 const { requireAuth } = require('../_lib/auth');
 const { cors } = require('../_lib/cors');
+const { getSegments } = require('../_lib/path-segments');
 
 const SITE_MEDIA_DIRS = ['PRODUCTS', 'mockup', 'Png Files', 'Jpeg Files', 'SVG'];
 const IMAGE_EXTENSIONS = new Set(['.png', '.jpg', '.jpeg', '.webp', '.gif', '.svg']);
-
-function getSegments(queryValue) {
-  if (!queryValue) return [];
-  return Array.isArray(queryValue) ? queryValue : [queryValue];
-}
 
 function walkDir(dirPath, fileList = []) {
   if (!fs.existsSync(dirPath)) return fileList;
@@ -89,7 +85,7 @@ module.exports = async (req, res) => {
   const user = requireAuth(req, res, ['admin']);
   if (!user) return;
 
-  const segments = getSegments(req.query.id);
+  const segments = getSegments(req, '/api/media');
 
   if (segments.length === 0) {
     if (req.method === 'GET') {

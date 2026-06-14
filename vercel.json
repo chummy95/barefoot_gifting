@@ -1,6 +1,10 @@
 {
   "version": 2,
   "rewrites": [
+    { "source": "/api/products", "destination": "/api/products/__root__" },
+    { "source": "/api/media", "destination": "/api/media/__root__" },
+    { "source": "/api/orders", "destination": "/api/orders/__root__" },
+    { "source": "/api/comments", "destination": "/api/comments/__root__" },
     { "source": "/admin", "destination": "/admin/index.html" },
     { "source": "/account", "destination": "/account/index.html" }
   ]
