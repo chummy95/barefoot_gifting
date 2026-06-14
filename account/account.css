@@ -3,7 +3,41 @@
 /* Customer-facing tweaks: warmer, matches storefront */
 body { background:var(--cream); }
 .login-wrap { background:linear-gradient(135deg,var(--cream),var(--peach)); }
-.shell .sidebar { background:var(--ink2); }
-.sidebar .brand span { color:var(--red); }
+.shell .sidebar {
+  background:linear-gradient(180deg,var(--red) 0%,var(--red-d) 100%);
+}
+.sidebar .brand {
+  padding:26px 20px 22px;
+  min-height:116px;
+}
+.sidebar .brand img {
+  display:block;
+  width:min(150px,100%);
+  height:auto;
+  object-fit:contain;
+}
+.sidebar nav a {
+  color:rgba(255,240,227,.84);
+}
+.sidebar nav a:hover {
+  background:rgba(255,240,227,.12);
+  color:#fff;
+}
+.sidebar nav a.active {
+  background:var(--cream);
+  color:var(--red);
+}
+.sidebar .foot {
+  color:rgba(255,240,227,.82);
+}
+.sidebar .foot .btn-o {
+  border-color:rgba(255,240,227,.48);
+  color:#fff;
+}
+.sidebar .foot .btn-o:hover {
+  background:rgba(255,240,227,.12);
+  border-color:rgba(255,240,227,.72);
+  color:#fff;
+}
 .topbar { background:var(--cream); }
 .panel, .stat-card { border-radius:16px; }

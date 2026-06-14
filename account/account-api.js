@@ -50,3 +50,19 @@ const AccountAPI = {
   money(n) { return '₦' + Number(n || 0).toLocaleString(); },
   date(s) { return new Date(s).toLocaleDateString('en-GB', { day:'2-digit', month:'short', year:'numeric' }); },
 };
+
+function renderAccountShell(active) {
+  const user = AccountAPI.getUser();
+  const brand = document.querySelector('.brand');
+  if (brand) {
+    brand.innerHTML = '<img src="../Png Files/Artboard 1 copy 10@2x.png" alt="Barefoot Gifting">';
+  }
+  document.querySelectorAll('[data-nav]').forEach((link) => {
+    link.classList.toggle('active', link.dataset.nav === active);
+  });
+  document.querySelectorAll('[data-who]').forEach((el) => {
+    if (user) el.textContent = `${user.name} (${user.email})`;
+  });
+  const logoutBtn = document.querySelector('[data-logout]');
+  if (logoutBtn) logoutBtn.addEventListener('click', () => AccountAPI.logout());
+}
