@@ -46,7 +46,7 @@ function getMimeType(ext) {
 }
 
 function getSiteMedia() {
-  const root = process.cwd();
+  const root = path.resolve(__dirname, '../..');
   const assets = [];
 
   for (const dirName of SITE_MEDIA_DIRS) {
