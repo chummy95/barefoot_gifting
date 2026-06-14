@@ -74,6 +74,10 @@ const AdminAPI = {
 /* Renders the sidebar nav + wires the logout button. Call on every page. */
 function renderAdminShell(active) {
   const user = AdminAPI.getUser();
+  const brand = document.querySelector('.brand');
+  if (brand) {
+    brand.innerHTML = '<img src="../Png Files/Artboard 1 copy 10@2x.png" alt="Barefoot Gifting">';
+  }
   document.querySelectorAll('[data-nav]').forEach(a => {
     if (a.dataset.nav === active) a.classList.add('active');
   });

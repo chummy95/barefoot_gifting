@@ -32,15 +32,33 @@ a { text-decoration:none; color:inherit; }
 
 /* ---------- Shell ---------- */
 .shell { display:flex; min-height:100vh; }
-.sidebar { width:230px; background:var(--ink); color:#fff; flex-shrink:0; display:flex; flex-direction:column; position:sticky; top:0; height:100vh; }
-.sidebar .brand { padding:22px 20px; font-size:16px; font-weight:700; letter-spacing:.06em; border-bottom:1px solid rgba(255,255,255,.08); }
-.sidebar .brand span { color:var(--gold); }
+.sidebar {
+  width:230px; background:linear-gradient(180deg,var(--red) 0%,var(--red-d) 100%); color:#fff;
+  flex-shrink:0; display:flex; flex-direction:column; position:sticky; top:0; height:100vh;
+}
+.sidebar .brand {
+  padding:26px 20px 22px; min-height:116px; display:flex; align-items:center; justify-content:center;
+  border-bottom:1px solid rgba(255,240,227,.18);
+}
+.sidebar .brand img {
+  display:block; width:min(150px,100%); height:auto; object-fit:contain;
+  filter:drop-shadow(0 8px 18px rgba(0,0,0,.12));
+}
 .sidebar nav { padding:14px; flex:1; }
-.sidebar nav a { display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:8px; font-size:13px; font-weight:500; color:#d8d4cf; margin-bottom:2px; }
-.sidebar nav a:hover { background:rgba(255,255,255,.06); color:#fff; }
-.sidebar nav a.active { background:var(--red); color:#fff; }
-.sidebar .foot { padding:14px; border-top:1px solid rgba(255,255,255,.08); font-size:12px; color:#aaa5a0; }
+.sidebar nav a {
+  display:flex; align-items:center; gap:10px; padding:10px 12px; border-radius:8px;
+  font-size:13px; font-weight:500; color:rgba(255,240,227,.84); margin-bottom:2px; border:1px solid transparent;
+}
+.sidebar nav a:hover { background:rgba(255,240,227,.12); color:#fff; }
+.sidebar nav a.active {
+  background:var(--cream); color:var(--red); box-shadow:0 10px 24px rgba(0,0,0,.14);
+}
+.sidebar .foot {
+  padding:14px; border-top:1px solid rgba(255,240,227,.18); font-size:12px; color:rgba(255,240,227,.82);
+}
 .sidebar .foot button { margin-top:8px; }
+.sidebar .foot .btn-o { border-color:rgba(255,240,227,.48); color:#fff; }
+.sidebar .foot .btn-o:hover { background:rgba(255,240,227,.12); border-color:rgba(255,240,227,.72); color:#fff; }
 
 .main { flex:1; min-width:0; }
 .topbar { background:#fff; border-bottom:1px solid var(--border); padding:16px 28px; display:flex; align-items:center; justify-content:space-between; }
