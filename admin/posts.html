@@ -80,24 +80,34 @@
       <div class="field"><label>Excerpt</label><textarea id="f-excerpt" rows="3" placeholder="A short summary that shows on the Keepsake listing page."></textarea></div>
       <div class="field">
         <label>Body Copy</label>
-        <textarea id="f-body" rows="14" placeholder="Write the story here. Plain paragraphs work, and HTML is also supported for richer layouts like headings, links, and embedded images."></textarea>
-        <p class="muted" style="font-size:12px;margin:8px 0 0">If you paste plain text, the website will automatically turn paragraphs into readable article blocks.</p>
+        <div class="editor-shell">
+          <div class="editor-toolbar" id="body-toolbar">
+            <button type="button" data-editor-command="paragraph" title="Paragraph">P</button>
+            <button type="button" data-editor-command="bold" title="Bold">B</button>
+            <button type="button" data-editor-command="italic" title="Italic">I</button>
+            <button type="button" data-editor-command="underline" title="Underline">U</button>
+            <button type="button" data-editor-command="quote" title="Quote">"</button>
+          </div>
+          <div id="f-body-editor" class="rich-editor" contenteditable="true" spellcheck="true"></div>
+        </div>
+        <textarea id="f-body" hidden></textarea>
+        <p class="muted" style="font-size:12px;margin:8px 0 0">Write the story here, then place the cursor where each image should appear and insert it from the story assets below.</p>
       </div>
 
       <div class="field">
-        <label>Story Images</label>
+        <label>Cover Image &amp; Story Assets</label>
         <div class="img-grid" id="gallery"></div>
         <div style="margin-top:10px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
           <input type="file" id="gallery-upload" accept="image/*" multiple>
           <button type="button" class="btn btn-o btn-sm" id="media-picker-btn">Choose from Media Library</button>
         </div>
         <p class="muted" id="upload-status" style="font-size:12px;margin:8px 0 0"></p>
-        <p class="muted" style="font-size:12px;margin:6px 0 0">The first image becomes the cover/hero image. Remaining uploads appear in the post gallery.</p>
+        <p class="muted" style="font-size:12px;margin:6px 0 0">The first image becomes the cover/hero image. Every other image stays here as a story asset that the admin can insert into the post body where it belongs.</p>
         <div class="panel" id="media-picker" hidden style="margin-top:14px; padding:16px;">
           <div class="flex-between" style="margin-bottom:10px; gap:12px; flex-wrap:wrap;">
             <div>
               <strong style="font-size:13px;">Media Library</strong>
-              <div class="muted" style="font-size:12px; margin-top:4px;">Choose an already uploaded image to attach to this post.</div>
+              <div class="muted" style="font-size:12px; margin-top:4px;">Choose an already uploaded image to use as the cover or insert into the story body.</div>
             </div>
             <button type="button" class="btn btn-o btn-sm" id="media-picker-close">Close</button>
           </div>
@@ -125,6 +135,7 @@ if (AdminAPI.requireAuth()) {
   let mediaItems = [];
   let mediaLoaded = false;
   let pendingUploads = 0;
+  let savedEditorRange = null;
 
   function escapeHTML(value) {
     return String(value ?? '')
@@ -151,6 +162,127 @@ if (AdminAPI.requireAuth()) {
       hour: 'numeric',
       minute: '2-digit',
     });
+  }
+
+  function bodyTextToHTML(value) {
+    const trimmed = String(value || '').trim();
+    if (!trimmed) return '<p><br></p>';
+    if (/<[a-z][\s\S]*>/i.test(trimmed)) return trimmed;
+    return trimmed
+      .split(/\n{2,}/)
+      .map((block) => `<p>${escapeHTML(block).replace(/\n/g, '<br>')}</p>`)
+      .join('');
+  }
+
+  function normalizeEditorHTML(html) {
+    const container = document.createElement('div');
+    container.innerHTML = String(html || '').trim();
+
+    container.querySelectorAll('script, style').forEach((node) => node.remove());
+    container.querySelectorAll('div').forEach((node) => {
+      if (node.closest('figure, blockquote')) return;
+      const paragraph = document.createElement('p');
+      paragraph.innerHTML = node.innerHTML || '<br>';
+      node.replaceWith(paragraph);
+    });
+
+    [...container.childNodes].forEach((node) => {
+      if (node.nodeType !== Node.TEXT_NODE) return;
+      const text = String(node.textContent || '').replace(/\s+/g, ' ').trim();
+      if (!text) {
+        node.remove();
+        return;
+      }
+      const paragraph = document.createElement('p');
+      paragraph.textContent = text;
+      node.replaceWith(paragraph);
+    });
+
+    const output = container.innerHTML
+      .replace(/<p>(?:\s|&nbsp;|<br\s*\/?>)*<\/p>\s*$/gi, '')
+      .trim();
+
+    return output;
+  }
+
+  function getEditor() {
+    return document.getElementById('f-body-editor');
+  }
+
+  function syncBodyField() {
+    document.getElementById('f-body').value = normalizeEditorHTML(getEditor().innerHTML);
+  }
+
+  function setEditorHTML(value) {
+    const editor = getEditor();
+    editor.innerHTML = bodyTextToHTML(value);
+    if (!normalizeEditorHTML(editor.innerHTML)) editor.innerHTML = '<p><br></p>';
+    syncBodyField();
+  }
+
+  function saveEditorSelection() {
+    const editor = getEditor();
+    const selection = window.getSelection();
+    if (!selection || !selection.rangeCount) return;
+    const range = selection.getRangeAt(0);
+    if (!editor.contains(range.commonAncestorContainer)) return;
+    savedEditorRange = range.cloneRange();
+  }
+
+  function restoreEditorSelection() {
+    const editor = getEditor();
+    editor.focus();
+    const selection = window.getSelection();
+    selection.removeAllRanges();
+
+    if (savedEditorRange) {
+      selection.addRange(savedEditorRange);
+      return;
+    }
+
+    const range = document.createRange();
+    range.selectNodeContents(editor);
+    range.collapse(false);
+    selection.addRange(range);
+    savedEditorRange = range.cloneRange();
+  }
+
+  function runEditorCommand(command) {
+    restoreEditorSelection();
+    if (command === 'quote') document.execCommand('formatBlock', false, 'blockquote');
+    else if (command === 'paragraph') document.execCommand('formatBlock', false, 'p');
+    else document.execCommand(command, false, null);
+    saveEditorSelection();
+    syncBodyField();
+  }
+
+  function insertHTMLAtCursor(html) {
+    restoreEditorSelection();
+    const selection = window.getSelection();
+    if (!selection || !selection.rangeCount) return;
+
+    const range = selection.getRangeAt(0);
+    range.deleteContents();
+
+    const wrapper = document.createElement('div');
+    wrapper.innerHTML = html;
+    const fragment = document.createDocumentFragment();
+    let lastNode = null;
+
+    while (wrapper.firstChild) {
+      lastNode = wrapper.firstChild;
+      fragment.appendChild(wrapper.firstChild);
+    }
+
+    range.insertNode(fragment);
+    if (lastNode) {
+      range.setStartAfter(lastNode);
+      range.collapse(true);
+      selection.removeAllRanges();
+      selection.addRange(range);
+      savedEditorRange = range.cloneRange();
+    }
+    syncBodyField();
   }
 
   function collectCategories() {
@@ -232,6 +364,8 @@ if (AdminAPI.requireAuth()) {
     editingId = null;
     galleryImages = [];
     pendingUploads = 0;
+    savedEditorRange = null;
+    setEditorHTML('');
     setUploadStatus('');
     toggleMediaPicker(false);
     renderGallery();
@@ -241,7 +375,7 @@ if (AdminAPI.requireAuth()) {
   function renderGallery() {
     const grid = document.getElementById('gallery');
     if (!galleryImages.length) {
-      grid.innerHTML = '<p class="muted" style="font-size:12px">No images yet.</p>';
+      grid.innerHTML = '<p class="muted" style="font-size:12px">No cover image or story assets yet.</p>';
       return;
     }
 
@@ -249,11 +383,40 @@ if (AdminAPI.requireAuth()) {
       <div class="img-card">
         <img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt || '')}">
         <div class="meta">
-          <div class="name">${index === 0 ? 'Cover image' : 'Image ' + (index + 1)}</div>
-          <button type="button" class="btn btn-danger btn-sm" onclick="removeGalleryImage(${index})">Remove</button>
+          <div class="name">${index === 0 ? 'Cover image' : 'Story asset ' + index}</div>
+          <div class="asset-actions">
+            ${index === 0
+              ? '<div class="asset-chip">Current Cover</div>'
+              : `<button type="button" class="btn btn-o btn-sm" onclick="makeCoverImage(${index})">Make Cover</button>`}
+            <button type="button" class="btn btn-p btn-sm" onclick="insertGalleryImage(${index})">Insert into Story</button>
+            <button type="button" class="btn btn-danger btn-sm" onclick="removeGalleryImage(${index})">Remove</button>
+          </div>
         </div>
       </div>
     `).join('');
+  }
+
+  function ensureStoryAsset(image) {
+    if (galleryImages.some((item) => item.url === image.url)) return;
+    galleryImages.push(image);
+    renderGallery();
+  }
+
+  function setCoverImage(image) {
+    galleryImages = [image, ...galleryImages.filter((item) => item.url !== image.url)];
+    renderGallery();
+    setUploadStatus('Cover image updated.', 'success');
+  }
+
+  function insertStoryImage(image) {
+    ensureStoryAsset(image);
+    insertHTMLAtCursor(`
+      <figure class="post-inline-media">
+        <img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt || document.getElementById('f-title').value || 'Keepsake image')}">
+      </figure>
+      <p><br></p>
+    `);
+    setUploadStatus('Image inserted into the story body.', 'success');
   }
 
   function setUploadStatus(message, tone = 'muted') {
@@ -304,21 +467,22 @@ if (AdminAPI.requireAuth()) {
         <div class="meta">
           <div class="name" title="${escapeHTML(item.filename || item.alt || 'Media image')}">${escapeHTML(item.filename || item.alt || 'Media image')}</div>
           <div class="muted" style="font-size:11px; margin-top:4px;">${item.source === 'uploads' ? 'Uploaded file' : 'Site asset'}</div>
-          <button type="button" class="btn btn-p btn-sm" data-pick-url="${escapeHTML(item.url)}" data-pick-alt="${escapeHTML(item.alt || item.filename || 'Keepsake image')}">Use Image</button>
+          <div class="asset-actions">
+            <button type="button" class="btn btn-o btn-sm" data-media-action="cover" data-pick-url="${escapeHTML(item.url)}" data-pick-alt="${escapeHTML(item.alt || item.filename || 'Keepsake image')}">Use as Cover</button>
+            <button type="button" class="btn btn-p btn-sm" data-media-action="insert" data-pick-url="${escapeHTML(item.url)}" data-pick-alt="${escapeHTML(item.alt || item.filename || 'Keepsake image')}">Insert into Story</button>
+          </div>
         </div>
       </div>
     `).join('');
 
-    grid.querySelectorAll('[data-pick-url]').forEach((button) => {
+    grid.querySelectorAll('[data-media-action]').forEach((button) => {
       button.addEventListener('click', () => {
-        const url = button.dataset.pickUrl;
-        if (galleryImages.some((image) => image.url === url)) {
-          setUploadStatus('That image is already attached to this post.', 'muted');
-          return;
-        }
-        galleryImages.push({ url, alt: button.dataset.pickAlt || document.getElementById('f-title').value || 'Keepsake image' });
-        renderGallery();
-        setUploadStatus('Image added from the media library.', 'success');
+        const image = {
+          url: button.dataset.pickUrl,
+          alt: button.dataset.pickAlt || document.getElementById('f-title').value || 'Keepsake image',
+        };
+        if (button.dataset.mediaAction === 'cover') setCoverImage(image);
+        else insertStoryImage(image);
         toggleMediaPicker(false);
       });
     });
@@ -327,6 +491,20 @@ if (AdminAPI.requireAuth()) {
   window.removeGalleryImage = (index) => {
     galleryImages.splice(index, 1);
     renderGallery();
+  };
+
+  window.makeCoverImage = (index) => {
+    const [image] = galleryImages.splice(index, 1);
+    if (!image) return;
+    galleryImages.unshift(image);
+    renderGallery();
+    setUploadStatus('Cover image updated.', 'success');
+  };
+
+  window.insertGalleryImage = (index) => {
+    const image = galleryImages[index];
+    if (!image) return;
+    insertStoryImage(image);
   };
 
   window.editPost = (id) => {
@@ -340,7 +518,8 @@ if (AdminAPI.requireAuth()) {
     document.getElementById('f-read-time').value = post.read_time || '';
     document.getElementById('f-status').value = post.status || 'published';
     document.getElementById('f-excerpt').value = post.excerpt || '';
-    document.getElementById('f-body').value = post.body_html || '';
+    savedEditorRange = null;
+    setEditorHTML(post.body_html || '');
     galleryImages = (post.images || []).map((image) => ({ url: image.url, alt: image.alt || post.title }));
     setUploadStatus('');
     toggleMediaPicker(false);
@@ -367,6 +546,8 @@ if (AdminAPI.requireAuth()) {
     document.getElementById('f-status').value = 'published';
     galleryImages = [];
     pendingUploads = 0;
+    savedEditorRange = null;
+    setEditorHTML('');
     setUploadStatus('');
     toggleMediaPicker(false);
     renderGallery();
@@ -377,7 +558,24 @@ if (AdminAPI.requireAuth()) {
   document.getElementById('search').addEventListener('input', load);
   document.getElementById('cat-filter').addEventListener('change', load);
   document.getElementById('status-filter').addEventListener('change', load);
+  document.querySelectorAll('#body-toolbar [data-editor-command]').forEach((button) => {
+    button.addEventListener('mousedown', (event) => event.preventDefault());
+    button.addEventListener('click', () => runEditorCommand(button.dataset.editorCommand));
+  });
+  const editor = getEditor();
+  ['input', 'keyup', 'mouseup', 'blur'].forEach((eventName) => {
+    editor.addEventListener(eventName, () => {
+      if (eventName !== 'input') saveEditorSelection();
+      syncBodyField();
+    });
+  });
+  try {
+    document.execCommand('styleWithCSS', false, false);
+    document.execCommand('defaultParagraphSeparator', false, 'p');
+  } catch {}
+  setEditorHTML('');
   document.getElementById('media-picker-btn').addEventListener('click', async () => {
+    saveEditorSelection();
     const picker = document.getElementById('media-picker');
     if (!picker.hidden) {
       toggleMediaPicker(false);
@@ -448,11 +646,14 @@ if (AdminAPI.requireAuth()) {
       read_time: document.getElementById('f-read-time').value.trim(),
       status: document.getElementById('f-status').value,
       excerpt: document.getElementById('f-excerpt').value.trim(),
-      body_html: document.getElementById('f-body').value.trim(),
+      body_html: '',
       images: galleryImages,
     };
 
     try {
+      syncBodyField();
+      payload.body_html = document.getElementById('f-body').value.trim();
+      if (!payload.body_html) throw new Error('Please add some story text before saving this post.');
       if (editingId) await AdminAPI.put(`/posts/${editingId}`, payload);
       else await AdminAPI.post('/posts', payload);
       closeModal();

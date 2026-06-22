@@ -103,6 +103,47 @@ tr:last-child td { border-bottom:none; }
 .img-grid .img-card .meta { padding:8px; font-size:11px; }
 .img-grid .img-card .meta .name { overflow:hidden; text-overflow:ellipsis; white-space:nowrap; }
 .img-grid .img-card .meta button { margin-top:6px; width:100%; }
+.asset-actions { display:grid; gap:6px; margin-top:8px; }
+.asset-chip {
+  display:inline-flex; align-items:center; justify-content:center; min-height:29px; width:100%;
+  border-radius:8px; border:1px solid var(--border); background:#fff; color:var(--muted);
+  font-size:10px; font-weight:700; letter-spacing:.06em; text-transform:uppercase;
+}
+
+.editor-shell {
+  border:1px solid var(--border); border-radius:12px; background:#fcfbfa; overflow:hidden;
+}
+.editor-toolbar {
+  display:flex; gap:8px; flex-wrap:wrap; align-items:center;
+  padding:10px; border-bottom:1px solid var(--border); background:#fff;
+}
+.editor-toolbar button {
+  min-width:40px; min-height:36px; padding:8px 12px;
+  border:1px solid var(--border); border-radius:9px; background:#fff; color:var(--ink);
+  font:inherit; font-size:12px; font-weight:700; cursor:pointer; transition:.15s;
+}
+.editor-toolbar button:hover { border-color:var(--red); color:var(--red); }
+.editor-toolbar button[data-editor-command="bold"] { font-weight:800; }
+.editor-toolbar button[data-editor-command="italic"] { font-style:italic; }
+.editor-toolbar button[data-editor-command="underline"] { text-decoration:underline; }
+.rich-editor {
+  min-height:320px; padding:18px; background:#fcfbfa; font-size:15px; line-height:1.8;
+}
+.rich-editor:focus { outline:2px solid var(--red); outline-offset:-2px; }
+.rich-editor p { margin:0 0 18px; }
+.rich-editor h2, .rich-editor h3 { margin:26px 0 14px; }
+.rich-editor blockquote {
+  margin:24px 0; padding:18px 22px; border-left:3px solid var(--red);
+  background:var(--cream); border-radius:0 10px 10px 0;
+}
+.rich-editor figure { margin:24px 0; }
+.rich-editor figure img {
+  width:100%; height:auto; max-height:420px; object-fit:contain; display:block;
+  border-radius:12px; border:1px solid var(--border); background:#fff;
+}
+.rich-editor figure figcaption {
+  margin-top:10px; font-size:12px; color:var(--muted); text-align:center;
+}
 
 .thumb { width:42px; height:42px; object-fit:cover; border-radius:6px; border:1px solid var(--border); }
 .flex-between { display:flex; align-items:center; justify-content:space-between; }
