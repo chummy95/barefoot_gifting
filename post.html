@@ -60,6 +60,11 @@ ul{list-style:none;}
 .post-meta{display:flex;align-items:center;gap:20px;font-size:12px;color:rgba(22,22,22,.5);font-weight:300;margin-bottom:44px;}
 .post-meta span{display:flex;align-items:center;gap:6px;}
 .post-hero-img{aspect-ratio:21/9;overflow:hidden;border-radius:3px 3px 0 0;margin-top:20px;}
+.post-hero-img.is-empty,.story-placeholder{display:flex;align-items:flex-end;justify-content:flex-start;padding:24px;background:
+linear-gradient(135deg,rgba(221,64,64,.14),rgba(255,215,68,.22)),
+radial-gradient(circle at top right,rgba(221,64,64,.12),transparent 42%),
+var(--cream);}
+.story-placeholder span,.post-hero-img.is-empty span{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:rgba(22,22,22,.5);}
 
 /* ── POST BODY ── */
 .post-body-wrap{display:grid;grid-template-columns:1fr 280px;gap:64px;padding:clamp(48px,6vw,80px) 0 clamp(72px,9vw,120px);align-items:start;}
@@ -415,10 +420,7 @@ function getPostImage(post) {
       alt: post.images[0].alt || post.title,
     };
   }
-  return {
-    url: './Png Files/Logo-cropped.png',
-    alt: post.title || 'Keepsake Edit story',
-  };
+  return null;
 }
 
 function getPostExcerpt(post) {
@@ -429,6 +431,25 @@ function getPostExcerpt(post) {
 
 function getPostHref(post) {
   return `./post.html?id=${encodeURIComponent(post.slug || post.id)}`;
+}
+
+function renderStoryImage(image, className) {
+  if (image?.url) {
+    return `<div class="${className}"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt || 'Keepsake image')}"></div>`;
+  }
+  return `<div class="${className} story-placeholder"><span>Keepsake Edit</span></div>`;
+}
+
+function renderHeroImage(image, label = 'Keepsake Edit') {
+  const root = document.querySelector('.post-hero-img');
+  if (!root) return;
+  if (image?.url) {
+    root.classList.remove('is-empty');
+    root.innerHTML = `<img id="post-hero-img" src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt || label)}">`;
+    return;
+  }
+  root.classList.add('is-empty');
+  root.innerHTML = `<span>${escapeHTML(label)}</span>`;
 }
 
 function formatPostDate(value) {
@@ -489,7 +510,7 @@ function renderSidebarRelated(posts) {
       const image = getPostImage(post);
       return `
         <a class="sidebar-prod" href="${escapeHTML(getPostHref(post))}">
-          <div class="sidebar-prod-img"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt)}"></div>
+          ${renderStoryImage(image, 'sidebar-prod-img')}
           <div>
             <div class="sidebar-prod-name">${escapeHTML(post.title)}</div>
             <div class="sidebar-prod-price">${escapeHTML(formatShortDate(post.created_at))}</div>
@@ -512,7 +533,7 @@ function renderMorePosts(posts) {
     const image = getPostImage(post);
     return `
       <a class="more-card" href="${escapeHTML(getPostHref(post))}">
-        <div class="more-img"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt)}"></div>
+        ${renderStoryImage(image, 'more-img')}
         <div class="more-bd">
           <div class="more-cat">${escapeHTML(post.category)}</div>
           <div class="more-title">${escapeHTML(post.title)}</div>
@@ -531,8 +552,7 @@ function renderNotFound() {
   document.getElementById('post-author').textContent = 'Barefoot Gifting Team';
   document.getElementById('post-date').textContent = 'Unavailable';
   document.getElementById('post-read').textContent = '—';
-  document.getElementById('post-hero-img').src = './Png Files/Logo-cropped.png';
-  document.getElementById('post-hero-img').alt = 'Barefoot Gifting';
+  renderHeroImage(null, 'Keepsake Edit');
   document.getElementById('post-body').innerHTML = '<p class="post-empty">We couldn’t find that Keepsake story. <a href="./journal.html">Back to Keepsake Edit</a></p>';
   renderMorePosts([]);
 }
@@ -548,8 +568,7 @@ function renderDynamicPost(post, allPosts) {
   document.getElementById('post-author').textContent = post.author || 'Barefoot Gifting Team';
   document.getElementById('post-date').textContent = formatPostDate(post.created_at);
   document.getElementById('post-read').textContent = post.read_time || estimateReadTime(post);
-  document.getElementById('post-hero-img').src = cover.url;
-  document.getElementById('post-hero-img').alt = cover.alt;
+  renderHeroImage(cover, post.title);
   document.getElementById('post-body').innerHTML = bodyToHTML(post.body_html) + renderGallery((post.images || []).slice(1));
 
   renderSidebarRelated(related);

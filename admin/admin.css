@@ -23,6 +23,7 @@ a { text-decoration:none; color:inherit; }
 .btn-p:hover { background:var(--red-d); }
 .btn-o { background:transparent; border-color:var(--ink); color:var(--ink); }
 .btn-o:hover { background:var(--ink); color:#fff; }
+.btn:disabled, .btn[disabled] { opacity:.6; cursor:not-allowed; pointer-events:none; }
 .btn-sm { padding:7px 14px; font-size:11px; }
 .btn-block { width:100%; }
 .btn-danger { background:#fff; color:#c93535; border-color:#f0c8c8; }

@@ -89,6 +89,11 @@ ul{list-style:none;}
 .ac-meta{font-size:11px;color:rgba(22,22,22,.4);letter-spacing:.05em;}
 .load-more{text-align:center;margin-top:56px;}
 .journal-empty{grid-column:1 / -1;padding:24px 0;font-size:14px;color:rgba(22,22,22,.55);text-align:center;}
+.story-placeholder{display:flex;align-items:flex-end;justify-content:flex-start;padding:22px;background:
+linear-gradient(135deg,rgba(221,64,64,.14),rgba(255,215,68,.22)),
+radial-gradient(circle at top right,rgba(221,64,64,.12),transparent 42%),
+var(--cream);}
+.story-placeholder span{font-size:11px;font-weight:800;letter-spacing:.22em;text-transform:uppercase;color:rgba(22,22,22,.5);}
 
 /* NEWSLETTER */
 .nl-sec{background:var(--gold);padding:clamp(72px,9vw,110px) 0;position:relative;overflow:hidden;text-align:center;}
@@ -425,11 +430,7 @@ function getPostImage(post) {
       alt: post.images[0].alt || post.title,
     };
   }
-
-  return {
-    url: './Png Files/Logo-cropped.png',
-    alt: post.title || 'Keepsake Edit post',
-  };
+  return null;
 }
 
 function getPostExcerpt(post) {
@@ -460,6 +461,13 @@ function getPostHref(post) {
   return `./post.html?id=${encodeURIComponent(post.slug || post.id)}`;
 }
 
+function renderStoryImage(image, className) {
+  if (image?.url) {
+    return `<div class="${className}"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt || 'Keepsake Edit post')}"></div>`;
+  }
+  return `<div class="${className} story-placeholder"><span>Keepsake Edit</span></div>`;
+}
+
 function getVisiblePosts() {
   if (JOURNAL_STATE.activeCategory === 'All') {
     return JOURNAL_STATE.posts.slice(1);
@@ -474,7 +482,7 @@ function renderFeatured() {
 
   const image = getPostImage(featured);
   document.getElementById('featured-root').innerHTML = `
-    <div class="feat-img"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt)}"></div>
+    ${renderStoryImage(image, 'feat-img')}
     <div>
       <div class="feat-tag">${escapeHTML(featured.category)} · ${escapeHTML(formatPostDate(featured.created_at))}</div>
       <h2 class="feat-title">${escapeHTML(featured.title)}</h2>
@@ -516,7 +524,7 @@ function renderGrid() {
     const image = getPostImage(post);
     return `
       <a class="ac" href="${escapeHTML(getPostHref(post))}">
-        <div class="ac-img"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt)}"></div>
+        ${renderStoryImage(image, 'ac-img')}
         <div class="ac-bd">
           <div class="ac-cat">${escapeHTML(post.category)}</div>
           <h3 class="ac-t">${escapeHTML(post.title)}</h3>

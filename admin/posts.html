@@ -87,10 +87,22 @@
       <div class="field">
         <label>Story Images</label>
         <div class="img-grid" id="gallery"></div>
-        <div style="margin-top:10px; display:flex; gap:10px; align-items:center;">
+        <div style="margin-top:10px; display:flex; gap:10px; align-items:center; flex-wrap:wrap;">
           <input type="file" id="gallery-upload" accept="image/*" multiple>
+          <button type="button" class="btn btn-o btn-sm" id="media-picker-btn">Choose from Media Library</button>
         </div>
+        <p class="muted" id="upload-status" style="font-size:12px;margin:8px 0 0"></p>
         <p class="muted" style="font-size:12px;margin:6px 0 0">The first image becomes the cover/hero image. Remaining uploads appear in the post gallery.</p>
+        <div class="panel" id="media-picker" hidden style="margin-top:14px; padding:16px;">
+          <div class="flex-between" style="margin-bottom:10px; gap:12px; flex-wrap:wrap;">
+            <div>
+              <strong style="font-size:13px;">Media Library</strong>
+              <div class="muted" style="font-size:12px; margin-top:4px;">Choose an already uploaded image to attach to this post.</div>
+            </div>
+            <button type="button" class="btn btn-o btn-sm" id="media-picker-close">Close</button>
+          </div>
+          <div class="img-grid" id="media-picker-grid"><p class="muted" style="font-size:12px">Loading media…</p></div>
+        </div>
       </div>
 
       <div class="modal-actions">
@@ -110,6 +122,9 @@ if (AdminAPI.requireAuth()) {
   let posts = [];
   let editingId = null;
   let galleryImages = [];
+  let mediaItems = [];
+  let mediaLoaded = false;
+  let pendingUploads = 0;
 
   function escapeHTML(value) {
     return String(value ?? '')
@@ -122,6 +137,10 @@ if (AdminAPI.requireAuth()) {
 
   function statusLabel(status) {
     return status === 'published' ? 'Published' : 'Draft';
+  }
+
+  function pluralize(count, singular, plural = singular + 's') {
+    return count === 1 ? singular : plural;
   }
 
   function formatDateTime(value) {
@@ -202,6 +221,7 @@ if (AdminAPI.requireAuth()) {
     document.getElementById('modal-title').textContent = title;
     document.getElementById('modal-err').classList.remove('show');
     document.getElementById('modal-bg').classList.add('show');
+    syncSaveButton();
   }
 
   function closeModal() {
@@ -211,7 +231,11 @@ if (AdminAPI.requireAuth()) {
     document.getElementById('f-status').value = 'published';
     editingId = null;
     galleryImages = [];
+    pendingUploads = 0;
+    setUploadStatus('');
+    toggleMediaPicker(false);
     renderGallery();
+    syncSaveButton();
   }
 
   function renderGallery() {
@@ -232,6 +256,74 @@ if (AdminAPI.requireAuth()) {
     `).join('');
   }
 
+  function setUploadStatus(message, tone = 'muted') {
+    const status = document.getElementById('upload-status');
+    status.textContent = message || '';
+    status.style.color = tone === 'error' ? '#a02a2a' : tone === 'success' ? '#3f5b16' : '';
+  }
+
+  function syncSaveButton() {
+    const saveButton = document.getElementById('save-btn');
+    const busy = pendingUploads > 0;
+    saveButton.disabled = busy;
+    saveButton.textContent = busy
+      ? `Uploading ${pendingUploads} ${pluralize(pendingUploads, 'image')}...`
+      : 'Save Post';
+  }
+
+  function toggleMediaPicker(forceState) {
+    const picker = document.getElementById('media-picker');
+    const nextState = typeof forceState === 'boolean' ? forceState : picker.hidden;
+    picker.hidden = !nextState;
+  }
+
+  async function loadMediaLibrary() {
+    if (mediaLoaded) return mediaItems;
+    mediaItems = await AdminAPI.get('/media/__root__');
+    mediaLoaded = true;
+    return mediaItems;
+  }
+
+  function renderMediaPicker() {
+    const grid = document.getElementById('media-picker-grid');
+    const available = mediaItems
+      .filter((item) => String(item.mime_type || '').startsWith('image/'))
+      .sort((left, right) => {
+        if (left.source === right.source) return new Date(right.created_at || 0) - new Date(left.created_at || 0);
+        return left.source === 'uploads' ? -1 : 1;
+      });
+
+    if (!available.length) {
+      grid.innerHTML = '<p class="muted" style="font-size:12px">No images found in the media library yet.</p>';
+      return;
+    }
+
+    grid.innerHTML = available.map((item) => `
+      <div class="img-card">
+        <img src="${escapeHTML(item.url)}" alt="${escapeHTML(item.alt || item.filename || 'Media image')}">
+        <div class="meta">
+          <div class="name" title="${escapeHTML(item.filename || item.alt || 'Media image')}">${escapeHTML(item.filename || item.alt || 'Media image')}</div>
+          <div class="muted" style="font-size:11px; margin-top:4px;">${item.source === 'uploads' ? 'Uploaded file' : 'Site asset'}</div>
+          <button type="button" class="btn btn-p btn-sm" data-pick-url="${escapeHTML(item.url)}" data-pick-alt="${escapeHTML(item.alt || item.filename || 'Keepsake image')}">Use Image</button>
+        </div>
+      </div>
+    `).join('');
+
+    grid.querySelectorAll('[data-pick-url]').forEach((button) => {
+      button.addEventListener('click', () => {
+        const url = button.dataset.pickUrl;
+        if (galleryImages.some((image) => image.url === url)) {
+          setUploadStatus('That image is already attached to this post.', 'muted');
+          return;
+        }
+        galleryImages.push({ url, alt: button.dataset.pickAlt || document.getElementById('f-title').value || 'Keepsake image' });
+        renderGallery();
+        setUploadStatus('Image added from the media library.', 'success');
+        toggleMediaPicker(false);
+      });
+    });
+  }
+
   window.removeGalleryImage = (index) => {
     galleryImages.splice(index, 1);
     renderGallery();
@@ -250,6 +342,8 @@ if (AdminAPI.requireAuth()) {
     document.getElementById('f-excerpt').value = post.excerpt || '';
     document.getElementById('f-body').value = post.body_html || '';
     galleryImages = (post.images || []).map((image) => ({ url: image.url, alt: image.alt || post.title }));
+    setUploadStatus('');
+    toggleMediaPicker(false);
     renderGallery();
     openModal('Edit Keepsake Post');
   };
@@ -272,6 +366,9 @@ if (AdminAPI.requireAuth()) {
     document.getElementById('f-author').value = 'Barefoot Gifting Team';
     document.getElementById('f-status').value = 'published';
     galleryImages = [];
+    pendingUploads = 0;
+    setUploadStatus('');
+    toggleMediaPicker(false);
     renderGallery();
     openModal('New Keepsake Post');
   });
@@ -280,23 +377,69 @@ if (AdminAPI.requireAuth()) {
   document.getElementById('search').addEventListener('input', load);
   document.getElementById('cat-filter').addEventListener('change', load);
   document.getElementById('status-filter').addEventListener('change', load);
+  document.getElementById('media-picker-btn').addEventListener('click', async () => {
+    const picker = document.getElementById('media-picker');
+    if (!picker.hidden) {
+      toggleMediaPicker(false);
+      return;
+    }
+
+    toggleMediaPicker(true);
+    const grid = document.getElementById('media-picker-grid');
+    grid.innerHTML = '<p class="muted" style="font-size:12px">Loading media…</p>';
+
+    try {
+      await loadMediaLibrary();
+      renderMediaPicker();
+    } catch (error) {
+      grid.innerHTML = `<p class="muted" style="font-size:12px; color:#a02a2a;">${escapeHTML(error.message || 'Could not load the media library.')}</p>`;
+    }
+  });
+  document.getElementById('media-picker-close').addEventListener('click', () => toggleMediaPicker(false));
 
   document.getElementById('gallery-upload').addEventListener('change', async (event) => {
     const files = [...event.target.files];
+    if (!files.length) return;
+
+    pendingUploads += files.length;
+    syncSaveButton();
+    setUploadStatus(`Uploading ${files.length} ${pluralize(files.length, 'image')}...`);
+
+    let uploadedCount = 0;
+    let failedCount = 0;
     for (const file of files) {
       try {
         const media = await AdminAPI.uploadFile(file, document.getElementById('f-title').value || file.name);
         galleryImages.push({ url: media.url, alt: media.alt || document.getElementById('f-title').value || file.name });
+        uploadedCount += 1;
       } catch (error) {
+        failedCount += 1;
         alert('Upload failed: ' + error.message);
+      } finally {
+        pendingUploads = Math.max(0, pendingUploads - 1);
+        syncSaveButton();
       }
     }
     renderGallery();
+    mediaLoaded = false;
+    if (failedCount && uploadedCount) {
+      setUploadStatus(`Uploaded ${uploadedCount} ${pluralize(uploadedCount, 'image')}. ${failedCount} ${pluralize(failedCount, 'upload')} failed.`, 'error');
+    } else if (failedCount) {
+      setUploadStatus(`Unable to upload ${failedCount} ${pluralize(failedCount, 'image')}.`, 'error');
+    } else {
+      setUploadStatus(`Uploaded ${uploadedCount} ${pluralize(uploadedCount, 'image')}.`, 'success');
+    }
     event.target.value = '';
   });
 
   document.getElementById('post-form').addEventListener('submit', async (event) => {
     event.preventDefault();
+    if (pendingUploads > 0) {
+      const message = document.getElementById('modal-err');
+      message.textContent = 'Please wait for the image upload to finish before saving this post.';
+      message.classList.add('show');
+      return;
+    }
 
     const payload = {
       title: document.getElementById('f-title').value.trim(),
