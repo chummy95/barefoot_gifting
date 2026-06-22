@@ -38,23 +38,30 @@ module.exports = async (req, res) => {
 
     if (req.method === 'POST') {
       const { productId, postId, name, email, rating, body } = req.body || {};
-      const cleanName = String(name || '').trim();
+      const token = getTokenFromReq(req);
+      const payload = token ? verifyToken(token) : null;
+      const isPostComment = !!postId && !productId;
+      const cleanName = String(isPostComment ? payload?.name || '' : name || '').trim();
       const cleanBody = String(body || '').trim();
-      const cleanEmail = email ? String(email).trim().toLowerCase() : null;
+      const cleanEmail = isPostComment
+        ? (payload?.email ? String(payload.email).trim().toLowerCase() : null)
+        : (email ? String(email).trim().toLowerCase() : null);
       const numericRating = rating === undefined || rating === null || rating === '' ? null : Number(rating);
 
       if (!cleanName || !cleanBody || (!productId && !postId)) {
         return res.status(400).json({ error: 'name, body and either productId or postId are required' });
       }
+      if (isPostComment && !payload) {
+        return res.status(401).json({ error: 'Please sign in to your customer account before commenting on a Keepsake post.' });
+      }
       if (numericRating !== null && (!Number.isInteger(numericRating) || numericRating < 1 || numericRating > 5)) {
         return res.status(400).json({ error: 'rating must be an integer between 1 and 5' });
       }
-      const token = getTokenFromReq(req);
-      const payload = token ? verifyToken(token) : null;
+      const status = isPostComment ? 'approved' : 'pending';
 
       const { rows } = await sql`
         INSERT INTO comments (product_id, post_id, user_id, name, email, rating, body, status)
-        VALUES (${productId || null}, ${postId || null}, ${payload ? payload.id : null}, ${cleanName}, ${cleanEmail}, ${numericRating}, ${cleanBody}, 'pending')
+        VALUES (${productId || null}, ${postId || null}, ${payload ? payload.id : null}, ${cleanName}, ${cleanEmail}, ${numericRating}, ${cleanBody}, ${status})
         RETURNING *
       `;
       return res.status(201).json(rows[0]);

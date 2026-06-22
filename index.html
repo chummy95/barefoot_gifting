@@ -601,6 +601,13 @@ ul { list-style: none; }
 .ec--feat .ec-t { font-size: clamp(20px,1.8vw,27px); }
 .ec-ex { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(22,22,22,.6); margin-bottom: 10px; }
 .ec-m { font-size: 11px; color: rgba(22,22,22,.42); letter-spacing: .05em; }
+.edit-empty { grid-column: 1 / -1; text-align: center; padding: 24px 0; font-size: 14px; color: rgba(22,22,22,.58); }
+.story-placeholder {
+  display:flex; align-items:flex-end; justify-content:flex-start; padding:22px;
+  background:linear-gradient(135deg,rgba(221,64,64,.14),rgba(255,215,68,.22)),
+  radial-gradient(circle at top right,rgba(221,64,64,.12),transparent 42%), var(--cream);
+}
+.story-placeholder span { font-size:11px; font-weight:800; letter-spacing:.22em; text-transform:uppercase; color:rgba(22,22,22,.5); }
 
 /* =============================================
    TESTIMONIALS — peach section
@@ -1227,7 +1234,7 @@ ul { list-style: none; }
       <h2 class="sec-h">The Keepsake Edit</h2>
       <p class="sec-body">Gifting ideas, nostalgic stories, and seasonal guides — from the Barefoot Gifting journal.</p>
     </div>
-    <div class="edit-grid">
+    <div class="edit-grid" id="home-keepsake-grid">
       <a class="ec ec--feat" href="./post.html">
         <div class="ec-img"><img src="./mockup/flowers.png" alt="Mother's Day Gift Guide"></div>
         <div class="ec-bd">
@@ -1243,7 +1250,7 @@ ul { list-style: none; }
       <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/Sunshine birthday.JPG" alt="Seasonal"></div><div class="ec-bd"><div class="ec-cat">Seasonal Edit</div><h3 class="ec-t">The Birthday Gifting Edit: Cards &amp; Boxes for Every Personality</h3><div class="ec-m">5 min read · Jan 2025</div></div></a>
     </div>
     <div style="text-align:center;margin-top:48px;position:relative;z-index:1">
-      <a href="#" class="btn btn-p">Read All Stories <span class="arr">→</span></a>
+      <a href="./journal.html" class="btn btn-p">Read All Stories <span class="arr">→</span></a>
     </div>
   </div>
 </section>
@@ -1426,8 +1433,115 @@ const BFCart = {
   updateBadge() { document.querySelectorAll('.cart-badge').forEach(b => b.textContent = this.count()); }
 };
 
+const HomeKeepsakeAPI = {
+  async getPosts() {
+    const res = await fetch('/api/posts/__root__');
+    if (!res.ok) throw new Error('Could not load posts');
+    return res.json();
+  }
+};
+
+function escapeHTML(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function stripHTML(value) {
+  return String(value || '')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function getHomePostImage(post) {
+  if (Array.isArray(post.images) && post.images.length && post.images[0].url) {
+    return {
+      url: post.images[0].url,
+      alt: post.images[0].alt || post.title,
+    };
+  }
+  return null;
+}
+
+function getHomePostHref(post) {
+  return `./post.html?id=${encodeURIComponent(post.slug || post.id)}`;
+}
+
+function getHomePostExcerpt(post) {
+  if (post.excerpt && post.excerpt.trim()) return post.excerpt.trim();
+  const body = stripHTML(post.body_html);
+  return body.length > 120 ? `${body.slice(0, 117)}...` : body;
+}
+
+function formatHomeShortDate(dateValue) {
+  return new Date(dateValue).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+function estimateHomeReadTime(post) {
+  const words = stripHTML(post.body_html).split(/\s+/).filter(Boolean).length;
+  return `${Math.max(1, Math.round(words / 180))} min read`;
+}
+
+function renderHomeStoryImage(image, className) {
+  if (image?.url) {
+    return `<div class="${className}"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt || 'Keepsake Edit post')}"></div>`;
+  }
+  return `<div class="${className} story-placeholder"><span>Keepsake Edit</span></div>`;
+}
+
+function renderHomeKeepsakePosts(posts) {
+  const grid = document.getElementById('home-keepsake-grid');
+  if (!grid || !Array.isArray(posts) || !posts.length) return;
+
+  const featured = posts[0];
+  const rest = posts.slice(1, 5);
+  const featuredImage = getHomePostImage(featured);
+
+  grid.innerHTML = `
+    <a class="ec ec--feat" href="${escapeHTML(getHomePostHref(featured))}">
+      ${renderHomeStoryImage(featuredImage, 'ec-img')}
+      <div class="ec-bd">
+        <div class="ec-cat">${escapeHTML(featured.category || 'Keepsake Edit')}</div>
+        <h3 class="ec-t">${escapeHTML(featured.title)}</h3>
+        <p class="ec-ex">${escapeHTML(getHomePostExcerpt(featured))}</p>
+        <div class="ec-m">${escapeHTML(featured.read_time || estimateHomeReadTime(featured))} · ${escapeHTML(formatHomeShortDate(featured.created_at))}</div>
+      </div>
+    </a>
+    ${rest.map((post) => {
+      const image = getHomePostImage(post);
+      return `
+        <a class="ec" href="${escapeHTML(getHomePostHref(post))}">
+          ${renderHomeStoryImage(image, 'ec-img')}
+          <div class="ec-bd">
+            <div class="ec-cat">${escapeHTML(post.category || 'Keepsake Edit')}</div>
+            <h3 class="ec-t">${escapeHTML(post.title)}</h3>
+            <div class="ec-m">${escapeHTML(post.read_time || estimateHomeReadTime(post))} · ${escapeHTML(formatHomeShortDate(post.created_at))}</div>
+          </div>
+        </a>
+      `;
+    }).join('')}
+    ${rest.length ? '' : '<div class="edit-empty">More Keepsake stories will appear here as they are published.</div>'}
+  `;
+}
+
 document.addEventListener('DOMContentLoaded', () => {
   BFCart.updateBadge();
+
+  HomeKeepsakeAPI.getPosts()
+    .then((posts) => {
+      if (Array.isArray(posts) && posts.length) renderHomeKeepsakePosts(posts);
+    })
+    .catch(() => {});
 
   document.querySelectorAll('.luxe-add').forEach(btn => {
     btn.addEventListener('click', e => {

@@ -36,6 +36,8 @@
 
 <script src="./account-api.js"></script>
 <script>
+const nextParam = new URLSearchParams(location.search).get('next');
+const safeNext = nextParam && nextParam.startsWith('/') ? nextParam : null;
 const loginForm = document.getElementById('login-form');
 const registerForm = document.getElementById('register-form');
 const toggle = document.getElementById('toggle-link');
@@ -63,7 +65,7 @@ loginForm.addEventListener('submit', async e => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Login failed');
     AccountAPI.login(data.token, data.user);
-    location.href = './dashboard.html';
+    location.href = safeNext || './dashboard.html';
   } catch (e2) { err.textContent = e2.message; err.classList.add('show'); }
 });
 
@@ -83,11 +85,11 @@ registerForm.addEventListener('submit', async e => {
     const data = await res.json();
     if (!res.ok) throw new Error(data.error || 'Registration failed');
     AccountAPI.login(data.token, data.user);
-    location.href = './dashboard.html';
+    location.href = safeNext || './dashboard.html';
   } catch (e2) { err.textContent = e2.message; err.classList.add('show'); }
 });
 
-if (AccountAPI.getToken() && AccountAPI.getUser()) location.href = './dashboard.html';
+if (AccountAPI.getToken() && AccountAPI.getUser()) location.href = safeNext || './dashboard.html';
 </script>
 </body>
 </html>

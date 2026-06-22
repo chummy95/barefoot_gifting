@@ -129,6 +129,40 @@ var(--cream);}
 .more-title{font-family:var(--font-h);font-size:clamp(15px,1.2vw,20px);line-height:1.3;margin-bottom:8px;}
 .more-meta{font-size:11px;color:rgba(22,22,22,.42);}
 
+/* ── COMMENTS ── */
+.post-comments-sec{background:var(--cream);padding:0 0 clamp(56px,7vw,90px);}
+.post-comments-box{background:#fff;border:1px solid rgba(22,22,22,.08);border-radius:3px;padding:clamp(26px,4vw,40px);}
+.post-comments-head{display:flex;justify-content:space-between;align-items:flex-end;gap:24px;margin-bottom:28px;}
+.post-comments-kicker{font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;color:var(--red);margin-bottom:10px;}
+.post-comments-title{font-family:var(--font-h);font-size:clamp(28px,3vw,42px);line-height:1.08;}
+.post-comments-sub{font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.64);max-width:520px;}
+.post-comments-count{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,22,22,.45);white-space:nowrap;}
+.post-comments-grid{display:grid;grid-template-columns:minmax(0,1.15fr) minmax(300px,.85fr);gap:24px;align-items:start;}
+.post-comment-list{display:flex;flex-direction:column;gap:16px;}
+.post-comment-empty{background:var(--cream);border:1px solid rgba(22,22,22,.06);border-radius:3px;padding:22px;font-size:14px;line-height:1.8;color:rgba(22,22,22,.65);}
+.post-comment-card{background:var(--cream);border:1px solid rgba(22,22,22,.06);border-radius:3px;padding:22px;}
+.post-comment-top{display:flex;justify-content:space-between;gap:16px;align-items:flex-start;margin-bottom:12px;}
+.post-comment-name{font-size:14px;font-weight:700;color:var(--ink);}
+.post-comment-date{font-size:12px;color:rgba(22,22,22,.45);margin-top:4px;}
+.post-comment-badge{font-size:10px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:var(--red);}
+.post-comment-body{font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.75);}
+.post-comment-form-card{background:linear-gradient(180deg,#fff 0%,#fff8ef 100%);border:1px solid rgba(22,22,22,.08);border-radius:3px;padding:24px;}
+.post-comment-form-card h3{font-family:var(--font-h);font-size:30px;line-height:1.08;margin-bottom:10px;}
+.post-comment-form-card p{font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.64);margin-bottom:18px;}
+.post-comment-feedback{display:none;border-radius:3px;padding:12px 14px;font-size:13px;line-height:1.6;margin-bottom:14px;}
+.post-comment-feedback.show{display:block;}
+.post-comment-feedback.ok{background:rgba(218,234,176,.45);color:var(--ink);}
+.post-comment-feedback.err{background:rgba(221,64,64,.08);color:var(--red);}
+.post-comment-form textarea{width:100%;border:1.5px solid rgba(22,22,22,.14);border-radius:2px;padding:12px 14px;font-family:var(--font-b);font-size:13px;color:var(--ink);outline:none;background:#fff;transition:border-color .2s;resize:none;min-height:150px;}
+.post-comment-form textarea:focus{border-color:var(--red);}
+.post-comment-form label{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,22,22,.55);margin-bottom:7px;}
+.post-comment-note{font-size:11px;color:rgba(22,22,22,.42);line-height:1.7;margin-top:12px;}
+.post-comment-auth{background:rgba(255,255,255,.9);border:1px solid rgba(22,22,22,.08);border-radius:3px;padding:18px;margin-bottom:18px;}
+.post-comment-auth strong{display:block;font-size:13px;color:var(--ink);margin-bottom:4px;}
+.post-comment-auth span{font-size:12px;color:rgba(22,22,22,.52);}
+.post-comment-login{background:var(--cream);border:1px solid rgba(22,22,22,.06);border-radius:3px;padding:18px;display:flex;flex-direction:column;gap:12px;}
+.post-comment-login p{margin:0;font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.68);}
+
 /* ── FOOTER ── */
 .footer{background:var(--sage);color:var(--ink);position:relative;overflow:hidden;}
 .footer-mark{position:absolute;bottom:-40px;left:-40px;width:360px;height:360px;opacity:.1;pointer-events:none;}
@@ -315,8 +349,42 @@ var(--cream);}
       </aside>
 
     </div>
-  </div>
 </div>
+</div>
+
+<section class="post-comments-sec" id="post-comments-sec" hidden>
+  <div class="wrap">
+    <div class="post-comments-box">
+      <div class="post-comments-head">
+        <div>
+          <div class="post-comments-kicker">Comments from Readers</div>
+          <h2 class="post-comments-title">Join the conversation</h2>
+          <p class="post-comments-sub">Customers with Barefoot accounts can share their thoughts, memories, and reactions to this Keepsake story.</p>
+        </div>
+        <div class="post-comments-count" id="post-comments-count">Loading comments…</div>
+      </div>
+      <div class="post-comments-grid">
+        <div class="post-comment-list" id="post-comments-list">
+          <div class="post-comment-empty">Loading comments…</div>
+        </div>
+        <div class="post-comment-form-card">
+          <h3>Leave a comment</h3>
+          <p>Add your take on the story below. You’ll need to be signed in with a customer account to publish a comment.</p>
+          <div class="post-comment-feedback" id="post-comment-feedback"></div>
+          <div id="post-comment-auth-slot"></div>
+          <form class="post-comment-form" id="post-comment-form" hidden>
+            <div>
+              <label for="post-comment-body">Your Comment</label>
+              <textarea id="post-comment-body" name="body" maxlength="1200" placeholder="What did this story make you think about?" required></textarea>
+            </div>
+            <button class="btn btn-p" id="post-comment-submit" type="submit">Post Comment <span class="arr">→</span></button>
+            <p class="post-comment-note">Your comment will appear with the name on your Barefoot account.</p>
+          </form>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
 
 <!-- MORE POSTS -->
 <section class="more-sec">
@@ -380,6 +448,7 @@ var(--cream);}
   </div>
 </footer>
 
+<script src="./account/account-api.js"></script>
 <script>
 const BFCart={key:'bfg_cart',get(){try{return JSON.parse(localStorage.getItem(this.key))||[];}catch{return[];}},count(){return this.get().reduce((s,i)=>s+i.qty,0);},updateBadge(){document.querySelectorAll('.cart-badge').forEach(b=>b.textContent=this.count());}};
 const PostAPI = {
@@ -391,6 +460,27 @@ const PostAPI = {
   async getPosts() {
     const res = await fetch('/api/posts/__root__');
     if (!res.ok) throw new Error('Could not load posts');
+    return res.json();
+  },
+  async getComments(postId) {
+    const res = await fetch(`/api/comments/__root__?postId=${encodeURIComponent(postId)}`);
+    if (!res.ok) throw new Error('Could not load comments');
+    return res.json();
+  },
+  async createComment(payload) {
+    const token = AccountAPI?.getToken?.();
+    const res = await fetch('/api/comments/__root__', {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+        ...(token ? { Authorization: `Bearer ${token}` } : {}),
+      },
+      body: JSON.stringify(payload),
+    });
+    if (!res.ok) {
+      const error = await res.json().catch(() => ({ error: 'Could not save comment' }));
+      throw new Error(error.error || 'Could not save comment');
+    }
     return res.json();
   }
 };
@@ -501,6 +591,100 @@ function renderGallery(images) {
   `;
 }
 
+function renderPostComments(comments) {
+  const count = document.getElementById('post-comments-count');
+  const list = document.getElementById('post-comments-list');
+  if (!count || !list) return;
+
+  count.textContent = comments.length
+    ? `${comments.length} comment${comments.length === 1 ? '' : 's'}`
+    : 'No comments yet';
+
+  if (!comments.length) {
+    list.innerHTML = '<div class="post-comment-empty">No one has commented on this Keepsake story yet. Be the first to share a thought if you have a Barefoot account.</div>';
+    return;
+  }
+
+  list.innerHTML = comments.map((comment) => `
+    <article class="post-comment-card">
+      <div class="post-comment-top">
+        <div>
+          <div class="post-comment-name">${escapeHTML(comment.name)}</div>
+          <div class="post-comment-date">${escapeHTML(formatShortDate(comment.created_at))}</div>
+        </div>
+        <div class="post-comment-badge">Reader Comment</div>
+      </div>
+      <p class="post-comment-body">${escapeHTML(comment.body)}</p>
+    </article>
+  `).join('');
+}
+
+function renderCommentComposer(post) {
+  const section = document.getElementById('post-comments-sec');
+  const slot = document.getElementById('post-comment-auth-slot');
+  const form = document.getElementById('post-comment-form');
+  const feedback = document.getElementById('post-comment-feedback');
+  const submit = document.getElementById('post-comment-submit');
+  if (!section || !slot || !form || !feedback || !submit) return;
+
+  section.hidden = false;
+  const user = AccountAPI?.getUser?.();
+  const token = AccountAPI?.getToken?.();
+
+  if (!user || !token) {
+    const next = encodeURIComponent(`${window.location.pathname}${window.location.search}`);
+    slot.innerHTML = `
+      <div class="post-comment-login">
+        <p>Sign in with your Barefoot customer account to leave a comment on this story.</p>
+        <a class="btn btn-p" href="./account/index.html?next=${next}">Sign In or Create Account <span class="arr">→</span></a>
+      </div>
+    `;
+    form.hidden = true;
+    return;
+  }
+
+  slot.innerHTML = `
+    <div class="post-comment-auth">
+      <strong>Signed in as ${escapeHTML(user.name || user.email || 'Barefoot customer')}</strong>
+      <span>${escapeHTML(user.email || '')}</span>
+    </div>
+  `;
+  form.hidden = false;
+
+  if (form.dataset.bound === 'true') return;
+  form.dataset.bound = 'true';
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    const body = String(document.getElementById('post-comment-body').value || '').trim();
+    feedback.className = 'post-comment-feedback';
+
+    if (!body) {
+      feedback.textContent = 'Please write a comment before posting.';
+      feedback.classList.add('show', 'err');
+      return;
+    }
+
+    submit.disabled = true;
+    submit.textContent = 'Posting…';
+
+    try {
+      await PostAPI.createComment({ postId: post.id, body });
+      document.getElementById('post-comment-body').value = '';
+      const comments = await PostAPI.getComments(post.id);
+      renderPostComments(comments);
+      feedback.textContent = 'Your comment is live below.';
+      feedback.classList.add('show', 'ok');
+    } catch (error) {
+      feedback.textContent = error.message || 'Your comment could not be posted right now.';
+      feedback.classList.add('show', 'err');
+    } finally {
+      submit.disabled = false;
+      submit.innerHTML = 'Post Comment <span class="arr">→</span>';
+    }
+  });
+}
+
 function renderSidebarRelated(posts) {
   const sidebar = document.querySelector('.sidebar-products');
   if (!sidebar || !posts.length) return;
@@ -582,7 +766,16 @@ document.addEventListener('DOMContentLoaded',()=>{
   if (!id) return;
 
   Promise.all([PostAPI.getPost(id), PostAPI.getPosts()])
-    .then(([post, posts]) => renderDynamicPost(post, posts))
+    .then(async ([post, posts]) => {
+      renderDynamicPost(post, posts);
+      renderCommentComposer(post);
+      try {
+        const comments = await PostAPI.getComments(post.id);
+        renderPostComments(comments);
+      } catch {
+        renderPostComments([]);
+      }
+    })
     .catch(() => renderNotFound());
 });
 </script>
