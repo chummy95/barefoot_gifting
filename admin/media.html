@@ -75,8 +75,10 @@ if (AdminAPI.requireAuth()) {
         <img src="${escapeHTML(m.url)}" loading="lazy" alt="${escapeHTML(m.alt || m.filename)}">
         <div class="meta">
           <div class="name" title="${escapeHTML(m.filename)}">${escapeHTML(m.filename)}</div>
-          <div class="muted">${m.kind === 'site' ? 'Site asset' : 'Uploaded file'} · ${formatSize(m.size_bytes)}</div>
-          <button class="btn btn-o btn-sm" data-copy-url="${escapeHTML(m.url)}">Copy URL</button>
+          <div class="muted">${m.kind === 'site' ? 'Site asset' : (m.storage_kind === 'inline' ? 'Uploaded file · Inline storage' : 'Uploaded file')} · ${formatSize(m.size_bytes)}</div>
+          ${m.storage_kind === 'inline'
+            ? '<button class="btn btn-o btn-sm" disabled>Inline only</button>'
+            : `<button class="btn btn-o btn-sm" data-copy-url="${escapeHTML(m.url)}">Copy URL</button>`}
           ${m.readonly ? '<button class="btn btn-o btn-sm" disabled>Read only</button>' : `<button class="btn btn-danger btn-sm" data-remove-id="${m.id}">Delete</button>`}
         </div>
       </div>
