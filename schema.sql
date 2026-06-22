@@ -35,6 +35,28 @@ CREATE TABLE IF NOT EXISTS product_images (
   position   INTEGER NOT NULL DEFAULT 0
 );
 
+CREATE TABLE IF NOT EXISTS posts (
+  id         SERIAL PRIMARY KEY,
+  slug       TEXT UNIQUE NOT NULL,
+  title      TEXT NOT NULL,
+  category   TEXT NOT NULL DEFAULT 'Keepsake Edit',
+  excerpt    TEXT,
+  body_html  TEXT NOT NULL DEFAULT '',
+  author     TEXT NOT NULL DEFAULT 'Barefoot Gifting Team',
+  read_time  TEXT,
+  status     TEXT NOT NULL DEFAULT 'published',
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS post_images (
+  id       SERIAL PRIMARY KEY,
+  post_id  INTEGER NOT NULL REFERENCES posts(id) ON DELETE CASCADE,
+  url      TEXT NOT NULL,
+  alt      TEXT,
+  position INTEGER NOT NULL DEFAULT 0
+);
+
 -- Media library (all uploaded images: product photos, blog images, etc.)
 CREATE TABLE IF NOT EXISTS media (
   id         SERIAL PRIMARY KEY,

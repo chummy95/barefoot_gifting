@@ -1,0 +1,328 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Keepsake Edit — Barefoot Gifting Admin</title>
+<link rel="stylesheet" href="./admin.css">
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">Barefoot<span>.</span> Admin</div>
+    <nav>
+      <a href="./dashboard.html" data-nav="dashboard">📊 Dashboard</a>
+      <a href="./products.html" data-nav="products">🎁 Products</a>
+      <a href="./media.html" data-nav="media">🖼️ Media Library</a>
+      <a href="./orders.html" data-nav="orders">📦 Orders</a>
+      <a href="./comments.html" data-nav="comments">💬 Comments &amp; Reviews</a>
+      <a href="./customers.html" data-nav="customers">👤 Customers</a>
+      <a href="./settings.html" data-nav="settings">⚙️ Settings &amp; Paystack</a>
+    </nav>
+    <div class="foot">
+      <div data-who>—</div>
+      <button class="btn btn-o btn-sm btn-block" data-logout>Log Out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h1>Keepsake Edit</h1>
+      <div class="who" data-who>—</div>
+    </div>
+    <div class="content">
+      <div class="panel">
+        <div class="toolbar">
+          <input type="search" id="search" placeholder="Search posts…">
+          <select id="cat-filter">
+            <option value="">All categories</option>
+          </select>
+          <select id="status-filter">
+            <option value="">All statuses</option>
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+          <button class="btn btn-p" id="add-btn" style="margin-left:auto">+ New Post</button>
+        </div>
+        <table>
+          <thead><tr><th></th><th>Title</th><th>Category</th><th>Created</th><th>Status</th><th>Author</th><th></th></tr></thead>
+          <tbody id="rows"><tr><td colspan="7" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal" style="max-width:780px">
+    <h3 id="modal-title">New Keepsake Post</h3>
+    <div class="error-msg" id="modal-err"></div>
+    <form id="post-form">
+      <div class="field"><label>Title</label><input type="text" id="f-title" required></div>
+      <div class="row">
+        <div class="field">
+          <label>Category</label>
+          <input type="text" id="f-category" list="category-options" required>
+          <datalist id="category-options"></datalist>
+        </div>
+        <div class="field">
+          <label>Status</label>
+          <select id="f-status">
+            <option value="published">Published</option>
+            <option value="draft">Draft</option>
+          </select>
+        </div>
+      </div>
+      <div class="row">
+        <div class="field"><label>Author</label><input type="text" id="f-author" value="Barefoot Gifting Team"></div>
+        <div class="field"><label>Read Time</label><input type="text" id="f-read-time" placeholder="e.g. 6 min read"></div>
+      </div>
+      <div class="field"><label>Excerpt</label><textarea id="f-excerpt" rows="3" placeholder="A short summary that shows on the Keepsake listing page."></textarea></div>
+      <div class="field">
+        <label>Body Copy</label>
+        <textarea id="f-body" rows="14" placeholder="Write the story here. Plain paragraphs work, and HTML is also supported for richer layouts like headings, links, and embedded images."></textarea>
+        <p class="muted" style="font-size:12px;margin:8px 0 0">If you paste plain text, the website will automatically turn paragraphs into readable article blocks.</p>
+      </div>
+
+      <div class="field">
+        <label>Story Images</label>
+        <div class="img-grid" id="gallery"></div>
+        <div style="margin-top:10px; display:flex; gap:10px; align-items:center;">
+          <input type="file" id="gallery-upload" accept="image/*" multiple>
+        </div>
+        <p class="muted" style="font-size:12px;margin:6px 0 0">The first image becomes the cover/hero image. Remaining uploads appear in the post gallery.</p>
+      </div>
+
+      <div class="modal-actions">
+        <button type="button" class="btn btn-o" id="cancel-btn">Cancel</button>
+        <button type="submit" class="btn btn-p" id="save-btn">Save Post</button>
+      </div>
+    </form>
+  </div>
+</div>
+
+<script src="./admin-api.js"></script>
+<script>
+if (AdminAPI.requireAuth()) {
+  renderAdminShell('posts');
+
+  const DEFAULT_CATEGORIES = ['Gift Guide', 'Nostalgic Stories', 'Product Spotlight', 'Behind the Scenes', 'Seasonal Edit'];
+  let posts = [];
+  let editingId = null;
+  let galleryImages = [];
+
+  function escapeHTML(value) {
+    return String(value ?? '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
+  function statusLabel(status) {
+    return status === 'published' ? 'Published' : 'Draft';
+  }
+
+  function formatDateTime(value) {
+    return new Date(value).toLocaleString('en-GB', {
+      day: '2-digit',
+      month: 'short',
+      year: 'numeric',
+      hour: 'numeric',
+      minute: '2-digit',
+    });
+  }
+
+  function collectCategories() {
+    const seen = new Set();
+    const categories = [];
+    [...DEFAULT_CATEGORIES, ...posts.map((post) => post.category).filter(Boolean)].forEach((category) => {
+      if (seen.has(category)) return;
+      seen.add(category);
+      categories.push(category);
+    });
+    return categories;
+  }
+
+  function syncCategoryInputs() {
+    const categories = collectCategories();
+    const filter = document.getElementById('cat-filter');
+    const currentFilter = filter.value;
+    filter.innerHTML = '<option value="">All categories</option>' + categories.map((category) => `
+      <option value="${escapeHTML(category)}">${escapeHTML(category)}</option>
+    `).join('');
+    if (categories.includes(currentFilter)) filter.value = currentFilter;
+
+    document.getElementById('category-options').innerHTML = categories.map((category) => `
+      <option value="${escapeHTML(category)}"></option>
+    `).join('');
+  }
+
+  async function load() {
+    const params = new URLSearchParams();
+    const category = document.getElementById('cat-filter').value;
+    const search = document.getElementById('search').value.trim();
+    const status = document.getElementById('status-filter').value;
+    if (category) params.set('category', category);
+    if (search) params.set('search', search);
+    if (status) params.set('status', status);
+
+    posts = await AdminAPI.get('/posts/__root__' + (params.toString() ? '?' + params.toString() : ''));
+    syncCategoryInputs();
+
+    const rows = document.getElementById('rows');
+    if (!posts.length) {
+      rows.innerHTML = '<tr><td colspan="7" class="empty">No Keepsake posts yet.</td></tr>';
+      return;
+    }
+
+    rows.innerHTML = posts.map((post) => `
+      <tr>
+        <td>${post.images?.[0] ? `<img class="thumb" src="${escapeHTML(post.images[0].url)}" alt="${escapeHTML(post.title)}">` : '—'}</td>
+        <td>
+          <div style="font-weight:600">${escapeHTML(post.title)}</div>
+          <div class="muted" style="font-size:12px;margin-top:4px">${escapeHTML(post.excerpt || '')}</div>
+        </td>
+        <td>${escapeHTML(post.category)}</td>
+        <td>${escapeHTML(formatDateTime(post.created_at))}</td>
+        <td><span class="tag tag-${post.status}">${statusLabel(post.status)}</span></td>
+        <td>${escapeHTML(post.author || 'Barefoot Gifting Team')}</td>
+        <td style="white-space:nowrap">
+          <a class="btn btn-o btn-sm" href="../post.html?id=${encodeURIComponent(post.slug)}" target="_blank" rel="noopener">View</a>
+          <button class="btn btn-o btn-sm" onclick="editPost(${post.id})">Edit</button>
+          <button class="btn btn-o btn-sm" onclick="togglePostStatus(${post.id})">${post.status === 'published' ? 'Unpublish' : 'Publish'}</button>
+          <button class="btn btn-danger btn-sm" onclick="deletePost(${post.id})">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function openModal(title) {
+    document.getElementById('modal-title').textContent = title;
+    document.getElementById('modal-err').classList.remove('show');
+    document.getElementById('modal-bg').classList.add('show');
+  }
+
+  function closeModal() {
+    document.getElementById('modal-bg').classList.remove('show');
+    document.getElementById('post-form').reset();
+    document.getElementById('f-author').value = 'Barefoot Gifting Team';
+    document.getElementById('f-status').value = 'published';
+    editingId = null;
+    galleryImages = [];
+    renderGallery();
+  }
+
+  function renderGallery() {
+    const grid = document.getElementById('gallery');
+    if (!galleryImages.length) {
+      grid.innerHTML = '<p class="muted" style="font-size:12px">No images yet.</p>';
+      return;
+    }
+
+    grid.innerHTML = galleryImages.map((image, index) => `
+      <div class="img-card">
+        <img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt || '')}">
+        <div class="meta">
+          <div class="name">${index === 0 ? 'Cover image' : 'Image ' + (index + 1)}</div>
+          <button type="button" class="btn btn-danger btn-sm" onclick="removeGalleryImage(${index})">Remove</button>
+        </div>
+      </div>
+    `).join('');
+  }
+
+  window.removeGalleryImage = (index) => {
+    galleryImages.splice(index, 1);
+    renderGallery();
+  };
+
+  window.editPost = (id) => {
+    const post = posts.find((item) => item.id === id);
+    if (!post) return;
+
+    editingId = id;
+    document.getElementById('f-title').value = post.title;
+    document.getElementById('f-category').value = post.category || '';
+    document.getElementById('f-author').value = post.author || 'Barefoot Gifting Team';
+    document.getElementById('f-read-time').value = post.read_time || '';
+    document.getElementById('f-status').value = post.status || 'published';
+    document.getElementById('f-excerpt').value = post.excerpt || '';
+    document.getElementById('f-body').value = post.body_html || '';
+    galleryImages = (post.images || []).map((image) => ({ url: image.url, alt: image.alt || post.title }));
+    renderGallery();
+    openModal('Edit Keepsake Post');
+  };
+
+  window.togglePostStatus = async (id) => {
+    const post = posts.find((item) => item.id === id);
+    if (!post) return;
+    await AdminAPI.put(`/posts/${id}`, { status: post.status === 'published' ? 'draft' : 'published' });
+    load();
+  };
+
+  window.deletePost = async (id) => {
+    if (!confirm('Delete this post? This cannot be undone.')) return;
+    await AdminAPI.del(`/posts/${id}`);
+    load();
+  };
+
+  document.getElementById('add-btn').addEventListener('click', () => {
+    document.getElementById('post-form').reset();
+    document.getElementById('f-author').value = 'Barefoot Gifting Team';
+    document.getElementById('f-status').value = 'published';
+    galleryImages = [];
+    renderGallery();
+    openModal('New Keepsake Post');
+  });
+
+  document.getElementById('cancel-btn').addEventListener('click', closeModal);
+  document.getElementById('search').addEventListener('input', load);
+  document.getElementById('cat-filter').addEventListener('change', load);
+  document.getElementById('status-filter').addEventListener('change', load);
+
+  document.getElementById('gallery-upload').addEventListener('change', async (event) => {
+    const files = [...event.target.files];
+    for (const file of files) {
+      try {
+        const media = await AdminAPI.uploadFile(file, document.getElementById('f-title').value || file.name);
+        galleryImages.push({ url: media.url, alt: media.alt || document.getElementById('f-title').value || file.name });
+      } catch (error) {
+        alert('Upload failed: ' + error.message);
+      }
+    }
+    renderGallery();
+    event.target.value = '';
+  });
+
+  document.getElementById('post-form').addEventListener('submit', async (event) => {
+    event.preventDefault();
+
+    const payload = {
+      title: document.getElementById('f-title').value.trim(),
+      category: document.getElementById('f-category').value.trim(),
+      author: document.getElementById('f-author').value.trim(),
+      read_time: document.getElementById('f-read-time').value.trim(),
+      status: document.getElementById('f-status').value,
+      excerpt: document.getElementById('f-excerpt').value.trim(),
+      body_html: document.getElementById('f-body').value.trim(),
+      images: galleryImages,
+    };
+
+    try {
+      if (editingId) await AdminAPI.put(`/posts/${editingId}`, payload);
+      else await AdminAPI.post('/posts', payload);
+      closeModal();
+      load();
+    } catch (error) {
+      const message = document.getElementById('modal-err');
+      message.textContent = error.message;
+      message.classList.add('show');
+    }
+  });
+
+  load();
+}
+</script>
+</body>
+</html>

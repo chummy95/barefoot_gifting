@@ -81,6 +81,11 @@ ul{list-style:none;}
 .post-video iframe{position:absolute;top:0;left:0;width:100%;height:100%;border:0;}
 .post-pullquote{background:var(--cream);border-radius:3px;padding:40px;margin:44px 0;text-align:center;}
 .post-pullquote p{font-family:var(--font-h);font-size:clamp(20px,2.2vw,30px);line-height:1.35;color:var(--ink);font-style:italic;}
+.post-gallery{margin:48px 0 0;}
+.post-gallery h3{font-family:var(--font-h);font-size:clamp(20px,2vw,28px);margin-bottom:18px;}
+.post-gallery-grid{display:grid;grid-template-columns:repeat(2,minmax(0,1fr));gap:18px;}
+.post-gallery-card{aspect-ratio:16/10;overflow:hidden;border-radius:3px;background:var(--peach);}
+.post-gallery-card img{width:100%;height:100%;object-fit:cover;}
 .post-cta{background:var(--red);border-radius:3px;padding:36px 40px;margin:48px 0;display:flex;align-items:center;justify-content:space-between;gap:24px;flex-wrap:wrap;}
 .post-cta-text h3{font-family:var(--font-h);font-size:clamp(20px,2vw,28px);color:#fff;margin-bottom:6px;}
 .post-cta-text p{font-size:13px;font-weight:300;color:rgba(255,255,255,.75);}
@@ -107,6 +112,8 @@ ul{list-style:none;}
 .more-sec{background:#ffffff;padding:clamp(60px,7vw,96px) 0;}
 .more-sec h2{font-family:var(--font-h);font-size:clamp(26px,2.8vw,40px);margin-bottom:40px;}
 .more-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:24px;}
+.post-empty{font-size:15px;line-height:1.9;color:rgba(22,22,22,.7);}
+.post-empty a{color:var(--red);font-weight:700;text-decoration:underline;}
 .more-card{background:var(--cream);border-radius:3px;overflow:hidden;transition:transform .3s,box-shadow .3s;}
 .more-card:hover{transform:translateY(-4px);box-shadow:0 16px 40px rgba(22,22,22,.1);}
 .more-img{aspect-ratio:16/10;overflow:hidden;background:var(--peach);}
@@ -310,7 +317,7 @@ ul{list-style:none;}
 <section class="more-sec">
   <div class="wrap">
     <h2>More from the Journal</h2>
-    <div class="more-grid">
+    <div class="more-grid" id="more-grid">
       <a class="more-card" href="./post.html">
         <div class="more-img"><img src="./PRODUCTS/Coke and Fanta.JPG" alt="Nostalgia"></div>
         <div class="more-bd">
@@ -370,7 +377,195 @@ ul{list-style:none;}
 
 <script>
 const BFCart={key:'bfg_cart',get(){try{return JSON.parse(localStorage.getItem(this.key))||[];}catch{return[];}},count(){return this.get().reduce((s,i)=>s+i.qty,0);},updateBadge(){document.querySelectorAll('.cart-badge').forEach(b=>b.textContent=this.count());}};
-document.addEventListener('DOMContentLoaded',()=>BFCart.updateBadge());
+const PostAPI = {
+  async getPost(id) {
+    const res = await fetch(`/api/posts/${encodeURIComponent(id)}`);
+    if (!res.ok) throw new Error('Post not found');
+    return res.json();
+  },
+  async getPosts() {
+    const res = await fetch('/api/posts/__root__');
+    if (!res.ok) throw new Error('Could not load posts');
+    return res.json();
+  }
+};
+
+function escapeHTML(value){
+  return String(value ?? '')
+    .replace(/&/g,'&amp;')
+    .replace(/</g,'&lt;')
+    .replace(/>/g,'&gt;')
+    .replace(/"/g,'&quot;')
+    .replace(/'/g,'&#39;');
+}
+
+function stripHTML(value) {
+  return String(value || '')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function getPostImage(post) {
+  if (Array.isArray(post.images) && post.images.length && post.images[0].url) {
+    return {
+      url: post.images[0].url,
+      alt: post.images[0].alt || post.title,
+    };
+  }
+  return {
+    url: './Png Files/Logo-cropped.png',
+    alt: post.title || 'Keepsake Edit story',
+  };
+}
+
+function getPostExcerpt(post) {
+  if (post.excerpt && post.excerpt.trim()) return post.excerpt.trim();
+  const body = stripHTML(post.body_html);
+  return body.length > 150 ? `${body.slice(0, 147)}...` : body;
+}
+
+function getPostHref(post) {
+  return `./post.html?id=${encodeURIComponent(post.slug || post.id)}`;
+}
+
+function formatPostDate(value) {
+  return new Date(value).toLocaleString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
+function formatShortDate(value) {
+  return new Date(value).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+function estimateReadTime(post) {
+  const words = stripHTML(post.body_html).split(/\s+/).filter(Boolean).length;
+  return `${Math.max(1, Math.round(words / 180))} min read`;
+}
+
+function bodyToHTML(body) {
+  const trimmed = String(body || '').trim();
+  if (!trimmed) return '<p>This story will be published here soon.</p>';
+  if (/<[a-z][\s\S]*>/i.test(trimmed)) return trimmed;
+  return trimmed
+    .split(/\n{2,}/)
+    .map((block) => `<p>${escapeHTML(block).replace(/\n/g, '<br>')}</p>`)
+    .join('');
+}
+
+function renderGallery(images) {
+  if (!images.length) return '';
+  return `
+    <section class="post-gallery">
+      <h3>Story Gallery</h3>
+      <div class="post-gallery-grid">
+        ${images.map((image) => `
+          <div class="post-gallery-card">
+            <img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt || 'Keepsake image')}">
+          </div>
+        `).join('')}
+      </div>
+    </section>
+  `;
+}
+
+function renderSidebarRelated(posts) {
+  const sidebar = document.querySelector('.sidebar-products');
+  if (!sidebar || !posts.length) return;
+  sidebar.innerHTML = `
+    <div class="sidebar-title">More from Keepsake Edit</div>
+    ${posts.map((post) => {
+      const image = getPostImage(post);
+      return `
+        <a class="sidebar-prod" href="${escapeHTML(getPostHref(post))}">
+          <div class="sidebar-prod-img"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt)}"></div>
+          <div>
+            <div class="sidebar-prod-name">${escapeHTML(post.title)}</div>
+            <div class="sidebar-prod-price">${escapeHTML(formatShortDate(post.created_at))}</div>
+          </div>
+        </a>
+      `;
+    }).join('')}
+  `;
+}
+
+function renderMorePosts(posts) {
+  const root = document.getElementById('more-grid');
+  if (!root) return;
+  if (!posts.length) {
+    root.innerHTML = '<div class="post-empty">No other published Keepsake stories yet.</div>';
+    return;
+  }
+
+  root.innerHTML = posts.map((post) => {
+    const image = getPostImage(post);
+    return `
+      <a class="more-card" href="${escapeHTML(getPostHref(post))}">
+        <div class="more-img"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt)}"></div>
+        <div class="more-bd">
+          <div class="more-cat">${escapeHTML(post.category)}</div>
+          <div class="more-title">${escapeHTML(post.title)}</div>
+          <div class="more-meta">${escapeHTML(post.read_time || estimateReadTime(post))} · ${escapeHTML(formatShortDate(post.created_at))}</div>
+        </div>
+      </a>
+    `;
+  }).join('');
+}
+
+function renderNotFound() {
+  document.title = 'Post Not Found — Barefoot Gifting';
+  document.getElementById('post-cat-bc').textContent = 'Keepsake Edit';
+  document.getElementById('post-cat').textContent = 'Keepsake Edit';
+  document.getElementById('post-title').textContent = 'Story not found';
+  document.getElementById('post-author').textContent = 'Barefoot Gifting Team';
+  document.getElementById('post-date').textContent = 'Unavailable';
+  document.getElementById('post-read').textContent = '—';
+  document.getElementById('post-hero-img').src = './Png Files/Logo-cropped.png';
+  document.getElementById('post-hero-img').alt = 'Barefoot Gifting';
+  document.getElementById('post-body').innerHTML = '<p class="post-empty">We couldn’t find that Keepsake story. <a href="./journal.html">Back to Keepsake Edit</a></p>';
+  renderMorePosts([]);
+}
+
+function renderDynamicPost(post, allPosts) {
+  const cover = getPostImage(post);
+  const related = allPosts.filter((item) => (item.slug || item.id) !== (post.slug || post.id)).slice(0, 3);
+
+  document.title = `${post.title} — Barefoot Gifting`;
+  document.getElementById('post-cat-bc').textContent = post.category || 'Keepsake Edit';
+  document.getElementById('post-cat').textContent = post.category || 'Keepsake Edit';
+  document.getElementById('post-title').textContent = post.title;
+  document.getElementById('post-author').textContent = post.author || 'Barefoot Gifting Team';
+  document.getElementById('post-date').textContent = formatPostDate(post.created_at);
+  document.getElementById('post-read').textContent = post.read_time || estimateReadTime(post);
+  document.getElementById('post-hero-img').src = cover.url;
+  document.getElementById('post-hero-img').alt = cover.alt;
+  document.getElementById('post-body').innerHTML = bodyToHTML(post.body_html) + renderGallery((post.images || []).slice(1));
+
+  renderSidebarRelated(related);
+  renderMorePosts(related);
+}
+
+document.addEventListener('DOMContentLoaded',()=>{
+  BFCart.updateBadge();
+  const params = new URLSearchParams(window.location.search);
+  const id = params.get('id');
+  if (!id) return;
+
+  Promise.all([PostAPI.getPost(id), PostAPI.getPosts()])
+    .then(([post, posts]) => renderDynamicPost(post, posts))
+    .catch(() => renderNotFound());
+});
 </script>
 </body>
 </html>

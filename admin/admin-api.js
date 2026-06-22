@@ -78,6 +78,16 @@ function renderAdminShell(active) {
   if (brand) {
     brand.innerHTML = '<img src="../Png Files/Artboard 1 copy 10@2x.png" alt="Barefoot Gifting">';
   }
+  const nav = document.querySelector('.sidebar nav');
+  if (nav && !nav.querySelector('[data-nav="posts"]')) {
+    const mediaLink = nav.querySelector('[data-nav="media"]');
+    const postsLink = document.createElement('a');
+    postsLink.href = './posts.html';
+    postsLink.dataset.nav = 'posts';
+    postsLink.textContent = '📝 Keepsake Edit';
+    if (mediaLink) nav.insertBefore(postsLink, mediaLink);
+    else nav.appendChild(postsLink);
+  }
   document.querySelectorAll('[data-nav]').forEach(a => {
     if (a.dataset.nav === active) a.classList.add('active');
   });

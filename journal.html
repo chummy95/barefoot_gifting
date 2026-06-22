@@ -88,6 +88,7 @@ ul{list-style:none;}
 .ac-exc{font-size:13px;font-weight:300;line-height:1.75;color:rgba(22,22,22,.62);margin-bottom:10px;}
 .ac-meta{font-size:11px;color:rgba(22,22,22,.4);letter-spacing:.05em;}
 .load-more{text-align:center;margin-top:56px;}
+.journal-empty{grid-column:1 / -1;padding:24px 0;font-size:14px;color:rgba(22,22,22,.55);text-align:center;}
 
 /* NEWSLETTER */
 .nl-sec{background:var(--gold);padding:clamp(72px,9vw,110px) 0;position:relative;overflow:hidden;text-align:center;}
@@ -204,14 +205,14 @@ ul{list-style:none;}
 <section class="feat-sec">
   <div class="wrap">
     <div style="margin-bottom:14px"><span class="label label-red">Featured Story</span></div>
-    <div class="feat-grid">
+    <div class="feat-grid" id="featured-root">
       <div class="feat-img"><img src="./mockup/flowers.png" alt="Mother's Day Gift Guide"></div>
       <div>
         <div class="feat-tag">Gift Guide · May 2025</div>
         <h2 class="feat-title">The Ultimate Mother's Day Gift Guide for 2025 — from Abuja with Love</h2>
         <p class="feat-exc">From the card that makes her cry (happy tears) to the gift box that makes her feel truly seen — our most comprehensive Mother's Day guide yet, curated with intention for every kind of mum.</p>
         <div class="feat-meta">8 min read &nbsp;·&nbsp; May 2025</div>
-        <a href="#" class="btn btn-p">Read the Full Guide <span class="arr">→</span></a>
+        <a href="./post.html" class="btn btn-p">Read the Full Guide <span class="arr">→</span></a>
       </div>
     </div>
   </div>
@@ -224,7 +225,7 @@ ul{list-style:none;}
 <!-- FILTER + GRID -->
 <section class="filter-sec">
   <div class="wrap">
-    <div class="filter-row">
+    <div class="filter-row" id="filter-row">
       <button class="fpill active">All</button>
       <button class="fpill">Gift Guides</button>
       <button class="fpill">Nostalgic Stories</button>
@@ -237,7 +238,7 @@ ul{list-style:none;}
 
 <section class="grid-sec">
   <div class="wrap">
-    <div class="art-grid">
+    <div class="art-grid" id="posts-grid">
 
       <div class="ac">
         <div class="ac-img"><img src="./PRODUCTS/Coke and Fanta.JPG" alt="Nostalgia"></div>
@@ -300,7 +301,7 @@ ul{list-style:none;}
       </div>
 
     </div>
-    <div class="load-more">
+    <div class="load-more" id="posts-meta">
       <a href="#" class="btn btn-o">Load More Stories <span class="arr">→</span></a>
     </div>
   </div>
@@ -386,12 +387,160 @@ ul{list-style:none;}
 </footer>
 
 <script>
-  document.querySelectorAll('.fpill').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.fpill').forEach(b => b.classList.remove('active'));
-      btn.classList.add('active');
+const KeepsakeAPI = {
+  async getPosts() {
+    const res = await fetch('/api/posts/__root__');
+    if (!res.ok) throw new Error('Could not load posts');
+    return res.json();
+  }
+};
+
+const JOURNAL_STATE = {
+  activeCategory: 'All',
+  posts: [],
+};
+
+function escapeHTML(value) {
+  return String(value ?? '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function stripHTML(value) {
+  return String(value || '')
+    .replace(/<style[\s\S]*?<\/style>/gi, ' ')
+    .replace(/<script[\s\S]*?<\/script>/gi, ' ')
+    .replace(/<[^>]+>/g, ' ')
+    .replace(/\s+/g, ' ')
+    .trim();
+}
+
+function getPostImage(post) {
+  if (Array.isArray(post.images) && post.images.length && post.images[0].url) {
+    return {
+      url: post.images[0].url,
+      alt: post.images[0].alt || post.title,
+    };
+  }
+
+  return {
+    url: './Png Files/Logo-cropped.png',
+    alt: post.title || 'Keepsake Edit post',
+  };
+}
+
+function getPostExcerpt(post) {
+  if (post.excerpt && post.excerpt.trim()) return post.excerpt.trim();
+  const body = stripHTML(post.body_html);
+  return body.length > 170 ? `${body.slice(0, 167)}...` : body;
+}
+
+function formatPostDate(dateValue) {
+  return new Date(dateValue).toLocaleString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+    hour: 'numeric',
+    minute: '2-digit',
+  });
+}
+
+function formatShortDate(dateValue) {
+  return new Date(dateValue).toLocaleDateString('en-GB', {
+    day: '2-digit',
+    month: 'short',
+    year: 'numeric',
+  });
+}
+
+function getPostHref(post) {
+  return `./post.html?id=${encodeURIComponent(post.slug || post.id)}`;
+}
+
+function getVisiblePosts() {
+  if (JOURNAL_STATE.activeCategory === 'All') {
+    return JOURNAL_STATE.posts.slice(1);
+  }
+
+  return JOURNAL_STATE.posts.filter((post) => post.category === JOURNAL_STATE.activeCategory);
+}
+
+function renderFeatured() {
+  const featured = JOURNAL_STATE.posts[0];
+  if (!featured) return;
+
+  const image = getPostImage(featured);
+  document.getElementById('featured-root').innerHTML = `
+    <div class="feat-img"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt)}"></div>
+    <div>
+      <div class="feat-tag">${escapeHTML(featured.category)} · ${escapeHTML(formatPostDate(featured.created_at))}</div>
+      <h2 class="feat-title">${escapeHTML(featured.title)}</h2>
+      <p class="feat-exc">${escapeHTML(getPostExcerpt(featured))}</p>
+      <div class="feat-meta">${escapeHTML(featured.read_time || '5 min read')} &nbsp;·&nbsp; ${escapeHTML(formatPostDate(featured.created_at))}</div>
+      <a href="${escapeHTML(getPostHref(featured))}" class="btn btn-p">Read the Full Guide <span class="arr">→</span></a>
+    </div>
+  `;
+}
+
+function renderFilters() {
+  const categories = ['All', ...new Set(JOURNAL_STATE.posts.map((post) => post.category).filter(Boolean))];
+  const root = document.getElementById('filter-row');
+  root.innerHTML = categories.map((category) => `
+    <button class="fpill${JOURNAL_STATE.activeCategory === category ? ' active' : ''}" data-category="${escapeHTML(category)}">${escapeHTML(category)}</button>
+  `).join('');
+
+  root.querySelectorAll('[data-category]').forEach((button) => {
+    button.addEventListener('click', () => {
+      JOURNAL_STATE.activeCategory = button.dataset.category;
+      renderFilters();
+      renderGrid();
     });
   });
+}
+
+function renderGrid() {
+  const posts = getVisiblePosts();
+  const root = document.getElementById('posts-grid');
+  const meta = document.getElementById('posts-meta');
+
+  if (!posts.length) {
+    root.innerHTML = '<div class="journal-empty">No published stories match this category yet.</div>';
+    meta.innerHTML = '';
+    return;
+  }
+
+  root.innerHTML = posts.map((post) => {
+    const image = getPostImage(post);
+    return `
+      <a class="ac" href="${escapeHTML(getPostHref(post))}">
+        <div class="ac-img"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt)}"></div>
+        <div class="ac-bd">
+          <div class="ac-cat">${escapeHTML(post.category)}</div>
+          <h3 class="ac-t">${escapeHTML(post.title)}</h3>
+          <p class="ac-exc">${escapeHTML(getPostExcerpt(post))}</p>
+          <div class="ac-meta">${escapeHTML(post.read_time || '5 min read')} &nbsp;·&nbsp; ${escapeHTML(formatShortDate(post.created_at))}</div>
+        </div>
+      </a>
+    `;
+  }).join('');
+
+  meta.innerHTML = `<span class="label" style="color:rgba(22,22,22,.45)">Showing ${posts.length} stor${posts.length === 1 ? 'y' : 'ies'}</span>`;
+}
+
+document.addEventListener('DOMContentLoaded', () => {
+  KeepsakeAPI.getPosts()
+    .then((posts) => {
+      if (!Array.isArray(posts) || !posts.length) return;
+      JOURNAL_STATE.posts = posts;
+      renderFeatured();
+      renderFilters();
+      renderGrid();
+    })
+    .catch(() => {});
+});
 </script>
 </body>
 </html>

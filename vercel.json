@@ -2,6 +2,7 @@
   "version": 2,
   "rewrites": [
     { "source": "/api/products", "destination": "/api/products/__root__" },
+    { "source": "/api/posts", "destination": "/api/posts/__root__" },
     { "source": "/api/media", "destination": "/api/media/__root__" },
     { "source": "/api/orders", "destination": "/api/orders/__root__" },
     { "source": "/api/comments", "destination": "/api/comments/__root__" },
