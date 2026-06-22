@@ -1503,9 +1503,12 @@ function renderHomeKeepsakePosts(posts) {
   const grid = document.getElementById('home-keepsake-grid');
   if (!grid || !Array.isArray(posts) || !posts.length) return;
 
+  const fallbackCards = Array.from(grid.children).map((card) => card.outerHTML);
   const featured = posts[0];
   const rest = posts.slice(1, 5);
   const featuredImage = getHomePostImage(featured);
+  const fillCount = Math.max(0, 5 - posts.slice(0, 5).length);
+  const fallbackMarkup = fillCount ? fallbackCards.slice(0, fillCount).join('') : '';
 
   grid.innerHTML = `
     <a class="ec ec--feat" href="${escapeHTML(getHomePostHref(featured))}">
@@ -1530,7 +1533,8 @@ function renderHomeKeepsakePosts(posts) {
         </a>
       `;
     }).join('')}
-    ${rest.length ? '' : '<div class="edit-empty">More Keepsake stories will appear here as they are published.</div>'}
+    ${fallbackMarkup}
+    ${!rest.length && !fallbackMarkup ? '<div class="edit-empty">More Keepsake stories will appear here as they are published.</div>' : ''}
   `;
 }
 
