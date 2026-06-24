@@ -15,6 +15,17 @@
     });
   }
 
+  function enhanceAccountLinks() {
+    document.querySelectorAll('.nav-shell a[aria-label="My Account"], .nav-shell a.nav-account-link').forEach((link) => {
+      link.href = '/account/index.html';
+      link.classList.add('nav-account-link');
+      link.setAttribute('aria-label', 'Customer Sign In');
+      link.setAttribute('title', 'Customer sign in or create an account');
+      link.removeAttribute('style');
+      link.innerHTML = '<span>Sign In</span>';
+    });
+  }
+
   function createNavToggle() {
     const button = document.createElement('button');
     button.type = 'button';
@@ -61,7 +72,7 @@
           <div class="nav-drawer-group">
             <div class="nav-drawer-label">Quick Access</div>
             <div class="nav-drawer-utility">
-              <a class="nav-drawer-chip" href="./account/index.html">My Account</a>
+              <a class="nav-drawer-chip" href="/account/index.html">Sign In</a>
               <a class="nav-drawer-chip" href="./cart.html">Cart <span class="cart-badge">0</span></a>
             </div>
           </div>
@@ -126,6 +137,7 @@
   }
 
   document.addEventListener('DOMContentLoaded', () => {
+    enhanceAccountLinks();
     setupNavDrawer();
     updateCartBadges();
   });

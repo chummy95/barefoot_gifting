@@ -162,6 +162,15 @@ ul { list-style: none; }
 .nav-toggle-lines span {
   display: block; width: 18px; height: 1.6px; background: currentColor; border-radius: 99px;
 }
+.nav-account-link {
+  display: inline-flex; align-items: center; justify-content: center;
+  min-height: 42px; padding: 0 18px;
+  border-radius: 999px; border: 1px solid rgba(22,22,22,.12);
+  color: var(--ink2); font-size: 10px; font-weight: 700;
+  letter-spacing: .14em; text-transform: uppercase; white-space: nowrap;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.nav-account-link:hover { background: var(--red); border-color: var(--red); color: #fff; }
 /* ---- NAV DROPDOWN ---- */
 .nav-dd { position: relative; }
 .nav-dd > a::after { content: ' ▾'; font-size: 13px; opacity: .7; vertical-align: middle; }
@@ -611,6 +620,7 @@ body.nav-open .nav-drawer { transform: translateX(0); }
 .luxe-price { font-family: var(--font-h); font-size: 25px; }
 .luxe-add { display:inline-flex; align-items:center; gap:8px; padding:11px 22px; background:var(--red); color:#fff; border:1px solid var(--red); border-radius:2px; font-family:var(--font-b); font-size:10px; font-weight:800; letter-spacing:.16em; text-transform:uppercase; cursor:pointer; transition:background .2s,border-color .2s; }
 .luxe-add:hover { background:var(--red-d); border-color:var(--red-d); }
+.luxes-cta { display:flex; justify-content:center; margin-top:48px; position:relative; z-index:1; }
 
 /* =============================================
    CONCIERGE — cream section
@@ -730,8 +740,15 @@ body.nav-open .nav-drawer { transform: translateX(0); }
 .ugc-s { margin-top: 48px; padding-top: 40px; border-top: 1px solid rgba(22,22,22,.1); display: flex; align-items: center; gap: 32px; position: relative; z-index: 1; }
 .ugc-label { white-space: nowrap; }
 .ugc-row { display: flex; gap: 8px; flex: 1; overflow: hidden; }
-.ugc-th { flex-shrink: 0; width: 92px; height: 92px; border-radius: 2px; overflow: hidden; background: var(--cream); }
+.ugc-th { display:block; flex-shrink: 0; width: 92px; height: 92px; border-radius: 2px; overflow: hidden; background: var(--cream); }
 .ugc-th img { width: 100%; height: 100%; object-fit: cover; }
+.ugc-ph {
+  display:flex; align-items:center; justify-content:center;
+  border:1px solid rgba(22,22,22,.08); background:#fff7ee;
+}
+.ugc-ph span {
+  font-size:10px; font-weight:700; letter-spacing:.12em; text-transform:uppercase; color:rgba(22,22,22,.42);
+}
 
 /* =============================================
    NEWSLETTER INTERLUDE — red section, centered
@@ -950,7 +967,7 @@ body.nav-open .nav-drawer { transform: translateX(0); }
     gap: 8px;
     justify-self: end;
   }
-  .nav-r > a[aria-label="My Account"],
+  .nav-r > .nav-account-link,
   .nav-r > .cart-w { display: none !important; }
   .nav-toggle,
   .nav-drawer-close {
@@ -1199,7 +1216,7 @@ body.nav-open .nav-drawer { transform: translateX(0); }
         <button class="nav-toggle" type="button" aria-label="Open menu" aria-expanded="false" data-nav-toggle>
           <span class="nav-toggle-lines" aria-hidden="true"><span></span><span></span><span></span></span>
         </button>
-        <a href="./account/index.html" aria-label="My Account" style="display:flex;align-items:center;margin-right:8px"><svg class="ico" viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a href="/account/index.html" class="nav-account-link" aria-label="Customer Sign In" title="Customer sign in or create an account">Sign In</a>
         <a href="./cart.html" class="cart-w" aria-label="View cart">
           <svg class="ico" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
           <span class="cart-badge">0</span>
@@ -1240,7 +1257,7 @@ body.nav-open .nav-drawer { transform: translateX(0); }
     <div class="nav-drawer-group">
       <div class="nav-drawer-label">Quick Access</div>
       <div class="nav-drawer-utility">
-        <a class="nav-drawer-chip" href="./account/index.html">My Account</a>
+        <a class="nav-drawer-chip" href="/account/index.html">Sign In</a>
         <a class="nav-drawer-chip" href="./cart.html">Cart <span class="cart-badge">0</span></a>
       </div>
     </div>
@@ -1257,7 +1274,7 @@ body.nav-open .nav-drawer { transform: translateX(0); }
      HERO — THC-style full-bleed photo
 ============================================================ -->
 <section class="hero">
-  <div class="hero-bg"><img src="./mockup/man.png" alt=""></div>
+  <div class="hero-bg"><img src="./mockup/optimized/man-home.webp" alt="" fetchpriority="high" decoding="async"></div>
   <div class="hero-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
   <div class="hero-content">
     <div class="hero-inner">
@@ -1292,7 +1309,7 @@ body.nav-open .nav-drawer { transform: translateX(0); }
       </div>
       <div class="brand-intro-visual">
         <div class="brand-intro-img">
-          <img src="./mockup/BOX.png" alt="Barefoot Gifting curated gift box">
+          <img src="./mockup/optimized/box-home.webp" alt="Barefoot Gifting curated gift box" loading="lazy" decoding="async">
         </a>
       </div>
     </div>
@@ -1534,8 +1551,8 @@ body.nav-open .nav-drawer { transform: translateX(0); }
       <p class="sec-body">Everything curated, wrapped, and ready. Each box is a complete gifting experience — no guesswork, no compromise.</p>
     </div>
     <div class="luxes-grid">
-      <div class="luxe" data-id="for-your-heart" data-name="For Your Heart" data-price="75000" data-img="./mockup/boxes2.png">
-        <div class="luxe-img"><img src="./mockup/boxes2.png" alt="Warmth and Glow Box"></div>
+      <div class="luxe" data-id="for-your-heart" data-name="For Your Heart" data-price="75000" data-img="./mockup/optimized/boxes2-home.webp">
+        <div class="luxe-img"><img src="./mockup/optimized/boxes2-home.webp" alt="Warmth and Glow Box" loading="lazy" decoding="async"></div>
         <div class="luxe-bd">
           <div class="luxe-cat">For Her · Birthday &amp; Encouragement</div>
           <div class="luxe-name">For Your Heart</div>
@@ -1550,8 +1567,8 @@ body.nav-open .nav-drawer { transform: translateX(0); }
           </div>
         </div>
       </div>
-      <div class="luxe" data-id="graced-and-grounded" data-name="Graced and Grounded" data-price="80000" data-img="./mockup/BOX.png">
-        <div class="luxe-img" style="background:#ffffff;"><img src="./mockup/BOX.png" alt="Morning Ritual Box"></div>
+      <div class="luxe" data-id="graced-and-grounded" data-name="Graced and Grounded" data-price="80000" data-img="./mockup/optimized/box-home.webp">
+        <div class="luxe-img" style="background:#ffffff;"><img src="./mockup/optimized/box-home.webp" alt="Morning Ritual Box" loading="lazy" decoding="async"></div>
         <div class="luxe-bd">
           <div class="luxe-cat">For Anyone · Thank You &amp; Appreciation</div>
           <div class="luxe-name">Graced and Grounded</div>
@@ -1568,8 +1585,8 @@ body.nav-open .nav-drawer { transform: translateX(0); }
           </div>
         </div>
       </div>
-      <div class="luxe" data-id="some-thank-you-love" data-name="Some &quot;Thank You Love&quot;" data-price="85000" data-img="./mockup/bv.png">
-        <div class="luxe-img"><img src="./mockup/bv.png" alt="Writer's Edit Box"></div>
+      <div class="luxe" data-id="some-thank-you-love" data-name="Some &quot;Thank You Love&quot;" data-price="85000" data-img="./mockup/optimized/bv-home.webp">
+        <div class="luxe-img"><img src="./mockup/optimized/bv-home.webp" alt="Writer's Edit Box" loading="lazy" decoding="async"></div>
         <div class="luxe-bd">
           <div class="luxe-cat">For Her · Milestones &amp; Appreciation</div>
           <div class="luxe-name">Some "Thank You Love"</div>
@@ -1582,11 +1599,11 @@ body.nav-open .nav-drawer { transform: translateX(0); }
             <span class="luxe-price">₦85,000</span>
             <button class="luxe-add">Add to Cart</button>
           </div>
-        </a>
+        </div>
       </div>
     </div>
-    <div style="text-align:center;margin-top:48px;position:relative;z-index:1">
-      <a href="#" class="btn btn-p">View All Little Luxes <span class="arr">→</span></a>
+    <div class="luxes-cta">
+      <a href="./shop.html?filter=Little%20Luxes#shop-results" class="btn btn-p">View All Little Luxes <span class="arr">→</span></a>
     </div>
   </div>
 </section>
@@ -1623,9 +1640,9 @@ body.nav-open .nav-drawer { transform: translateX(0); }
         </div>
       </div>
       <div class="conc-imgs">
-        <div class="ci ci-t"><img src="./PRODUCTS/IMG_9921.JPG" alt="Curated gift"></div>
-        <div class="ci"><img src="./PRODUCTS/Candle variations.JPG" alt="Candles"></div>
-        <div class="ci"><img src="./PRODUCTS/Wallets trio.JPG" alt="Wallets"></a>
+        <div class="ci ci-t"><img src="./PRODUCTS/IMG_9921.JPG" alt="Curated gift" loading="lazy" decoding="async"></div>
+        <div class="ci"><img src="./PRODUCTS/Candle variations.JPG" alt="Candles" loading="lazy" decoding="async"></div>
+        <div class="ci"><img src="./PRODUCTS/Wallets trio.JPG" alt="Wallets" loading="lazy" decoding="async"></div>
       </div>
     </div>
   </div>
@@ -1647,7 +1664,7 @@ body.nav-open .nav-drawer { transform: translateX(0); }
   <div class="wrap">
     <div class="corp-wrap">
       <div class="scallop-frame">
-        <div class="corp-img"><img src="./mockup/boxes.png" alt="Corporate gifting"></div>
+        <div class="corp-img"><img src="./mockup/optimized/boxes-home.webp" alt="Corporate gifting" loading="lazy" decoding="async"></div>
       </div>
       <div>
         <span class="label label-red">For Businesses</span>
@@ -1670,7 +1687,7 @@ body.nav-open .nav-drawer { transform: translateX(0); }
         <div class="corp-acts">
           <a href="#" class="btn btn-p">Request a Quote <span class="arr">→</span></a>
           <a href="#" class="btn btn-gold">Download Catalogue</a>
-        </a>
+        </div>
       </div>
     </div>
   </div>
@@ -1697,7 +1714,7 @@ body.nav-open .nav-drawer { transform: translateX(0); }
     </div>
     <div class="edit-grid" id="home-keepsake-grid">
       <a class="ec ec--feat" href="./post.html">
-        <div class="ec-img"><img src="./mockup/flowers.png" alt="Mother's Day Gift Guide"></div>
+        <div class="ec-img"><img src="./mockup/optimized/flowers-home.webp" alt="Mother's Day Gift Guide" loading="lazy" decoding="async"></div>
         <div class="ec-bd">
           <div class="ec-cat">Gift Guide</div>
           <h3 class="ec-t">The Ultimate Mother's Day Gift Guide for 2025 — from Abuja with Love</h3>
@@ -1705,10 +1722,9 @@ body.nav-open .nav-drawer { transform: translateX(0); }
           <div class="ec-m">8 min read · May 2025</div>
         </div>
       </a>
-      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/Coke and Fanta.JPG" alt="Nostalgia"></div><div class="ec-bd"><div class="ec-cat">Nostalgic Stories</div><h3 class="ec-t">Why Nigerian Nostalgia Is the Most Powerful Gift Language</h3><div class="ec-m">5 min read · April 2025</div></div></a>
-      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/learned colleague.JPG" alt="Graduation"></div><div class="ec-bd"><div class="ec-cat">Product Spotlight</div><h3 class="ec-t">Gifting the Learned Colleague: What to Get a New Lawyer</h3><div class="ec-m">4 min read · March 2025</div></div></a>
-      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/Candle Trio.JPG" alt="BTS"></div><div class="ec-bd"><div class="ec-cat">Behind the Scenes</div><h3 class="ec-t">How We Build a Little Luxe Box — Every Step, Every Intention</h3><div class="ec-m">6 min read · Feb 2025</div></div></a>
-      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/Sunshine birthday.JPG" alt="Seasonal"></div><div class="ec-bd"><div class="ec-cat">Seasonal Edit</div><h3 class="ec-t">The Birthday Gifting Edit: Cards &amp; Boxes for Every Personality</h3><div class="ec-m">5 min read · Jan 2025</div></div></a>
+      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/Coke and Fanta.JPG" alt="Nostalgia" loading="lazy" decoding="async"></div><div class="ec-bd"><div class="ec-cat">Nostalgic Stories</div><h3 class="ec-t">Why Nigerian Nostalgia Is the Most Powerful Gift Language</h3><div class="ec-m">5 min read · April 2025</div></div></a>
+      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/learned colleague.JPG" alt="Graduation" loading="lazy" decoding="async"></div><div class="ec-bd"><div class="ec-cat">Product Spotlight</div><h3 class="ec-t">Gifting the Learned Colleague: What to Get a New Lawyer</h3><div class="ec-m">4 min read · March 2025</div></div></a>
+      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/Candle Trio.JPG" alt="BTS" loading="lazy" decoding="async"></div><div class="ec-bd"><div class="ec-cat">Behind the Scenes</div><h3 class="ec-t">How We Build a Little Luxe Box — Every Step, Every Intention</h3><div class="ec-m">6 min read · Feb 2025</div></div></a>
     </div>
     <div style="text-align:center;margin-top:48px;position:relative;z-index:1">
       <a href="./journal.html" class="btn btn-p">Read All Stories <span class="arr">→</span></a>
@@ -1777,15 +1793,13 @@ body.nav-open .nav-drawer { transform: translateX(0); }
         <span class="label label-ink50">As seen on Instagram</span>
         <p style="font-size:12px;font-weight:300;color:rgba(22,22,22,.5);margin-top:5px">Tag us @barefootgifting</p>
       </div>
-      <div class="ugc-row">
-        <div class="ugc-th"><img src="./PRODUCTS/Chopping board.JPG" alt=""></div>
-        <div class="ugc-th"><img src="./PRODUCTS/Birghten My days.JPG" alt=""></div>
-        <div class="ugc-th"><img src="./PRODUCTS/Light chatty mugs.JPG" alt=""></div>
-        <div class="ugc-th"><img src="./PRODUCTS/flowers.JPG" alt=""></div>
-        <div class="ugc-th"><img src="./PRODUCTS/Sunshine birthday.JPG" alt=""></div>
-        <div class="ugc-th"><img src="./PRODUCTS/Large Candle.JPG" alt=""></div>
-        <div class="ugc-th"><img src="./PRODUCTS/Notebooks.JPG" alt=""></div>
-        <div class="ugc-th"><img src="./PRODUCTS/Waves and shells.JPG" alt=""></a>
+      <div class="ugc-row" id="home-instagram-feed">
+        <a class="ugc-th ugc-ph" href="https://www.instagram.com/barefootgifting/" target="_blank" rel="noopener" aria-label="Open Barefoot Gifting on Instagram"><span>Latest</span></a>
+        <a class="ugc-th ugc-ph" href="https://www.instagram.com/barefootgifting/" target="_blank" rel="noopener" aria-label="Open Barefoot Gifting on Instagram"><span>Latest</span></a>
+        <a class="ugc-th ugc-ph" href="https://www.instagram.com/barefootgifting/" target="_blank" rel="noopener" aria-label="Open Barefoot Gifting on Instagram"><span>Latest</span></a>
+        <a class="ugc-th ugc-ph" href="https://www.instagram.com/barefootgifting/" target="_blank" rel="noopener" aria-label="Open Barefoot Gifting on Instagram"><span>Latest</span></a>
+        <a class="ugc-th ugc-ph" href="https://www.instagram.com/barefootgifting/" target="_blank" rel="noopener" aria-label="Open Barefoot Gifting on Instagram"><span>Latest</span></a>
+        <a class="ugc-th ugc-ph" href="https://www.instagram.com/barefootgifting/" target="_blank" rel="noopener" aria-label="Open Barefoot Gifting on Instagram"><span>Latest</span></a>
       </div>
     </div>
   </div>
@@ -1902,6 +1916,15 @@ const HomeKeepsakeAPI = {
   }
 };
 
+const HomeInstagramAPI = {
+  async getPosts() {
+    const res = await fetch('/api/instagram?count=6');
+    if (!res.ok) throw new Error('Could not load Instagram feed');
+    const data = await res.json();
+    return Array.isArray(data.posts) ? data.posts : [];
+  }
+};
+
 function escapeHTML(value) {
   return String(value ?? '')
     .replace(/&/g, '&amp;')
@@ -1955,7 +1978,7 @@ function estimateHomeReadTime(post) {
 
 function renderHomeStoryImage(image, className) {
   if (image?.url) {
-    return `<div class="${className}"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt || 'Keepsake Edit post')}"></div>`;
+    return `<div class="${className}"><img src="${escapeHTML(image.url)}" alt="${escapeHTML(image.alt || 'Keepsake Edit post')}" loading="lazy" decoding="async"></div>`;
   }
   return `<div class="${className} story-placeholder"><span>Keepsake Edit</span></div>`;
 }
@@ -1966,10 +1989,11 @@ function renderHomeKeepsakePosts(posts) {
 
   const fallbackCards = Array.from(grid.children).map((card) => card.outerHTML);
   const featured = posts[0];
-  const rest = posts.slice(1, 5);
+  const maxPosts = 4;
+  const rest = posts.slice(1, maxPosts);
   const featuredImage = getHomePostImage(featured);
-  const fillCount = Math.max(0, 5 - posts.slice(0, 5).length);
-  const fallbackMarkup = fillCount ? fallbackCards.slice(0, fillCount).join('') : '';
+  const fillCount = Math.max(0, maxPosts - Math.min(posts.length, maxPosts));
+  const fallbackMarkup = fillCount ? fallbackCards.slice(1, 1 + fillCount).join('') : '';
 
   grid.innerHTML = `
     <a class="ec ec--feat" href="${escapeHTML(getHomePostHref(featured))}">
@@ -1997,6 +2021,17 @@ function renderHomeKeepsakePosts(posts) {
     ${fallbackMarkup}
     ${!rest.length && !fallbackMarkup ? '<div class="edit-empty">More Keepsake stories will appear here as they are published.</div>' : ''}
   `;
+}
+
+function renderHomeInstagramPosts(posts) {
+  const grid = document.getElementById('home-instagram-feed');
+  if (!grid || !Array.isArray(posts) || !posts.length) return;
+
+  grid.innerHTML = posts.slice(0, 6).map((post) => `
+    <a class="ugc-th" href="${escapeHTML(post.permalink)}" target="_blank" rel="noopener" aria-label="Open Barefoot Gifting Instagram post">
+      <img src="${escapeHTML(post.image_url)}" alt="${escapeHTML(post.alt || 'Barefoot Gifting Instagram post')}" loading="lazy" decoding="async">
+    </a>
+  `).join('');
 }
 
 document.addEventListener('DOMContentLoaded', () => {
@@ -2034,6 +2069,12 @@ document.addEventListener('DOMContentLoaded', () => {
   HomeKeepsakeAPI.getPosts()
     .then((posts) => {
       if (Array.isArray(posts) && posts.length) renderHomeKeepsakePosts(posts);
+    })
+    .catch(() => {});
+
+  HomeInstagramAPI.getPosts()
+    .then((posts) => {
+      if (Array.isArray(posts) && posts.length) renderHomeInstagramPosts(posts);
     })
     .catch(() => {});
 

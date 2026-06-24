@@ -28,6 +28,27 @@
   background: currentColor;
   border-radius: 999px;
 }
+.nav-account-link {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 42px;
+  padding: 0 18px;
+  border-radius: 999px;
+  border: 1px solid rgba(22,22,22,.12);
+  color: var(--ink2);
+  font-size: 10px;
+  font-weight: 700;
+  letter-spacing: .14em;
+  text-transform: uppercase;
+  white-space: nowrap;
+  transition: background .2s, border-color .2s, color .2s;
+}
+.nav-account-link:hover {
+  background: var(--red);
+  border-color: var(--red);
+  color: #fff;
+}
 .nav-drawer-backdrop {
   position: fixed;
   inset: 0;
@@ -198,7 +219,7 @@ body.nav-open .nav-drawer {
   .nav-r {
     gap: 10px !important;
   }
-  .nav-r > a[aria-label="My Account"] {
+  .nav-r > .nav-account-link {
     margin-right: 0 !important;
   }
   .nav-toggle {
@@ -363,7 +384,7 @@ body.nav-open .nav-drawer {
   .nav-r {
     justify-self: end;
   }
-  .nav-r > a[aria-label="My Account"],
+  .nav-r > .nav-account-link,
   .nav-r > .cart-w {
     display: none !important;
   }
