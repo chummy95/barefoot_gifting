@@ -1918,7 +1918,7 @@ const HomeKeepsakeAPI = {
 
 const HomeInstagramAPI = {
   async getPosts() {
-    const res = await fetch('/api/instagram?count=6');
+    const res = await fetch('/api/settings?feed=instagram&count=6');
     if (!res.ok) throw new Error('Could not load Instagram feed');
     const data = await res.json();
     return Array.isArray(data.posts) ? data.posts : [];
