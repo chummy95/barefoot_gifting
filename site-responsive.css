@@ -409,6 +409,18 @@ body.nav-open .nav-drawer {
     padding-top: 52px !important;
     padding-bottom: 36px !important;
   }
+  .footer-top > div,
+  .footer-top > section,
+  .footer-top > article {
+    min-width: 0 !important;
+  }
+  .f-logo img {
+    height: 92px !important;
+    margin-left: 0 !important;
+  }
+  .f-soc {
+    flex-wrap: wrap !important;
+  }
   .footer-bot,
   .f-legal {
     flex-direction: column !important;
@@ -416,19 +428,30 @@ body.nav-open .nav-drawer {
     gap: 12px !important;
   }
   .f-nl-form {
+    max-width: 100% !important;
     flex-direction: column !important;
     gap: 10px !important;
     align-items: stretch !important;
   }
   .f-nl-i {
+    width: 100% !important;
     border-right: 1px solid rgba(22,22,22,.15) !important;
   }
   .f-nl-b {
     width: 100% !important;
     justify-content: center !important;
   }
+  .f-desc,
+  .f-links a,
+  .f-nl-note,
+  .f-copy,
+  .f-legal a {
+    font-size: 12px !important;
+    line-height: 1.7 !important;
+  }
 
   .page-hero,
+  .jh,
   .ph,
   .faq-hero,
   .shop-hero,
@@ -450,6 +473,7 @@ body.nav-open .nav-drawer {
   }
 
   .story-grid,
+  .jh-grid,
   .founder-grid,
   .feat-grid,
   .contact-grid,
@@ -494,6 +518,21 @@ body.nav-open .nav-drawer {
 
   .shop-hero {
     min-height: auto !important;
+  }
+
+  .jh {
+    padding-top: 56px !important;
+    padding-bottom: 56px !important;
+  }
+  .jh-grid {
+    gap: 28px !important;
+  }
+  .jh-visual {
+    width: 100% !important;
+    justify-self: stretch !important;
+  }
+  .jh-img {
+    aspect-ratio: 4 / 3 !important;
   }
 
   .post-hero-img,

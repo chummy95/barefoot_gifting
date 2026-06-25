@@ -134,28 +134,7 @@ ul { list-style:none; }
 .corp-stat::before { content:''; width:6px; height:6px; border-radius:50%; background:var(--red); flex-shrink:0; }
 .corp-hero-img { aspect-ratio:4/5; overflow:hidden; border-radius:3px; background:var(--peach); width:100%; height:100%; }
 .corp-hero-visual { display:flex; justify-content:center; }
-.scallop-frame {
-  --s: 9px;
-  --fc: #ffffff;
-  width:min(100%, 360px);
-  aspect-ratio:4/5;
-  margin-inline:auto;
-  padding: calc(var(--s) + 4px);
-  background: var(--fc);
-  filter: drop-shadow(0 18px 34px rgba(22,22,22,.16));
-  -webkit-mask:
-    radial-gradient(circle at 50% 0, transparent var(--s), #000 calc(var(--s) + .5px)) 0 0 / calc(var(--s)*2) var(--s) repeat-x,
-    radial-gradient(circle at 50% 100%, transparent var(--s), #000 calc(var(--s) + .5px)) 0 100% / calc(var(--s)*2) var(--s) repeat-x,
-    radial-gradient(circle at 0% 50%, transparent var(--s), #000 calc(var(--s) + .5px)) 0 0 / var(--s) calc(var(--s)*2) repeat-y,
-    radial-gradient(circle at 100% 50%, transparent var(--s), #000 calc(var(--s) + .5px)) 100% 0 / var(--s) calc(var(--s)*2) repeat-y,
-    linear-gradient(#000 0 0) center / calc(100% - var(--s)*2) calc(100% - var(--s)*2) no-repeat;
-  mask:
-    radial-gradient(circle at 50% 0, transparent var(--s), #000 calc(var(--s) + .5px)) 0 0 / calc(var(--s)*2) var(--s) repeat-x,
-    radial-gradient(circle at 50% 100%, transparent var(--s), #000 calc(var(--s) + .5px)) 0 100% / calc(var(--s)*2) var(--s) repeat-x,
-    radial-gradient(circle at 0% 50%, transparent var(--s), #000 calc(var(--s) + .5px)) 0 0 / var(--s) calc(var(--s)*2) repeat-y,
-    radial-gradient(circle at 100% 50%, transparent var(--s), #000 calc(var(--s) + .5px)) 100% 0 / var(--s) calc(var(--s)*2) repeat-y,
-    linear-gradient(#000 0 0) center / calc(100% - var(--s)*2) calc(100% - var(--s)*2) no-repeat;
-}
+.corp-hero-visual .corp-hero-img { width:min(100%,360px); }
 .corp-hero-actions { display:flex; gap:14px; flex-wrap:wrap; }
 
 /* Tiers */
@@ -200,23 +179,6 @@ ul { list-style:none; }
 .timeline-card-type { font-size:11px; font-weight:700; letter-spacing:.1em; text-transform:uppercase; color:rgba(22,22,22,.55); margin-bottom:12px; min-height:28px; }
 .timeline-card-time { font-family:var(--font-h); font-size:24px; color:var(--red); line-height:1; }
 .timeline-note { margin-top:20px; font-size:12px; font-weight:300; color:rgba(22,22,22,.5); font-style:italic; max-width:680px; }
-
-/* Case Studies */
-.cases-sec { background:var(--peach); padding:clamp(72px,9vw,120px) 0; position:relative; overflow:hidden; }
-.cases-sec::before {
-  content:''; position:absolute; inset:0; z-index:0; pointer-events:none; opacity:.07;
-  background-image: url("./Png Files/Artboard 1 copy 17@2x.png");
-  background-size: 340px 335px; background-repeat: repeat; background-position: top left;
-}
-.cases-sec .wrap { position:relative; z-index:1; }
-.brand-boxes { display:grid; grid-template-columns:repeat(4,1fr); gap:20px; margin-top:40px; margin-bottom:52px; }
-.brand-box { border:1px solid var(--red); border-radius:3px; padding:32px 20px; background:var(--red); text-align:center; }
-.brand-box-name { font-size:13px; font-weight:600; letter-spacing:.12em; text-transform:uppercase; color:#ffffff; }
-.corp-testi { background:var(--cream); border-radius:3px; padding:40px; max-width:720px; margin:0 auto; text-align:center; position:relative; }
-.corp-testi::before { content:'\201C'; font-family:var(--font-h); font-size:80px; line-height:1; color:var(--peach); position:absolute; top:12px; left:28px; }
-.corp-testi-q { font-size:clamp(15px,1.2vw,18px); font-weight:300; line-height:1.8; color:rgba(22,22,22,.72); font-style:italic; margin-bottom:24px; }
-.corp-testi-name { font-size:13px; font-weight:700; color:var(--ink); }
-.corp-testi-role { font-size:12px; color:rgba(22,22,22,.45); margin-top:3px; }
 
 /* Contact Form */
 .corp-contact-sec { background:#ffffff; padding:clamp(72px,9vw,120px) 0; }
@@ -289,7 +251,6 @@ textarea { resize:vertical; min-height:120px; }
         <h1>Gifting that represents your brand <em>beautifully.</em></h1>
         <p class="corp-hero-sub">Whether you're ordering branded gifts for your company, souvenirs for an event, or custom stationery for a special occasion — we've made the process simple.</p>
         <div class="corp-stats">
-          <div class="corp-stat">₦50,000 minimum</div>
           <div class="corp-stat">Nationwide delivery</div>
           <div class="corp-stat">Custom branding available</div>
         </div>
@@ -299,10 +260,8 @@ textarea { resize:vertical; min-height:120px; }
         <p style="margin-top:16px;font-size:12px;font-weight:300;color:rgba(22,22,22,.5);max-width:420px;line-height:1.7;">For companies, schools, churches, organizations, weddings, and personal gifting at scale.</p>
       </div>
       <div class="corp-hero-visual">
-        <div class="scallop-frame">
-          <div class="corp-hero-img">
-            <img src="./mockup/BOX.png" alt="Corporate gift box">
-          </div>
+        <div class="corp-hero-img">
+          <img src="./mockup/BOX.png" alt="Corporate gift box">
         </div>
       </div>
     </div>
@@ -419,7 +378,7 @@ textarea { resize:vertical; min-height:120px; }
     <!-- Production Timelines -->
     <div style="margin-top:72px">
       <span class="label" style="color:rgba(22,22,22,.55)">Production Timelines</span>
-      <h3 style="font-family:var(--font-h);font-size:clamp(22px,2.2vw,34px);margin:12px 0 6px;color:var(--ink)">Recommended lead times</h3>
+      <h3 style="font-family:var(--font-h);font-size:clamp(22px,2.2vw,34px);margin:12px 0 6px;color:var(--ink)">Expected delivery timeline</h3>
       <p style="font-size:14px;font-weight:300;color:rgba(22,22,22,.6)">To ensure quality and timely delivery. Earlier inquiries are always encouraged.</p>
       <div class="timeline-grid">
         <div class="timeline-card"><div class="timeline-card-type">Greeting Cards</div><div class="timeline-card-time">2–3 wks</div></div>
@@ -433,37 +392,8 @@ textarea { resize:vertical; min-height:120px; }
   </div>
 </section>
 
-<!-- Wave: gold → peach -->
+<!-- Wave: gold → white -->
 <div class="wave" style="background:#ffd744">
-  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffe9d0"/>
-  </svg>
-</div>
-
-<!-- Case Studies -->
-<section class="cases-sec">
-  <div class="wrap">
-    <div class="sec-hd sec-hd-c">
-      <span class="label label-red">Our Clients</span>
-      <h2 class="sec-h">Brands we've gifted for</h2>
-      <p class="sec-body">Trusted by companies across sectors — from fintech to media, healthcare to hospitality.</p>
-    </div>
-    <div class="brand-boxes">
-      <div class="brand-box"><div class="brand-box-name">Fintech Co.</div></div>
-      <div class="brand-box"><div class="brand-box-name">Media House</div></div>
-      <div class="brand-box"><div class="brand-box-name">Law Firm</div></div>
-      <div class="brand-box"><div class="brand-box-name">Healthcare Group</div></div>
-    </div>
-    <div class="corp-testi">
-      <p class="corp-testi-q">"Working with Barefoot Gifting was the easiest decision we made all year. They understood our brand immediately, suggested things we'd never have thought of, and delivered 80 boxes on time without a single hiccup. Our clients were genuinely moved."</p>
-      <div class="corp-testi-name">Chidi Okonkwo</div>
-      <div class="corp-testi-role">Head of Client Relations, Pinnacle Financial Services</div>
-    </div>
-  </div>
-</section>
-
-<!-- Wave: peach → white -->
-<div class="wave" style="background:#ffe9d0">
   <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffffff"/>
   </svg>

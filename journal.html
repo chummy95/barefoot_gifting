@@ -48,10 +48,15 @@ ul{list-style:none;}
 .cart-badge{position:absolute;top:-7px;right:-8px;background:var(--red);color:#fff;font-size:9px;font-weight:800;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
 
 /* HERO */
-.jh{background:var(--tan);padding:clamp(80px,10vw,130px) 0;position:relative;overflow:hidden;}
+.jh{background:linear-gradient(135deg,var(--tan) 0%,#f5dfbf 100%);padding:clamp(80px,10vw,130px) 0;position:relative;overflow:hidden;}
+.jh::before{content:'';position:absolute;inset:0;background:radial-gradient(circle at top left,rgba(255,255,255,.38),transparent 42%);pointer-events:none;}
 .jh-mark{position:absolute;bottom:-60px;right:-60px;width:500px;height:500px;opacity:.09;pointer-events:none;}
 .jh-mark img{width:100%;height:100%;object-fit:contain;}
+.jh-grid{display:grid;grid-template-columns:minmax(0,1.08fr) minmax(280px,.92fr);gap:clamp(28px,4vw,56px);align-items:center;position:relative;z-index:1;}
 .jh-inner{max-width:680px;position:relative;z-index:1;}
+.jh-visual{justify-self:end;width:min(100%,460px);position:relative;z-index:1;}
+.jh-img{aspect-ratio:4/5;overflow:hidden;border-radius:3px;background:var(--cream);box-shadow:0 22px 50px rgba(22,22,22,.12);}
+.jh-img img{width:100%;height:100%;object-fit:cover;}
 .jh h1{font-family:var(--font-h);font-size:clamp(48px,6vw,88px);line-height:1.0;color:var(--ink);margin:14px 0 20px;}
 .jh h1 em{font-style:italic;color:var(--red);}
 .jh p{font-size:clamp(14px,1vw,17px);font-weight:300;line-height:1.85;color:rgba(22,22,22,.65);max-width:500px;}
@@ -194,10 +199,17 @@ var(--cream);}
 <section class="jh">
   <div class="jh-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="jh-inner">
-      <span class="label label-red">Stories Worth Keeping</span>
-      <h1>The Keepsake<br><em>Edit.</em></h1>
-      <p>Gifting stories, product spotlights, nostalgic memories, and themed holiday guides — from the heart of Barefoot Gifting, Abuja.</p>
+    <div class="jh-grid">
+      <div class="jh-inner">
+        <span class="label label-red">Stories Worth Keeping</span>
+        <h1>The Keepsake<br><em>Edit.</em></h1>
+        <p>Gifting stories, product spotlights, nostalgic memories, and themed holiday guides — from the heart of Barefoot Gifting, Abuja.</p>
+      </div>
+      <div class="jh-visual">
+        <div class="jh-img">
+          <img src="./mockup/optimized/boxes2-home.webp" alt="Wrapped Barefoot Gifting presents">
+        </div>
+      </div>
     </div>
   </div>
 </section>
