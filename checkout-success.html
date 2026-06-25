@@ -34,9 +34,30 @@ p{color:#8a8378;font-size:14px;margin-bottom:20px;line-height:1.6;}
 (function () {
   const params = new URLSearchParams(location.search);
   const reference = params.get('reference') || params.get('trxref');
+  const orderId = params.get('order');
+  const mode = params.get('mode');
   const card = document.getElementById('card');
 
+  function escapeHtml(value) {
+    return String(value || '')
+      .replace(/&/g, '&amp;')
+      .replace(/</g, '&lt;')
+      .replace(/>/g, '&gt;')
+      .replace(/"/g, '&quot;')
+      .replace(/'/g, '&#39;');
+  }
+
   if (!reference) {
+    if (mode === 'bank_transfer') {
+      card.innerHTML = `
+        <div class="icon">📦</div>
+        <h1>Order Received</h1>
+        <p>Your order${orderId ? ` #${escapeHtml(orderId)}` : ''} has been placed successfully. Our team will share the bank transfer details through WhatsApp or email and confirm delivery once payment is received.</p>
+        <a href="./shop.html" class="btn">Continue Shopping →</a>
+        ${orderId ? `<div class="ref">Order: ${escapeHtml(orderId)}</div>` : ''}`;
+      return;
+    }
+
     card.innerHTML = `
       <div class="icon">📦</div>
       <h1>Order Received</h1>
@@ -46,23 +67,27 @@ p{color:#8a8378;font-size:14px;margin-bottom:20px;line-height:1.6;}
   }
 
   fetch(`/api/paystack/verify?reference=${encodeURIComponent(reference)}`)
-    .then(r => r.json())
+    .then(async (response) => {
+      const data = await response.json();
+      if (!response.ok) throw new Error(data.error || 'Verification failed');
+      return data;
+    })
     .then(data => {
       if (data.paid) {
         try { localStorage.removeItem('bfg_cart'); } catch {}
         card.innerHTML = `
           <div class="icon">🎉</div>
           <h1>Payment Successful!</h1>
-          <p>Your order #${data.order ? data.order.id : ''} has been confirmed. A receipt has been sent to your email, and we'll notify you as it's prepared and shipped.</p>
+          <p>Your order #${escapeHtml(data.order ? data.order.id : orderId || '')} has been confirmed. A receipt has been sent to your email, and we'll notify you as it's prepared and shipped.</p>
           <a href="./account/dashboard.html" class="btn">View My Orders →</a>
-          <div class="ref">Reference: ${reference}</div>`;
+          <div class="ref">Reference: ${escapeHtml(reference)}</div>`;
       } else {
         card.innerHTML = `
           <div class="icon">⚠️</div>
           <h1>Payment Not Completed</h1>
           <p>We couldn't confirm your payment. If you were charged, please contact us with the reference below and we'll sort it out.</p>
           <a href="./checkout.html" class="btn">Back to Checkout →</a>
-          <div class="ref">Reference: ${reference}</div>`;
+          <div class="ref">Reference: ${escapeHtml(reference)}</div>`;
       }
     })
     .catch(() => {
@@ -71,7 +96,7 @@ p{color:#8a8378;font-size:14px;margin-bottom:20px;line-height:1.6;}
         <h1>Something Went Wrong</h1>
         <p>We couldn't verify your payment automatically. Please contact us with the reference below.</p>
         <a href="./contact.html" class="btn">Contact Us →</a>
-        <div class="ref">Reference: ${reference}</div>`;
+        <div class="ref">Reference: ${escapeHtml(reference)}</div>`;
     });
 })();
 </script>

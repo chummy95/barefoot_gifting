@@ -182,6 +182,16 @@ ul { list-style:none; }
   margin-top: 8px;
 }
 .place-order-btn:hover { background: var(--red-d); border-color: var(--red-d); }
+.place-order-btn[disabled] { opacity: .72; cursor: wait; }
+.checkout-feedback {
+  min-height: 20px;
+  margin-top: 14px;
+  font-size: 12px;
+  font-weight: 400;
+  line-height: 1.6;
+}
+.checkout-feedback.error { color: var(--red-d); }
+.checkout-feedback.success { color: rgba(22,22,22,.65); }
 
 /* RIGHT: Order Summary */
 .checkout-summary-col {}
@@ -428,12 +438,170 @@ const BFCart = {
   updateBadge() { document.querySelectorAll('.cart-badge').forEach(b => b.textContent = this.count()); }
 };
 
+const DEFAULT_STORE_SETTINGS = {
+  deliveryFee: 2500,
+  freeDeliveryThreshold: 45000,
+  paystackEnabled: false,
+};
+
+let storeSettings = { ...DEFAULT_STORE_SETTINGS };
+
 function fmt(n) {
   return '₦' + n.toLocaleString('en-NG');
 }
 
-function genOrderNum() {
-  return 'BFG-' + Math.floor(1000 + Math.random() * 9000);
+function escapeHtml(value) {
+  return String(value || '')
+    .replace(/&/g, '&amp;')
+    .replace(/</g, '&lt;')
+    .replace(/>/g, '&gt;')
+    .replace(/"/g, '&quot;')
+    .replace(/'/g, '&#39;');
+}
+
+function toNumber(value, fallback) {
+  const parsed = Number(value);
+  return Number.isFinite(parsed) ? parsed : fallback;
+}
+
+function normalizeSettings(payload) {
+  return {
+    deliveryFee: Math.max(0, toNumber(payload?.delivery_fee, DEFAULT_STORE_SETTINGS.deliveryFee)),
+    freeDeliveryThreshold: Math.max(0, toNumber(payload?.free_delivery_threshold, DEFAULT_STORE_SETTINGS.freeDeliveryThreshold)),
+    paystackEnabled: String(payload?.paystack_enabled || '').toLowerCase() === 'true',
+  };
+}
+
+async function loadStoreSettings() {
+  try {
+    const response = await fetch('/api/settings');
+    if (!response.ok) throw new Error('Settings request failed');
+    const payload = await response.json();
+    storeSettings = normalizeSettings(payload);
+  } catch (error) {
+    console.warn('Falling back to default storefront settings.', error);
+    storeSettings = { ...DEFAULT_STORE_SETTINGS };
+  }
+}
+
+function getDeliveryFee(subtotal) {
+  if (subtotal >= storeSettings.freeDeliveryThreshold) return 0;
+  return storeSettings.deliveryFee;
+}
+
+function setCheckoutFeedback(message, type = 'error') {
+  const feedback = document.getElementById('checkout-feedback');
+  if (!feedback) return;
+  feedback.textContent = message || '';
+  feedback.className = message ? `checkout-feedback ${type}` : 'checkout-feedback';
+}
+
+function setSubmitState(button, busy, busyText) {
+  if (!button) return;
+  if (!button.dataset.defaultText) button.dataset.defaultText = button.textContent.trim();
+  button.disabled = busy;
+  button.textContent = busy ? busyText : button.dataset.defaultText;
+}
+
+function validateCheckoutForm(form) {
+  let valid = true;
+  let firstInvalid = null;
+
+  form.querySelectorAll('[required]').forEach((field) => {
+    const isFilled = Boolean(field.value.trim());
+    field.style.borderColor = isFilled ? '' : 'var(--red)';
+    if (!isFilled && !firstInvalid) firstInvalid = field;
+    if (!isFilled) valid = false;
+  });
+
+  if (!valid && firstInvalid) firstInvalid.focus();
+  return valid;
+}
+
+async function submitCheckout(form) {
+  if (!validateCheckoutForm(form)) {
+    setCheckoutFeedback('Please fill in the required customer and delivery details.');
+    return;
+  }
+
+  const button = form.querySelector('.place-order-btn');
+  const cart = BFCart.get();
+  if (!cart.length) {
+    setCheckoutFeedback('Your cart is empty. Please add a gift before checking out.');
+    return;
+  }
+
+  setCheckoutFeedback('');
+  setSubmitState(button, true, 'Placing Order...');
+
+  const subtotal = cart.reduce((sum, item) => sum + (Number(item.price) || 0) * (Number(item.qty) || 1), 0);
+  const deliveryFee = getDeliveryFee(subtotal);
+  const formData = new FormData(form);
+  const paymentMethod = String(formData.get('payment_method') || 'bank_transfer');
+
+  const orderPayload = {
+    name: String(formData.get('full_name') || '').trim(),
+    email: String(formData.get('email') || '').trim(),
+    phone: String(formData.get('phone') || '').trim(),
+    address: String(formData.get('street') || '').trim(),
+    city: String(formData.get('city') || '').trim(),
+    state: String(formData.get('state') || '').trim(),
+    country: String(formData.get('country') || 'Nigeria').trim(),
+    giftMessage: String(formData.get('gift_message') || '').trim(),
+    deliveryMethod: String(formData.get('delivery_method') || 'standard'),
+    deliveryFee,
+    items: cart.map((item) => ({
+      id: item.id || null,
+      name: item.name,
+      price: Number(item.price) || 0,
+      qty: Number(item.qty) || 1,
+      img: item.img || item.image || '',
+      customization: item.customization || null,
+    })),
+  };
+
+  try {
+    const orderResponse = await fetch('/api/orders', {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify(orderPayload),
+    });
+    const orderData = await orderResponse.json();
+    if (!orderResponse.ok) {
+      throw new Error(orderData.error || 'We could not create your order. Please try again.');
+    }
+
+    if (paymentMethod === 'paystack') {
+      setSubmitState(button, true, 'Redirecting To Paystack...');
+
+      const paystackResponse = await fetch('/api/paystack/initialize', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({ orderId: orderData.id }),
+      });
+      const paystackData = await paystackResponse.json();
+
+      if (!paystackResponse.ok || !paystackData.authorization_url) {
+        throw new Error(
+          paystackData.error
+            ? `Order #${orderData.id} was created, but Paystack could not start: ${paystackData.error}`
+            : `Order #${orderData.id} was created, but Paystack could not start.`
+        );
+      }
+
+      window.location.href = paystackData.authorization_url;
+      return;
+    }
+
+    try {
+      localStorage.removeItem(BFCart.key);
+    } catch {}
+    BFCart.updateBadge();
+    window.location.href = `./checkout-success.html?mode=bank_transfer&order=${encodeURIComponent(orderData.id)}`;
+  } catch (error) {
+    setCheckoutFeedback(error.message || 'Something went wrong while placing your order.');
+    setSubmitState(button, false);
+  }
 }
 
 function renderCheckout() {
@@ -453,17 +621,37 @@ function renderCheckout() {
   }
 
   const subtotal = cart.reduce((s, i) => s + i.price * i.qty, 0);
-  const delivery = subtotal >= 25000 ? 0 : 2500;
+  const delivery = getDeliveryFee(subtotal);
   const total = subtotal + delivery;
+  const freeDeliveryCopy = storeSettings.freeDeliveryThreshold > 0
+    ? `Nationwide delivery. Free on orders over ${fmt(storeSettings.freeDeliveryThreshold)}.`
+    : 'Nationwide delivery across Nigeria.';
+  const paystackOption = storeSettings.paystackEnabled
+    ? `
+              <label class="radio-option">
+                <input type="radio" name="payment_method" value="paystack">
+                <div class="radio-option-body">
+                  <div class="radio-option-title">Card Payment via Paystack</div>
+                  <div class="radio-option-desc">Pay securely with your card, bank app, transfer, or USSD through Paystack.</div>
+                </div>
+              </label>`
+    : `
+              <label class="radio-option disabled">
+                <input type="radio" name="payment_method" value="paystack" disabled>
+                <div class="radio-option-body">
+                  <div class="radio-option-title">Card Payment via Paystack <span class="coming-soon-tag">Unavailable</span></div>
+                  <div class="radio-option-desc">Card payments will appear here once Paystack is enabled in your store settings.</div>
+                </div>
+              </label>`;
 
   const itemsHTML = cart.map(item => `
     <div class="cs-item">
-      <div class="cs-item-thumb"><img src="${item.img}" alt="${item.name}"></div>
+      <div class="cs-item-thumb"><img src="${escapeHtml(item.img || item.image || '')}" alt="${escapeHtml(item.name)}"></div>
       <div>
-        <div class="cs-item-name">${item.name}</div>
-        <div class="cs-item-qty">Qty: ${item.qty}</div>
+        <div class="cs-item-name">${escapeHtml(item.name)}</div>
+        <div class="cs-item-qty">Qty: ${Number(item.qty) || 1}</div>
       </div>
-      <div class="cs-item-price">${fmt(item.price * item.qty)}</div>
+      <div class="cs-item-price">${fmt((Number(item.price) || 0) * (Number(item.qty) || 1))}</div>
     </div>
   `).join('');
 
@@ -534,7 +722,7 @@ function renderCheckout() {
                 <input type="radio" name="delivery_method" value="standard" checked>
                 <div class="radio-option-body">
                   <div class="radio-option-title">Standard Delivery (2–5 days)</div>
-                  <div class="radio-option-desc">Nationwide delivery. Free on orders over ₦25,000.</div>
+                  <div class="radio-option-desc">${freeDeliveryCopy}</div>
                 </div>
               </label>
               <label class="radio-option">
@@ -565,17 +753,12 @@ function renderCheckout() {
                   <div class="radio-option-desc">We'll send our account details after you place your order. Your order is confirmed once payment is received.</div>
                 </div>
               </label>
-              <label class="radio-option disabled">
-                <input type="radio" name="payment_method" value="paystack" disabled>
-                <div class="radio-option-body">
-                  <div class="radio-option-title">Card Payment via Paystack <span class="coming-soon-tag">Coming Soon</span></div>
-                  <div class="radio-option-desc">Secure card payments will be available soon.</div>
-                </div>
-              </label>
+              ${paystackOption}
             </div>
           </div>
 
           <button type="submit" class="place-order-btn">Place Order →</button>
+          <div id="checkout-feedback" class="checkout-feedback" role="status" aria-live="polite"></div>
 
         </form>
       </div>
@@ -597,45 +780,16 @@ function renderCheckout() {
 
     </div>`;
 
-  // Form submission
   document.getElementById('checkout-form').addEventListener('submit', function(e) {
     e.preventDefault();
-
-    // Basic validation
-    const required = this.querySelectorAll('[required]');
-    let valid = true;
-    required.forEach(field => {
-      if (!field.value.trim()) {
-        field.style.borderColor = 'var(--red)';
-        valid = false;
-      } else {
-        field.style.borderColor = '';
-      }
-    });
-
-    if (!valid) {
-      const first = this.querySelector('[required]:not([value])') || this.querySelector('[required]');
-      if (first) first.focus();
-      return;
-    }
-
-    // Success state
-    const orderNum = genOrderNum();
-    BFCart.save([]);
-    BFCart.updateBadge();
-
-    root.innerHTML = `
-      <div class="order-success">
-        <div class="success-icon">🎁</div>
-        <h2>Order Placed!</h2>
-        <div class="order-num">Order #${orderNum}</div>
-        <p>Thank you for your order! We've received your details and will be in touch shortly to confirm payment and delivery.<br><br>Check your WhatsApp or email for updates from our team.</p>
-        <a href="./shop.html" class="btn btn-p">Continue Shopping <span class="arr">→</span></a>
-      </div>`;
+    submitCheckout(this);
   });
 }
 
-document.addEventListener('DOMContentLoaded', renderCheckout);
+document.addEventListener('DOMContentLoaded', async () => {
+  await loadStoreSettings();
+  renderCheckout();
+});
 </script>
 <script src="./site-shell.js"></script>
 </body>
