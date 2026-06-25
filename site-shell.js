@@ -64,7 +64,6 @@
               <a href="./concierge.html">Concierge Gifting</a>
               <a href="./thc.html">Husbands Club</a>
               <a href="./journal.html">Keepsake Edit</a>
-              <a href="./about.html">About</a>
               <a href="./contact.html">Contact</a>
               <a href="./faqs.html">FAQs</a>
             </div>
