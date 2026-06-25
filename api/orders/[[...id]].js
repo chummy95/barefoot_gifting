@@ -3,6 +3,12 @@ const { requireAuth, verifyToken, getTokenFromReq } = require('../_lib/auth');
 const { cors } = require('../_lib/cors');
 const { getSegments } = require('../_lib/path-segments');
 
+function normalizeProductId(value) {
+  if (value === null || value === undefined || value === '') return null;
+  const parsed = Number.parseInt(String(value), 10);
+  return Number.isInteger(parsed) && parsed > 0 ? parsed : null;
+}
+
 module.exports = async (req, res) => {
   if (cors(req, res)) return;
 
@@ -55,9 +61,10 @@ module.exports = async (req, res) => {
       const order = rows[0];
 
       for (const it of items) {
+        const productId = normalizeProductId(it.id);
         await sql`
           INSERT INTO order_items (order_id, product_id, name, price, qty, image, customization)
-          VALUES (${order.id}, ${it.id || null}, ${it.name}, ${it.price}, ${it.qty || 1}, ${it.img || null}, ${it.customization ? JSON.stringify(it.customization) : null})
+          VALUES (${order.id}, ${productId}, ${it.name}, ${it.price}, ${it.qty || 1}, ${it.img || null}, ${it.customization ? JSON.stringify(it.customization) : null})
         `;
       }
 

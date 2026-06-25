@@ -503,6 +503,21 @@ function setSubmitState(button, busy, busyText) {
   button.textContent = busy ? busyText : button.dataset.defaultText;
 }
 
+async function parseApiPayload(response, fallbackError) {
+  const raw = await response.text();
+  if (!raw) return {};
+
+  try {
+    return JSON.parse(raw);
+  } catch (error) {
+    if (!response.ok) {
+      const plainText = raw.replace(/\s+/g, ' ').trim();
+      throw new Error(plainText || fallbackError);
+    }
+    throw error;
+  }
+}
+
 function validateCheckoutForm(form) {
   let valid = true;
   let firstInvalid = null;
@@ -566,7 +581,7 @@ async function submitCheckout(form) {
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(orderPayload),
     });
-    const orderData = await orderResponse.json();
+    const orderData = await parseApiPayload(orderResponse, 'We could not create your order. Please try again.');
     if (!orderResponse.ok) {
       throw new Error(orderData.error || 'We could not create your order. Please try again.');
     }
@@ -579,7 +594,7 @@ async function submitCheckout(form) {
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({ orderId: orderData.id }),
       });
-      const paystackData = await paystackResponse.json();
+      const paystackData = await parseApiPayload(paystackResponse, `Order #${orderData.id} was created, but Paystack could not start.`);
 
       if (!paystackResponse.ok || !paystackData.authorization_url) {
         throw new Error(
