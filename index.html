@@ -676,27 +676,91 @@ body.nav-open .nav-drawer { transform: translateX(0); }
 /* =============================================
    KEEPSAKE EDIT — tan section
 ============================================= */
-.edit-sec { background: #ffffff; padding: clamp(72px,9vw,120px) 0; position: relative; overflow: hidden; }
+.edit-sec { background: linear-gradient(180deg,#ffffff 0%,#fff7ee 100%); padding: clamp(72px,9vw,120px) 0; position: relative; overflow: hidden; }
 .edit-mark {
   position: absolute; bottom: -60px; right: -50px;
   width: 380px; height: 380px; opacity: .07; pointer-events: none;
 }
 .edit-mark img { width: 100%; height: 100%; object-fit: contain; }
-.edit-grid { display: grid; grid-template-columns: repeat(3,1fr); gap: 28px 20px; position: relative; z-index: 1; }
-.ec { display: flex; flex-direction: column; cursor: pointer; transition: opacity .2s; }
-.ec:hover { opacity: .88; }
-.ec--feat { grid-column: span 2; }
-.ec-img { overflow: hidden; border-radius: 2px; background: var(--peach); flex-shrink: 0; }
-.ec--feat .ec-img { aspect-ratio: 21/9; }
-.ec:not(.ec--feat) .ec-img { aspect-ratio: 16/10; }
-.ec-img img { transition: transform .5s; }
-.ec:hover .ec-img img { transform: scale(1.03); }
-.ec-bd { padding: 16px 0 0; }
-.ec-cat { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--red); margin-bottom: 7px; }
-.ec-t { font-family: var(--font-h); font-size: clamp(14px,1.2vw,19px); line-height: 1.3; margin-bottom: 7px; }
-.ec--feat .ec-t { font-size: clamp(20px,1.8vw,27px); }
-.ec-ex { font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(22,22,22,.6); margin-bottom: 10px; }
+.edit-head {
+  display:grid; grid-template-columns:minmax(0,1fr) auto; gap:24px 32px;
+  align-items:end; margin-bottom:34px; position:relative; z-index:1;
+}
+.edit-head .sec-hd { margin:0; text-align:left; }
+.edit-head .sec-body { margin:0; max-width:620px; }
+.edit-link {
+  display:inline-flex; align-items:center; gap:8px; padding:13px 22px;
+  border-radius:999px; border:1px solid rgba(22,22,22,.1);
+  background:rgba(255,255,255,.82); color:var(--ink);
+  font-family:var(--font-b); font-size:10px; font-weight:700;
+  letter-spacing:.16em; text-transform:uppercase;
+  box-shadow:0 14px 36px rgba(22,22,22,.05);
+  transition:transform .2s,border-color .2s,color .2s,box-shadow .2s;
+}
+.edit-link:hover {
+  color:var(--red); border-color:rgba(221,64,64,.28);
+  transform:translateY(-2px); box-shadow:0 18px 42px rgba(22,22,22,.08);
+}
+.edit-grid {
+  display:grid;
+  grid-template-columns:minmax(0,1.08fr) minmax(0,1.08fr) minmax(260px,.9fr);
+  gap:24px;
+  align-items:stretch;
+  position:relative;
+  z-index:1;
+}
+.ec {
+  min-width:0; display:flex; flex-direction:column; height:100%;
+  padding:16px; border-radius:24px; background:rgba(255,255,255,.88);
+  border:1px solid rgba(22,22,22,.08);
+  box-shadow:0 18px 48px rgba(22,22,22,.06);
+  cursor:pointer;
+  transition:transform .28s,box-shadow .28s,border-color .28s;
+}
+.ec:hover {
+  transform:translateY(-4px);
+  box-shadow:0 24px 56px rgba(22,22,22,.1);
+  border-color:rgba(221,64,64,.22);
+}
+.ec--feat {
+  grid-column:1 / span 2;
+  grid-row:span 2;
+  padding:18px;
+  background:linear-gradient(180deg,#fffdf8 0%,#fff1df 100%);
+}
+.ec:nth-child(4) {
+  grid-column:1 / -1;
+  display:grid;
+  grid-template-columns:minmax(240px,.95fr) minmax(0,1.2fr);
+  gap:22px;
+  align-items:center;
+}
+.ec-img { overflow:hidden; border-radius:18px; background: var(--peach); flex-shrink: 0; }
+.ec--feat .ec-img { aspect-ratio: 14 / 9; }
+.ec:not(.ec--feat) .ec-img { aspect-ratio: 4 / 3; }
+.ec:nth-child(4) .ec-img { aspect-ratio: 16 / 10; }
+.ec-img img { width:100%; height:100%; object-fit:cover; transition: transform .55s; }
+.ec:hover .ec-img img { transform: scale(1.04); }
+.ec-bd { display:flex; flex-direction:column; flex:1; min-width:0; padding: 18px 6px 6px; }
+.ec:nth-child(4) .ec-bd { padding: 0 6px 0 0; }
+.ec-cat { font-size: 10px; font-weight: 700; letter-spacing: .18em; text-transform: uppercase; color: var(--red); margin-bottom: 10px; }
+.ec-t { font-family: var(--font-h); font-size: clamp(15px,1.3vw,20px); line-height: 1.22; margin-bottom: 10px; }
+.ec--feat .ec-t { font-size: clamp(28px,2.4vw,36px); line-height:1.08; max-width:12ch; }
+.ec-ex {
+  font-size: 13px; font-weight: 300; line-height: 1.7; color: rgba(22,22,22,.6); margin-bottom: 14px;
+  display:-webkit-box; -webkit-box-orient:vertical; overflow:hidden; -webkit-line-clamp:3;
+}
+.ec--feat .ec-ex { font-size: 14px; max-width: 58ch; -webkit-line-clamp: 4; }
+.ec-foot {
+  margin-top:auto; padding-top:14px; border-top:1px solid rgba(22,22,22,.08);
+  display:flex; align-items:center; justify-content:space-between; gap:10px 16px; flex-wrap:wrap;
+}
 .ec-m { font-size: 11px; color: rgba(22,22,22,.42); letter-spacing: .05em; }
+.ec-cta {
+  display:inline-flex; align-items:center; gap:8px;
+  font-size:10px; font-weight:700; letter-spacing:.14em; text-transform:uppercase;
+  color:var(--red);
+}
 .edit-empty { grid-column: 1 / -1; text-align: center; padding: 24px 0; font-size: 14px; color: rgba(22,22,22,.58); }
 .story-placeholder {
   display:flex; align-items:flex-end; justify-content:flex-start; padding:22px;
@@ -878,8 +942,11 @@ body.nav-open .nav-drawer { transform: translateX(0); }
   .mood-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
   .cards-grid { grid-template-columns: repeat(3, minmax(0,1fr)); }
   .luxes-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
+  .edit-head { grid-template-columns: 1fr; align-items: start; }
+  .edit-link { justify-self: start; }
   .edit-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
-  .edit-grid .ec--feat { grid-column: 1 / -1; }
+  .edit-grid .ec--feat { grid-column: 1 / -1; grid-row: auto; }
+  .edit-grid .ec:nth-child(4) { grid-column: 1 / -1; }
   .testi-grid { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .footer-top { grid-template-columns: repeat(2, minmax(0,1fr)); }
   .conc-imgs { height: 480px; }
@@ -1098,14 +1165,43 @@ body.nav-open .nav-drawer { transform: translateX(0); }
     min-height: 220px;
   }
   .ci-t { grid-row: auto; }
-  .edit-grid {
-    grid-template-columns: repeat(2, minmax(0,1fr));
-    gap: 22px 14px;
+  .edit-head {
+    gap: 18px;
+    margin-bottom: 26px;
   }
-  .edit-grid .ec--feat { grid-column: 1 / -1; }
+  .edit-link {
+    width: 100%;
+    justify-content: center;
+  }
+  .edit-grid {
+    grid-template-columns: 1fr;
+    gap: 18px;
+  }
+  .edit-grid .ec--feat,
+  .edit-grid .ec:nth-child(4) {
+    grid-column: 1 / -1;
+    grid-row: auto;
+  }
+  .edit-grid .ec,
+  .edit-grid .ec:nth-child(4) {
+    display: flex;
+  }
+  .ec,
+  .ec--feat {
+    padding: 14px;
+    border-radius: 20px;
+  }
+  .ec-img { border-radius: 16px; }
   .ec--feat .ec-img,
-  .ec:not(.ec--feat) .ec-img { aspect-ratio: 4 / 3; }
-  .ec-t { font-size: 14px; }
+  .ec:not(.ec--feat) .ec-img,
+  .ec:nth-child(4) .ec-img { aspect-ratio: 4 / 3; }
+  .ec-bd,
+  .ec:nth-child(4) .ec-bd { padding: 16px 4px 4px; }
+  .ec--feat .ec-t {
+    max-width: none;
+    font-size: clamp(22px, 7vw, 30px);
+  }
+  .ec-t { font-size: 16px; }
   .tst {
     padding: 30px 20px 24px;
   }
@@ -1168,13 +1264,23 @@ body.nav-open .nav-drawer { transform: translateX(0); }
   .brand-intro-grid,
   .conc-wrap,
   .corp-wrap,
-  .edit-grid,
   .footer-top {
+    grid-template-columns: 1fr;
+  }
+  .edit-grid {
     grid-template-columns: 1fr;
   }
   .cards-grid,
   .testi-grid {
     grid-template-columns: 1fr;
+  }
+  .edit-link {
+    width: 100%;
+    justify-content: center;
+  }
+  .ec-foot {
+    align-items: flex-start;
+    flex-direction: column;
   }
 }
 
@@ -1705,10 +1811,13 @@ body.nav-open .nav-drawer { transform: translateX(0); }
 <section class="edit-sec" id="edit">
   <div class="edit-mark"><img src="./SVG/Artboard 1.svg" alt="" aria-hidden="true"></div>
   <div class="wrap">
-    <div class="sec-hd sec-hd-c" style="position:relative;z-index:1">
-      <span class="label label-ink50">Journal · Stories · Guides</span>
-      <h2 class="sec-h">The Keepsake Edit</h2>
-      <p class="sec-body">Gifting ideas, nostalgic stories, and seasonal guides — from the Barefoot Gifting journal.</p>
+    <div class="edit-head">
+      <div class="sec-hd" style="position:relative;z-index:1">
+        <span class="label label-ink50">Journal · Stories · Guides</span>
+        <h2 class="sec-h">The Keepsake Edit</h2>
+        <p class="sec-body">Gifting ideas, nostalgic stories, and seasonal guides — from the Barefoot Gifting journal.</p>
+      </div>
+      <a href="./journal.html" class="edit-link">Explore the Journal <span class="arr">→</span></a>
     </div>
     <div class="edit-grid" id="home-keepsake-grid">
       <a class="ec ec--feat" href="./post.html">
@@ -1717,15 +1826,15 @@ body.nav-open .nav-drawer { transform: translateX(0); }
           <div class="ec-cat">Gift Guide</div>
           <h3 class="ec-t">The Ultimate Mother's Day Gift Guide for 2025 — from Abuja with Love</h3>
           <p class="ec-ex">From the card that makes her cry (happy tears) to the gift box that makes her feel truly seen.</p>
-          <div class="ec-m">8 min read · May 2025</div>
+          <div class="ec-foot">
+            <div class="ec-m">8 min read · May 2025</div>
+            <span class="ec-cta">Read story <span aria-hidden="true">→</span></span>
+          </div>
         </div>
       </a>
-      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/Coke and Fanta.JPG" alt="Nostalgia" loading="lazy" decoding="async"></div><div class="ec-bd"><div class="ec-cat">Nostalgic Stories</div><h3 class="ec-t">Why Nigerian Nostalgia Is the Most Powerful Gift Language</h3><div class="ec-m">5 min read · April 2025</div></div></a>
-      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/learned colleague.JPG" alt="Graduation" loading="lazy" decoding="async"></div><div class="ec-bd"><div class="ec-cat">Product Spotlight</div><h3 class="ec-t">Gifting the Learned Colleague: What to Get a New Lawyer</h3><div class="ec-m">4 min read · March 2025</div></div></a>
-      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/Candle Trio.JPG" alt="BTS" loading="lazy" decoding="async"></div><div class="ec-bd"><div class="ec-cat">Behind the Scenes</div><h3 class="ec-t">How We Build a Little Luxe Box — Every Step, Every Intention</h3><div class="ec-m">6 min read · Feb 2025</div></div></a>
-    </div>
-    <div style="text-align:center;margin-top:48px;position:relative;z-index:1">
-      <a href="./journal.html" class="btn btn-p">Read All Stories <span class="arr">→</span></a>
+      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/Coke and Fanta.JPG" alt="Nostalgia" loading="lazy" decoding="async"></div><div class="ec-bd"><div class="ec-cat">Nostalgic Stories</div><h3 class="ec-t">Why Nigerian Nostalgia Is the Most Powerful Gift Language</h3><p class="ec-ex">From Coke-and-Fanta callbacks to familiar gestures, the gifts that linger the longest are the ones that feel like home.</p><div class="ec-foot"><div class="ec-m">5 min read · April 2025</div><span class="ec-cta">Read story <span aria-hidden="true">→</span></span></div></div></a>
+      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/learned colleague.JPG" alt="Graduation" loading="lazy" decoding="async"></div><div class="ec-bd"><div class="ec-cat">Product Spotlight</div><h3 class="ec-t">Gifting the Learned Colleague: What to Get a New Lawyer</h3><p class="ec-ex">A graduation gifting guide for the freshly called lawyer who deserves something personal, witty, and genuinely useful.</p><div class="ec-foot"><div class="ec-m">4 min read · March 2025</div><span class="ec-cta">Read story <span aria-hidden="true">→</span></span></div></div></a>
+      <a class="ec" href="./post.html"><div class="ec-img"><img src="./PRODUCTS/Candle Trio.JPG" alt="BTS" loading="lazy" decoding="async"></div><div class="ec-bd"><div class="ec-cat">Behind the Scenes</div><h3 class="ec-t">How We Build a Little Luxe Box — Every Step, Every Intention</h3><p class="ec-ex">A closer look at how our signature little luxes come together, from curation and wrapping to the final ribbon.</p><div class="ec-foot"><div class="ec-m">6 min read · Feb 2025</div><span class="ec-cta">Read story <span aria-hidden="true">→</span></span></div></div></a>
     </div>
   </div>
 </section>
@@ -1981,6 +2090,26 @@ function renderHomeStoryImage(image, className) {
   return `<div class="${className} story-placeholder"><span>Keepsake Edit</span></div>`;
 }
 
+function renderHomeStoryCard(post, options = {}) {
+  const featured = !!options.featured;
+  const image = getHomePostImage(post);
+
+  return `
+    <a class="ec${featured ? ' ec--feat' : ''}" href="${escapeHTML(getHomePostHref(post))}">
+      ${renderHomeStoryImage(image, 'ec-img')}
+      <div class="ec-bd">
+        <div class="ec-cat">${escapeHTML(post.category || 'Keepsake Edit')}</div>
+        <h3 class="ec-t">${escapeHTML(post.title)}</h3>
+        <p class="ec-ex">${escapeHTML(getHomePostExcerpt(post))}</p>
+        <div class="ec-foot">
+          <div class="ec-m">${escapeHTML(post.read_time || estimateHomeReadTime(post))} · ${escapeHTML(formatHomeShortDate(post.created_at))}</div>
+          <span class="ec-cta">Read story <span aria-hidden="true">→</span></span>
+        </div>
+      </div>
+    </a>
+  `;
+}
+
 function renderHomeKeepsakePosts(posts) {
   const grid = document.getElementById('home-keepsake-grid');
   if (!grid || !Array.isArray(posts) || !posts.length) return;
@@ -1989,33 +2118,12 @@ function renderHomeKeepsakePosts(posts) {
   const featured = posts[0];
   const maxPosts = 4;
   const rest = posts.slice(1, maxPosts);
-  const featuredImage = getHomePostImage(featured);
   const fillCount = Math.max(0, maxPosts - Math.min(posts.length, maxPosts));
   const fallbackMarkup = fillCount ? fallbackCards.slice(1, 1 + fillCount).join('') : '';
 
   grid.innerHTML = `
-    <a class="ec ec--feat" href="${escapeHTML(getHomePostHref(featured))}">
-      ${renderHomeStoryImage(featuredImage, 'ec-img')}
-      <div class="ec-bd">
-        <div class="ec-cat">${escapeHTML(featured.category || 'Keepsake Edit')}</div>
-        <h3 class="ec-t">${escapeHTML(featured.title)}</h3>
-        <p class="ec-ex">${escapeHTML(getHomePostExcerpt(featured))}</p>
-        <div class="ec-m">${escapeHTML(featured.read_time || estimateHomeReadTime(featured))} · ${escapeHTML(formatHomeShortDate(featured.created_at))}</div>
-      </div>
-    </a>
-    ${rest.map((post) => {
-      const image = getHomePostImage(post);
-      return `
-        <a class="ec" href="${escapeHTML(getHomePostHref(post))}">
-          ${renderHomeStoryImage(image, 'ec-img')}
-          <div class="ec-bd">
-            <div class="ec-cat">${escapeHTML(post.category || 'Keepsake Edit')}</div>
-            <h3 class="ec-t">${escapeHTML(post.title)}</h3>
-            <div class="ec-m">${escapeHTML(post.read_time || estimateHomeReadTime(post))} · ${escapeHTML(formatHomeShortDate(post.created_at))}</div>
-          </div>
-        </a>
-      `;
-    }).join('')}
+    ${renderHomeStoryCard(featured, { featured: true })}
+    ${rest.map((post) => renderHomeStoryCard(post)).join('')}
     ${fallbackMarkup}
     ${!rest.length && !fallbackMarkup ? '<div class="edit-empty">More Keepsake stories will appear here as they are published.</div>' : ''}
   `;
