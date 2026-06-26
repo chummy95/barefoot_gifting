@@ -92,7 +92,7 @@ body.nav-open .nav-drawer {
   border-bottom: 1px solid rgba(22,22,22,.08);
 }
 .nav-drawer-top img {
-  height: 62px;
+  height: 72px;
   width: auto;
   object-fit: contain;
 }
@@ -372,14 +372,14 @@ body.nav-open .nav-drawer {
 
   .nav {
     grid-template-columns: 1fr auto !important;
-    height: 96px !important;
+    height: 112px !important;
     gap: 12px !important;
   }
   .nav-logo {
     justify-self: start;
   }
   .nav-logo img {
-    height: 84px !important;
+    height: 98px !important;
   }
   .nav-r {
     justify-self: end;
@@ -397,7 +397,7 @@ body.nav-open .nav-drawer {
     width: min(360px, 100vw);
   }
   .nav-drawer-top img {
-    height: 56px;
+    height: 68px;
   }
   .nav-drawer-links a {
     font-size: 20px;
