@@ -507,7 +507,7 @@ body.nav-open .nav-drawer { transform: translateX(0); }
 .occ-c6:hover .occ-link { color: var(--gold); }
 
 /* ---- MOOD SECTION ---- */
-.mood-sec { background: var(--cream); padding: clamp(72px,9vw,120px) 0; }
+.mood-sec { background: #ffffff; padding: clamp(72px,9vw,120px) 0; }
 .mood-grid { display: grid; grid-template-columns: repeat(6,1fr); gap: 12px; margin-top: 48px; }
 .mood-card {
   display: flex; flex-direction: column; align-items: center; justify-content: center;
@@ -1023,13 +1023,13 @@ body.nav-open .nav-drawer { transform: translateX(0); }
   }
   .nav {
     grid-template-columns: 1fr auto;
-    height: 82px;
+    height: 96px;
     gap: 12px;
   }
   .nav-logo {
     justify-self: start;
   }
-  .nav-logo img { height: 62px; }
+  .nav-logo img { height: 84px; }
   .nav-r {
     gap: 8px;
     justify-self: end;
@@ -1414,10 +1414,75 @@ body.nav-open .nav-drawer { transform: translateX(0); }
   </div>
   <div class="hero-wave">
     <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-      <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#fff0e3"/>
+      <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffffff"/>
     </svg>
   </div>
 </section>
+
+<!-- ============================================================
+     HOW ARE YOU FEELING TODAY? — MOOD GIFTING
+============================================================ -->
+<section class="mood-sec">
+  <div class="wrap">
+    <div class="sec-hd sec-hd-c">
+      <span class="label label-red">Gift by Mood</span>
+      <h2 class="sec-h">How are you feeling today?</h2>
+      <p class="sec-body">The right gift starts with the right feeling. Tell us how you're showing up, and we'll find something that fits.</p>
+    </div>
+    <div class="mood-grid">
+
+      <a href="./shop.html" class="mood-card mood-m1">
+        <div class="mood-icon">🥳</div>
+        <div class="mood-word">Celebratory</div>
+        <div class="mood-sub">Someone's having a moment</div>
+        <div class="mood-cta">Find gifts <span>→</span></div>
+      </a>
+
+      <a href="./shop.html" class="mood-card mood-m2">
+        <div class="mood-icon">💛</div>
+        <div class="mood-word">Grateful</div>
+        <div class="mood-sub">They showed up for you</div>
+        <div class="mood-cta">Find gifts <span>→</span></div>
+      </a>
+
+      <a href="./shop.html" class="mood-card mood-m3">
+        <div class="mood-icon">🥰</div>
+        <div class="mood-word">Romantic</div>
+        <div class="mood-sub">All the soft feelings</div>
+        <div class="mood-cta">Find gifts <span>→</span></div>
+      </a>
+
+      <a href="./shop.html" class="mood-card mood-m4">
+        <div class="mood-icon">🎓</div>
+        <div class="mood-word">Proud</div>
+        <div class="mood-sub">They did the thing</div>
+        <div class="mood-cta">Find gifts <span>→</span></div>
+      </a>
+
+      <a href="./shop.html" class="mood-card mood-m5">
+        <div class="mood-icon">🤍</div>
+        <div class="mood-word">Tender</div>
+        <div class="mood-sub">Just checking in on them</div>
+        <div class="mood-cta">Find gifts <span>→</span></div>
+      </a>
+
+      <a href="./shop.html" class="mood-card mood-m6">
+        <div class="mood-icon">✨</div>
+        <div class="mood-word">Generous</div>
+        <div class="mood-sub">No reason. Just because.</div>
+        <div class="mood-cta">Find gifts <span>→</span></div>
+      </a>
+
+    </div>
+  </div>
+</section>
+
+<!-- wave: white → cream -->
+<div class="wave" style="background:#ffffff;">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
+    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#fff0e3"/>
+  </svg>
+</div>
 
 <!-- ============================================================
      BRAND INTRO — "Gifts that carry meaning"
@@ -1592,78 +1657,12 @@ body.nav-open .nav-drawer { transform: translateX(0); }
   </div>
 </section>
 
-<!-- wave: red → cream -->
+<!-- wave: red → gold -->
 <div class="wave" style="background:var(--red);">
-  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
-    <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#fff0e3"/>
-  </svg>
-</div>
-
-<!-- ============================================================
-     HOW ARE YOU FEELING TODAY? — MOOD GIFTING
-============================================================ -->
-<section class="mood-sec">
-  <div class="wrap">
-    <div class="sec-hd sec-hd-c">
-      <span class="label label-red">Gift by Mood</span>
-      <h2 class="sec-h">How are you feeling today?</h2>
-      <p class="sec-body">The right gift starts with the right feeling. Tell us how you're showing up, and we'll find something that fits.</p>
-    </div>
-    <div class="mood-grid">
-
-      <a href="./shop.html" class="mood-card mood-m1">
-        <div class="mood-icon">🥳</div>
-        <div class="mood-word">Celebratory</div>
-        <div class="mood-sub">Someone's having a moment</div>
-        <div class="mood-cta">Find gifts <span>→</span></div>
-      </a>
-
-      <a href="./shop.html" class="mood-card mood-m2">
-        <div class="mood-icon">💛</div>
-        <div class="mood-word">Grateful</div>
-        <div class="mood-sub">They showed up for you</div>
-        <div class="mood-cta">Find gifts <span>→</span></div>
-      </a>
-
-      <a href="./shop.html" class="mood-card mood-m3">
-        <div class="mood-icon">🥰</div>
-        <div class="mood-word">Romantic</div>
-        <div class="mood-sub">All the soft feelings</div>
-        <div class="mood-cta">Find gifts <span>→</span></div>
-      </a>
-
-      <a href="./shop.html" class="mood-card mood-m4">
-        <div class="mood-icon">🎓</div>
-        <div class="mood-word">Proud</div>
-        <div class="mood-sub">They did the thing</div>
-        <div class="mood-cta">Find gifts <span>→</span></div>
-      </a>
-
-      <a href="./shop.html" class="mood-card mood-m5">
-        <div class="mood-icon">🤍</div>
-        <div class="mood-word">Tender</div>
-        <div class="mood-sub">Just checking in on them</div>
-        <div class="mood-cta">Find gifts <span>→</span></div>
-      </a>
-
-      <a href="./shop.html" class="mood-card mood-m6">
-        <div class="mood-icon">✨</div>
-        <div class="mood-word">Generous</div>
-        <div class="mood-sub">No reason. Just because.</div>
-        <div class="mood-cta">Find gifts <span>→</span></div>
-      </a>
-
-    </div>
-  </div>
-</section>
-
-<!-- wave: cream → gold -->
-<div class="wave" style="background:var(--cream);">
   <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg">
     <path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffd744"/>
   </svg>
 </div>
-
 
 <!-- ============================================================
      LITTLE LUXES — bold GOLD section

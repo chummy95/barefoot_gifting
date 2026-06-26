@@ -372,14 +372,14 @@ body.nav-open .nav-drawer {
 
   .nav {
     grid-template-columns: 1fr auto !important;
-    height: 82px !important;
+    height: 96px !important;
     gap: 12px !important;
   }
   .nav-logo {
     justify-self: start;
   }
   .nav-logo img {
-    height: 62px !important;
+    height: 84px !important;
   }
   .nav-r {
     justify-self: end;
