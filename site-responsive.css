@@ -372,14 +372,14 @@ body.nav-open .nav-drawer {
 
   .nav {
     grid-template-columns: 1fr auto !important;
-    height: 112px !important;
+    height: 132px !important;
     gap: 12px !important;
   }
   .nav-logo {
     justify-self: start;
   }
   .nav-logo img {
-    height: 98px !important;
+    height: 118px !important;
   }
   .nav-r {
     justify-self: end;
@@ -397,7 +397,7 @@ body.nav-open .nav-drawer {
     width: min(360px, 100vw);
   }
   .nav-drawer-top img {
-    height: 68px;
+    height: 76px;
   }
   .nav-drawer-links a {
     font-size: 20px;
