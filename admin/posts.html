@@ -135,7 +135,9 @@ if (AdminAPI.requireAuth()) {
   let mediaItems = [];
   let mediaLoaded = false;
   let pendingUploads = 0;
+  let isSaving = false;
   let savedEditorRange = null;
+  let searchDebounceTimer = null;
 
   function escapeHTML(value) {
     return String(value ?? '')
@@ -311,6 +313,9 @@ if (AdminAPI.requireAuth()) {
   }
 
   async function load() {
+    const rows = document.getElementById('rows');
+    rows.innerHTML = '<tr><td colspan="7" class="empty">Loading…</td></tr>';
+
     const params = new URLSearchParams();
     const category = document.getElementById('cat-filter').value;
     const search = document.getElementById('search').value.trim();
@@ -321,8 +326,6 @@ if (AdminAPI.requireAuth()) {
 
     posts = await AdminAPI.get('/posts/__root__' + (params.toString() ? '?' + params.toString() : ''));
     syncCategoryInputs();
-
-    const rows = document.getElementById('rows');
     if (!posts.length) {
       rows.innerHTML = '<tr><td colspan="7" class="empty">No Keepsake posts yet.</td></tr>';
       return;
@@ -364,6 +367,7 @@ if (AdminAPI.requireAuth()) {
     editingId = null;
     galleryImages = [];
     pendingUploads = 0;
+    isSaving = false;
     savedEditorRange = null;
     setEditorHTML('');
     setUploadStatus('');
@@ -427,11 +431,18 @@ if (AdminAPI.requireAuth()) {
 
   function syncSaveButton() {
     const saveButton = document.getElementById('save-btn');
-    const busy = pendingUploads > 0;
-    saveButton.disabled = busy;
-    saveButton.textContent = busy
-      ? `Uploading ${pendingUploads} ${pluralize(pendingUploads, 'image')}...`
-      : 'Save Post';
+    const uploadBusy = pendingUploads > 0;
+    saveButton.disabled = uploadBusy || isSaving;
+    saveButton.textContent = isSaving
+      ? 'SAVING'
+      : uploadBusy
+        ? `Uploading ${pendingUploads} ${pluralize(pendingUploads, 'image')}...`
+        : 'Save Post';
+  }
+
+  function scheduleLoad() {
+    window.clearTimeout(searchDebounceTimer);
+    searchDebounceTimer = window.setTimeout(load, 220);
   }
 
   function toggleMediaPicker(forceState) {
@@ -507,24 +518,29 @@ if (AdminAPI.requireAuth()) {
     insertStoryImage(image);
   };
 
-  window.editPost = (id) => {
-    const post = posts.find((item) => item.id === id);
-    if (!post) return;
+  window.editPost = async (id) => {
+    const preview = posts.find((item) => item.id === id);
+    if (!preview) return;
 
-    editingId = id;
-    document.getElementById('f-title').value = post.title;
-    document.getElementById('f-category').value = post.category || '';
-    document.getElementById('f-author').value = post.author || 'Barefoot Gifting Team';
-    document.getElementById('f-read-time').value = post.read_time || '';
-    document.getElementById('f-status').value = post.status || 'published';
-    document.getElementById('f-excerpt').value = post.excerpt || '';
-    savedEditorRange = null;
-    setEditorHTML(post.body_html || '');
-    galleryImages = (post.images || []).map((image) => ({ url: image.url, alt: image.alt || post.title }));
-    setUploadStatus('');
-    toggleMediaPicker(false);
-    renderGallery();
-    openModal('Edit Keepsake Post');
+    try {
+      const post = await AdminAPI.get(`/posts/${id}`);
+      editingId = id;
+      document.getElementById('f-title').value = post.title;
+      document.getElementById('f-category').value = post.category || '';
+      document.getElementById('f-author').value = post.author || 'Barefoot Gifting Team';
+      document.getElementById('f-read-time').value = post.read_time || '';
+      document.getElementById('f-status').value = post.status || 'published';
+      document.getElementById('f-excerpt').value = post.excerpt || '';
+      savedEditorRange = null;
+      setEditorHTML(post.body_html || '');
+      galleryImages = (post.images || []).map((image) => ({ url: image.url, alt: image.alt || post.title }));
+      setUploadStatus('');
+      toggleMediaPicker(false);
+      renderGallery();
+      openModal('Edit Keepsake Post');
+    } catch (error) {
+      alert(`Could not load "${preview.title}" for editing: ${error.message}`);
+    }
   };
 
   window.togglePostStatus = async (id) => {
@@ -555,7 +571,7 @@ if (AdminAPI.requireAuth()) {
   });
 
   document.getElementById('cancel-btn').addEventListener('click', closeModal);
-  document.getElementById('search').addEventListener('input', load);
+  document.getElementById('search').addEventListener('input', scheduleLoad);
   document.getElementById('cat-filter').addEventListener('change', load);
   document.getElementById('status-filter').addEventListener('change', load);
   document.querySelectorAll('#body-toolbar [data-editor-command]').forEach((button) => {
@@ -638,6 +654,7 @@ if (AdminAPI.requireAuth()) {
       message.classList.add('show');
       return;
     }
+    if (isSaving) return;
 
     const payload = {
       title: document.getElementById('f-title').value.trim(),
@@ -651,6 +668,8 @@ if (AdminAPI.requireAuth()) {
     };
 
     try {
+      isSaving = true;
+      syncSaveButton();
       syncBodyField();
       payload.body_html = document.getElementById('f-body').value.trim();
       if (!payload.body_html) throw new Error('Please add some story text before saving this post.');
@@ -662,6 +681,9 @@ if (AdminAPI.requireAuth()) {
       const message = document.getElementById('modal-err');
       message.textContent = error.message;
       message.classList.add('show');
+    } finally {
+      isSaving = false;
+      syncSaveButton();
     }
   });
 

@@ -66,9 +66,36 @@ async function attachImages(posts) {
     [ids]
   );
 
+  const imagesByPostId = images.reduce((map, image) => {
+    const list = map.get(image.post_id) || [];
+    list.push(image);
+    map.set(image.post_id, list);
+    return map;
+  }, new Map());
+
   return posts.map((post) => ({
     ...post,
-    images: images.filter((image) => image.post_id === post.id),
+    images: imagesByPostId.get(post.id) || [],
+  }));
+}
+
+async function attachPreviewImages(posts) {
+  if (!posts.length) return posts;
+
+  const ids = posts.map((post) => post.id);
+  const { rows: images } = await sql.query(
+    `SELECT DISTINCT ON (post_id) post_id, url, alt, position
+     FROM post_images
+     WHERE post_id = ANY($1)
+     ORDER BY post_id, position ASC`,
+    [ids]
+  );
+
+  const previewByPostId = new Map(images.map((image) => [image.post_id, image]));
+
+  return posts.map((post) => ({
+    ...post,
+    images: previewByPostId.get(post.id) ? [previewByPostId.get(post.id)] : [],
   }));
 }
 
@@ -93,7 +120,21 @@ module.exports = async (req, res) => {
       const isAdmin = auth && auth.role === 'admin';
 
       const params = [];
-      let query = 'SELECT * FROM posts WHERE TRUE';
+      let query = `
+        SELECT
+          id,
+          slug,
+          title,
+          category,
+          excerpt,
+          author,
+          read_time,
+          status,
+          created_at,
+          updated_at
+        FROM posts
+        WHERE TRUE
+      `;
 
       if (category) {
         params.push(category);
@@ -117,7 +158,7 @@ module.exports = async (req, res) => {
       query += ' ORDER BY created_at DESC';
 
       const { rows } = await sql.query(query, params);
-      return res.status(200).json(await attachImages(rows));
+      return res.status(200).json(await attachPreviewImages(rows));
     }
 
     if (req.method === 'POST') {

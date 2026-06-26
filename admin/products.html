@@ -63,8 +63,7 @@
       <div class="row">
         <div class="field">
           <label>Category</label>
-          <input type="text" id="f-category" list="category-options" required>
-          <datalist id="category-options"></datalist>
+          <select id="f-category" required></select>
         </div>
         <div class="field"><label>Price (₦)</label><input type="number" id="f-price" min="0" required></div>
       </div>
@@ -120,7 +119,23 @@
 if (AdminAPI.requireAuth()) {
   renderAdminShell('products');
 
-  const DEFAULT_CATEGORIES = ['Greeting Cards', 'Barefoot Bits', 'Little Luxes', 'Stationery'];
+  const SHOP_CATEGORY_OPTIONS = [
+    'Little Luxes',
+    'Stationery',
+    'Barefoot Bits',
+    'Greeting Cards',
+    'New Arrivals',
+    "Mother's Day",
+    "Father's Day",
+    "Children's Day",
+    'Naming Ceremony',
+    'Birthdays',
+    'Law School Graduation',
+    'Weddings',
+    'New Baby',
+    'Just Because',
+    'Corporate Gifts',
+  ];
   let products = [];
   let editingId = null;
   let galleryImages = []; // {url, alt}
@@ -141,7 +156,7 @@ if (AdminAPI.requireAuth()) {
   function collectCategories() {
     const seen = new Set();
     const categories = [];
-    [...DEFAULT_CATEGORIES, ...products.map(product => product.category).filter(Boolean)].forEach((category) => {
+    [...SHOP_CATEGORY_OPTIONS, ...products.map(product => product.category).filter(Boolean)].forEach((category) => {
       if (seen.has(category)) return;
       seen.add(category);
       categories.push(category);
@@ -158,12 +173,32 @@ if (AdminAPI.requireAuth()) {
     `).join('');
     if (categories.includes(currentFilter)) filter.value = currentFilter;
 
-    document.getElementById('category-options').innerHTML = categories.map(category => `
-      <option value="${escapeHTML(category)}"></option>
-    `).join('');
+    const categoryField = document.getElementById('f-category');
+    const currentValue = categoryField.value;
+    categoryField.innerHTML = `
+      <option value="" disabled>Select a category</option>
+      ${categories.map(category => `
+        <option value="${escapeHTML(category)}">${escapeHTML(category)}</option>
+      `).join('')}
+    `;
+    if (categories.includes(currentValue)) categoryField.value = currentValue;
+    else if (!editingId) categoryField.value = '';
+  }
+
+  function resetProductForm() {
+    document.getElementById('product-form').reset();
+    editingId = null;
+    galleryImages = [];
+    document.getElementById('f-status').value = 'published';
+    syncCategoryInputs();
+    document.getElementById('f-category').value = '';
+    renderGallery();
   }
 
   async function load() {
+    const rows = document.getElementById('rows');
+    rows.innerHTML = '<tr><td colspan="7" class="empty">Loading…</td></tr>';
+
     const params = new URLSearchParams();
     const cat = document.getElementById('cat-filter').value;
     const search = document.getElementById('search').value;
@@ -174,8 +209,6 @@ if (AdminAPI.requireAuth()) {
 
     const statusFilter = document.getElementById('status-filter').value;
     const filtered = statusFilter ? products.filter(p => p.status === statusFilter) : products;
-
-    const rows = document.getElementById('rows');
     if (!filtered.length) {
       rows.innerHTML = '<tr><td colspan="7" class="empty">No products found.</td></tr>';
       return;
@@ -205,11 +238,7 @@ if (AdminAPI.requireAuth()) {
   }
   function closeModal() {
     document.getElementById('modal-bg').classList.remove('show');
-    document.getElementById('product-form').reset();
-    editingId = null;
-    galleryImages = [];
-    document.getElementById('f-status').value = 'published';
-    renderGallery();
+    resetProductForm();
   }
 
   function renderGallery() {
@@ -230,6 +259,7 @@ if (AdminAPI.requireAuth()) {
   window.editProduct = (id) => {
     const p = products.find(x => x.id === id);
     editingId = id;
+    syncCategoryInputs();
     document.getElementById('f-name').value = p.name;
     document.getElementById('f-category').value = p.category;
     document.getElementById('f-price').value = p.price;
@@ -275,10 +305,7 @@ if (AdminAPI.requireAuth()) {
   };
 
   document.getElementById('add-btn').addEventListener('click', () => {
-    document.getElementById('product-form').reset();
-    document.getElementById('f-status').value = 'published';
-    galleryImages = [];
-    renderGallery();
+    resetProductForm();
     openModal('Add Product');
   });
   document.getElementById('cancel-btn').addEventListener('click', closeModal);

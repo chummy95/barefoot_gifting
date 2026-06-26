@@ -620,8 +620,10 @@ function getInitialFilter() {
 function getAllFilterLabels() {
   const categoryLabels = [...new Set(SHOP_STATE.products.map((product) => product.category).filter(Boolean))];
   const orderedPrimary = [...PRIMARY_FILTER_ORDER];
-  const extraCategories = categoryLabels.filter((label) => !PRIMARY_FILTER_ORDER.includes(label));
-  return [...orderedPrimary, ...extraCategories, ...OCCASION_FILTERS.map((occasion) => occasion.label)];
+  const occasionLabels = OCCASION_FILTERS.map((occasion) => occasion.label);
+  const reservedLabels = new Set([...PRIMARY_FILTER_ORDER, ...occasionLabels]);
+  const extraCategories = categoryLabels.filter((label) => !reservedLabels.has(label));
+  return [...orderedPrimary, ...extraCategories, ...occasionLabels];
 }
 
 function syncFilterInURL() {
@@ -635,10 +637,13 @@ function syncFilterInURL() {
 function getVisibleProducts() {
   if (SHOP_STATE.activeFilter === 'All') return SHOP_STATE.products;
   if (SHOP_STATE.activeFilter === 'New Arrivals') {
-    return SHOP_STATE.products.filter(isNewProduct);
+    return SHOP_STATE.products.filter((product) => isNewProduct(product) || product.category === SHOP_STATE.activeFilter);
   }
   if (OCCASION_FILTER_LOOKUP[SHOP_STATE.activeFilter]) {
-    return SHOP_STATE.products.filter((product) => OCCASION_FILTER_LOOKUP[SHOP_STATE.activeFilter].has(productKey(product)));
+    return SHOP_STATE.products.filter((product) =>
+      OCCASION_FILTER_LOOKUP[SHOP_STATE.activeFilter].has(productKey(product))
+      || product.category === SHOP_STATE.activeFilter
+    );
   }
   return SHOP_STATE.products.filter(product => product.category === SHOP_STATE.activeFilter);
 }
