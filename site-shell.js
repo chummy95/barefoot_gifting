@@ -26,6 +26,26 @@
     });
   }
 
+  function ensureRemembersLinks() {
+    const isRemembersPage = /\/remembers\.html(?:$|[?#])/.test(window.location.pathname + window.location.search + window.location.hash);
+    document.querySelectorAll('.nav-shell .nav-r .nav-links').forEach((list) => {
+      if (list.querySelector('[data-nav-remembers]')) return;
+
+      const item = document.createElement('li');
+      const link = document.createElement('a');
+      link.href = './remembers.html';
+      link.textContent = 'Remembers';
+      link.dataset.navRemembers = 'true';
+      if (isRemembersPage) link.classList.add('hi');
+      item.appendChild(link);
+
+      const contactLink = [...list.querySelectorAll('a')].find((anchor) => anchor.textContent.trim().toLowerCase() === 'contact');
+      const contactItem = contactLink ? contactLink.closest('li') : null;
+      if (contactItem) list.insertBefore(item, contactItem);
+      else list.appendChild(item);
+    });
+  }
+
   function createNavToggle() {
     const button = document.createElement('button');
     button.type = 'button';
@@ -64,6 +84,7 @@
               <a href="./concierge.html">Concierge Gifting</a>
               <a href="./thc.html">Husbands Club</a>
               <a href="./journal.html">Keepsake Edit</a>
+              <a href="./remembers.html">Barefoot Remembers</a>
               <a href="./contact.html">Contact</a>
               <a href="./faqs.html">FAQs</a>
             </div>
@@ -137,6 +158,7 @@
 
   document.addEventListener('DOMContentLoaded', () => {
     enhanceAccountLinks();
+    ensureRemembersLinks();
     setupNavDrawer();
     updateCartBadges();
   });

@@ -1,0 +1,200 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barefoot Remembers — Barefoot Gifting Admin</title>
+<link rel="stylesheet" href="./admin.css">
+<style>
+.occasion-stack { display:grid; gap:12px; margin-top:16px; }
+.occasion-detail {
+  border:1px solid var(--border); border-radius:10px; padding:14px 16px; background:#fcfbfa;
+}
+.occasion-detail h4 { margin:0 0 6px; font-size:15px; }
+.occasion-detail p { margin:0; font-size:13px; color:var(--muted); line-height:1.7; }
+.occasion-detail strong { color:var(--ink); }
+</style>
+</head>
+<body>
+<div class="shell">
+  <aside class="sidebar">
+    <div class="brand">Barefoot<span>.</span> Admin</div>
+    <nav>
+      <a href="./dashboard.html" data-nav="dashboard">📊 Dashboard</a>
+      <a href="./products.html" data-nav="products">🎁 Products</a>
+      <a href="./media.html" data-nav="media">🖼️ Media Library</a>
+      <a href="./orders.html" data-nav="orders">📦 Orders</a>
+      <a href="./comments.html" data-nav="comments">💬 Comments &amp; Reviews</a>
+      <a href="./customers.html" data-nav="customers">👤 Customers</a>
+      <a href="./settings.html" data-nav="settings">⚙️ Settings &amp; Paystack</a>
+    </nav>
+    <div class="foot">
+      <div data-who>—</div>
+      <button class="btn btn-o btn-sm btn-block" data-logout>Log Out</button>
+    </div>
+  </aside>
+
+  <div class="main">
+    <div class="topbar">
+      <h1>Barefoot Remembers</h1>
+      <div class="who" data-who>—</div>
+    </div>
+    <div class="content">
+      <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 style="margin-bottom:6px;">Saved reminder profiles</h2>
+            <p class="muted" style="font-size:13px;">Each email holds one reminder profile with up to 10 saved occasions.</p>
+          </div>
+          <div class="toolbar" style="margin-bottom:0;">
+            <input type="search" id="search" placeholder="Search name, email, phone, or occasion...">
+          </div>
+        </div>
+        <table>
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Email</th>
+              <th>Phone</th>
+              <th>Dates Saved</th>
+              <th>Next Reminder</th>
+              <th>Updated</th>
+              <th></th>
+            </tr>
+          </thead>
+          <tbody id="rows"><tr><td colspan="7" class="empty">Loading…</td></tr></tbody>
+        </table>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal-bg" id="modal-bg">
+  <div class="modal">
+    <h3 id="modal-title">Reminder profile</h3>
+    <div class="muted" id="modal-subtitle" style="font-size:13px;margin-bottom:16px;">—</div>
+    <div id="modal-body"></div>
+    <div class="modal-actions">
+      <button type="button" class="btn btn-o" id="close-btn">Close</button>
+    </div>
+  </div>
+</div>
+
+<script src="./admin-api.js"></script>
+<script>
+if (AdminAPI.requireAuth()) {
+  renderAdminShell('remembers');
+
+  let items = [];
+
+  function formatDate(value) {
+    if (!value) return '—';
+    return new Date(value).toLocaleDateString('en-GB', { day: '2-digit', month: 'short', year: 'numeric' });
+  }
+
+  function formatNextReminder(item) {
+    const next = item.next_reminder;
+    if (!next) return '—';
+    return `${next.person_name} · ${next.occasion_type}<br><span class="muted">${formatDate(next.next_occurrence)}${Number.isFinite(next.days_until) ? ` · in ${next.days_until} day${next.days_until === 1 ? '' : 's'}` : ''}</span>`;
+  }
+
+  function matchesSearch(item, query) {
+    if (!query) return true;
+    const haystack = [
+      item.full_name,
+      item.email,
+      item.phone,
+      ...(item.occasions || []).flatMap((occasion) => [
+        occasion.person_name,
+        occasion.occasion_type,
+        occasion.relevance,
+      ]),
+    ].join(' ').toLowerCase();
+    return haystack.includes(query);
+  }
+
+  function renderRows() {
+    const rows = document.getElementById('rows');
+    const query = document.getElementById('search').value.trim().toLowerCase();
+    const filtered = items.filter((item) => matchesSearch(item, query));
+
+    if (!filtered.length) {
+      rows.innerHTML = '<tr><td colspan="7" class="empty">No reminder profiles found.</td></tr>';
+      return;
+    }
+
+    rows.innerHTML = filtered.map((item) => `
+      <tr>
+        <td>${item.full_name}</td>
+        <td>${item.email}</td>
+        <td>${item.phone}</td>
+        <td>${item.occasion_count}</td>
+        <td>${formatNextReminder(item)}</td>
+        <td>${AdminAPI.date(item.updated_at)}</td>
+        <td style="white-space:nowrap">
+          <button class="btn btn-o btn-sm" onclick="viewRegistration(${item.id})">View</button>
+          <button class="btn btn-danger btn-sm" onclick="deleteRegistration(${item.id})">Delete</button>
+        </td>
+      </tr>
+    `).join('');
+  }
+
+  function openModal(item) {
+    document.getElementById('modal-title').textContent = item.full_name;
+    document.getElementById('modal-subtitle').textContent = `${item.email} · ${item.phone}`;
+    document.getElementById('modal-body').innerHTML = `
+      <div class="occasion-stack">
+        ${(item.occasions || []).map((occasion) => `
+          <div class="occasion-detail">
+            <h4>${occasion.person_name} · ${occasion.occasion_type}</h4>
+            <p><strong>Relevance:</strong> ${occasion.relevance}</p>
+            <p><strong>Saved date:</strong> ${formatDate(occasion.occasion_date)}</p>
+            <p><strong>Next reminder window:</strong> ${formatDate(occasion.next_occurrence)}${Number.isFinite(occasion.days_until) ? ` · in ${occasion.days_until} day${occasion.days_until === 1 ? '' : 's'}` : ''}</p>
+          </div>
+        `).join('')}
+      </div>
+    `;
+    document.getElementById('modal-bg').classList.add('show');
+  }
+
+  function closeModal() {
+    document.getElementById('modal-bg').classList.remove('show');
+  }
+
+  window.viewRegistration = (id) => {
+    const item = items.find((entry) => entry.id === id);
+    if (!item) return;
+    openModal(item);
+  };
+
+  window.deleteRegistration = async (id) => {
+    const item = items.find((entry) => entry.id === id);
+    if (!item) return;
+    if (!confirm(`Delete the Barefoot Remembers profile for ${item.full_name}?`)) return;
+
+    try {
+      await AdminAPI.del(`/remembers/${id}`);
+      items = items.filter((entry) => entry.id !== id);
+      renderRows();
+      closeModal();
+    } catch (error) {
+      alert(error.message || 'Could not delete this reminder profile.');
+    }
+  };
+
+  document.getElementById('search').addEventListener('input', renderRows);
+  document.getElementById('close-btn').addEventListener('click', closeModal);
+  document.getElementById('modal-bg').addEventListener('click', (event) => {
+    if (event.target.id === 'modal-bg') closeModal();
+  });
+
+  AdminAPI.get('/remembers').then((result) => {
+    items = result;
+    renderRows();
+  }).catch((error) => {
+    document.getElementById('rows').innerHTML = `<tr><td colspan="7" class="empty">${error.message}</td></tr>`;
+  });
+}
+</script>
+</body>
+</html>

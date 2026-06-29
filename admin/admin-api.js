@@ -250,6 +250,15 @@ function renderAdminShell(active) {
     if (mediaLink) nav.insertBefore(postsLink, mediaLink);
     else nav.appendChild(postsLink);
   }
+  if (nav && !nav.querySelector('[data-nav="remembers"]')) {
+    const settingsLink = nav.querySelector('[data-nav="settings"]');
+    const remembersLink = document.createElement('a');
+    remembersLink.href = './remembers.html';
+    remembersLink.dataset.nav = 'remembers';
+    remembersLink.textContent = '🗓️ Barefoot Remembers';
+    if (settingsLink) nav.insertBefore(remembersLink, settingsLink);
+    else nav.appendChild(remembersLink);
+  }
   document.querySelectorAll('[data-nav]').forEach(a => {
     if (a.dataset.nav === active) a.classList.add('active');
   });

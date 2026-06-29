@@ -114,6 +114,25 @@ CREATE TABLE IF NOT EXISTS comments (
   created_at TIMESTAMPTZ NOT NULL DEFAULT now()
 );
 
+CREATE TABLE IF NOT EXISTS remember_registrations (
+  id         SERIAL PRIMARY KEY,
+  full_name  TEXT NOT NULL,
+  email      TEXT UNIQUE NOT NULL,
+  phone      TEXT NOT NULL,
+  created_at TIMESTAMPTZ NOT NULL DEFAULT now(),
+  updated_at TIMESTAMPTZ NOT NULL DEFAULT now()
+);
+
+CREATE TABLE IF NOT EXISTS remember_occasions (
+  id              SERIAL PRIMARY KEY,
+  registration_id INTEGER NOT NULL REFERENCES remember_registrations(id) ON DELETE CASCADE,
+  person_name     TEXT NOT NULL,
+  occasion_type   TEXT NOT NULL,
+  occasion_date   DATE NOT NULL,
+  relevance       TEXT NOT NULL,
+  position        INTEGER NOT NULL DEFAULT 0
+);
+
 -- Generic key/value settings: Paystack public key, store info, API toggles, etc.
 CREATE TABLE IF NOT EXISTS settings (
   key   TEXT PRIMARY KEY,

@@ -1,0 +1,600 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Barefoot Remembers — Never Miss a Meaningful Date</title>
+<style>
+@font-face{font-family:'Atirose';src:url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/otf.otf') format('opentype'),url('./atirose-vintage-retro-serif-2023-03-09-21-53-13-utc/ttf.ttf') format('truetype');font-weight:normal;font-style:normal;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Light.otf') format('opentype');font-weight:300;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Regular.otf') format('opentype');font-weight:400;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Medium.otf') format('opentype');font-weight:500;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-Bold.otf') format('opentype');font-weight:700;font-display:swap;}
+@font-face{font-family:'AstridGrotesk';src:url('./Astrid.Grotesk.Font/AstridGrotesk-ExtraBold.otf') format('opentype');font-weight:800;font-display:swap;}
+:root{--red:#dd4040;--red-d:#c93535;--peach:#ffe9d0;--cream:#fff0e3;--tan:#eeddc0;--gold:#ffd744;--sage:#daeab0;--ink:#161616;--ink2:#252728;--font-h:'Atirose',Georgia,serif;--font-b:'AstridGrotesk',system-ui,sans-serif;--max:1320px;--gut:clamp(24px,5vw,80px);}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{font-family:var(--font-b);font-weight:400;color:var(--ink);overflow-x:hidden;-webkit-font-smoothing:antialiased;background:var(--cream);}
+img{display:block;width:100%;height:100%;object-fit:cover;}
+a{text-decoration:none;color:inherit;}
+ul{list-style:none;}
+button,input,select,textarea{font:inherit;}
+.wrap{max-width:var(--max);margin:0 auto;padding:0 var(--gut);}
+.wave{display:block;overflow:hidden;line-height:0;margin-bottom:-2px;}
+.wave svg{display:block;width:100%;}
+.btn{display:inline-flex;align-items:center;justify-content:center;gap:10px;padding:14px 30px;font-family:var(--font-b);font-size:11px;font-weight:700;letter-spacing:.18em;text-transform:uppercase;border-radius:2px;cursor:pointer;transition:background .22s,color .22s,border-color .22s;white-space:nowrap;border:1.5px solid transparent;}
+.btn-p{background:var(--red);color:#fff;border-color:var(--red);}
+.btn-p:hover{background:var(--red-d);border-color:var(--red-d);}
+.btn-o{background:transparent;color:var(--ink);border-color:rgba(22,22,22,.16);}
+.btn-o:hover{background:var(--ink);border-color:var(--ink);color:#fff;}
+.btn[disabled]{opacity:.68;cursor:not-allowed;pointer-events:none;}
+.arr{transition:transform .2s;}
+.btn:hover .arr{transform:translateX(4px);}
+.label{font-family:var(--font-b);font-size:11px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;}
+.label-red{color:var(--red);}
+.sec-h{font-family:var(--font-h);font-size:clamp(34px,3.9vw,60px);line-height:1.05;margin:14px 0 16px;}
+.sec-body{font-size:15px;font-weight:300;line-height:1.85;color:rgba(22,22,22,.62);}
+.announce{background:var(--sage);padding:10px var(--gut);text-align:center;font-size:12px;font-weight:300;letter-spacing:.06em;color:var(--ink);}
+.announce strong{color:var(--red);font-weight:700;}
+.nav-shell{position:sticky;top:0;z-index:200;background:var(--cream);border-bottom:1px solid rgba(22,22,22,.07);}
+.nav{display:grid;grid-template-columns:1fr auto 1fr;align-items:center;height:110px;gap:20px;}
+.nav-links{display:flex;align-items:center;gap:clamp(12px,2vw,32px);}
+.nav-links a{font-size:11px;font-weight:500;letter-spacing:.13em;text-transform:uppercase;color:var(--ink2);transition:color .2s;}
+.nav-links a:hover,.nav-links a.hi{color:var(--red);}
+.nav-logo img{height:100px;width:auto;object-fit:contain;display:block;}
+.nav-r{display:flex;align-items:center;justify-content:flex-end;gap:clamp(8px,1vw,18px);}
+.nav-dd{position:relative;}
+.nav-dd>a::after{content:" ▾";font-size:13px;opacity:.7;vertical-align:middle;}
+.nav-dd-menu{position:absolute;top:100%;left:0;padding-top:12px;background:transparent;min-width:210px;z-index:300;opacity:0;pointer-events:none;transform:translateY(4px);transition:opacity .2s,transform .2s;}
+.nav-dd-menu-inner{background:var(--cream);border:1px solid rgba(22,22,22,.09);padding:8px 0;box-shadow:0 12px 40px rgba(22,22,22,.1);}
+.nav-dd:hover .nav-dd-menu{opacity:1;pointer-events:auto;transform:translateY(0);}
+.nav-dd-menu a{display:block;padding:11px 22px;font-size:10px;font-weight:600;letter-spacing:.13em;text-transform:uppercase;color:var(--ink2);transition:color .2s,background .2s;}
+.nav-dd-menu a:hover{color:var(--red);background:rgba(22,22,22,.03);}
+.nav-dd-menu .dd-divider{height:1px;background:rgba(22,22,22,.07);margin:6px 0;}
+.ico{width:19px;height:19px;stroke:var(--ink2);fill:none;stroke-width:1.5;cursor:pointer;transition:stroke .2s;flex-shrink:0;}
+.ico:hover{stroke:var(--red);}
+.cart-w{position:relative;}
+.cart-badge{position:absolute;top:-7px;right:-8px;background:var(--red);color:#fff;font-size:9px;font-weight:800;width:16px;height:16px;border-radius:50%;display:flex;align-items:center;justify-content:center;}
+
+.hero{background:var(--peach);padding:clamp(28px,4vw,40px) 0 clamp(56px,7vw,92px);position:relative;overflow:hidden;}
+.hero::before{content:'';position:absolute;inset:0;z-index:0;pointer-events:none;opacity:.07;background-image:url("./Png Files/Artboard 1@2x.png");background-size:340px 335px;background-repeat:repeat;background-position:top left;}
+.hero-mark{position:absolute;right:-70px;top:-40px;width:440px;height:440px;opacity:.08;pointer-events:none;}
+.hero-grid{position:relative;z-index:1;display:grid;grid-template-columns:minmax(0,1.05fr) minmax(340px,.95fr);gap:clamp(44px,6vw,92px);align-items:center;}
+.hero-copy{max-width:640px;}
+.hero-title{font-family:var(--font-h);font-size:clamp(42px,5vw,76px);line-height:.98;margin:16px 0 22px;}
+.hero-title em{font-style:italic;color:var(--red);}
+.hero-sub{max-width:530px;font-size:16px;font-weight:300;line-height:1.85;color:rgba(22,22,22,.68);}
+.hero-actions{display:flex;flex-wrap:wrap;gap:14px;margin-top:30px;}
+.hero-note{margin-top:18px;font-size:12px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;color:rgba(22,22,22,.45);}
+.hero-media{display:grid;gap:16px;}
+.hero-image{aspect-ratio:4/4.8;border-radius:4px;overflow:hidden;background:var(--tan);box-shadow:0 20px 60px rgba(22,22,22,.08);}
+.hero-mini{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:12px;}
+.hero-chip{background:rgba(255,255,255,.52);border:1px solid rgba(22,22,22,.08);padding:18px 16px;border-radius:3px;}
+.hero-chip strong{display:block;font-size:26px;font-family:var(--font-h);line-height:1;margin-bottom:6px;}
+.hero-chip span{display:block;font-size:11px;font-weight:700;letter-spacing:.16em;text-transform:uppercase;color:rgba(22,22,22,.54);}
+
+.promise{background:#fff;padding:clamp(72px,8vw,110px) 0;}
+.promise-head{max-width:720px;margin:0 auto 42px;text-align:center;}
+.promise-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;}
+.promise-card{background:var(--cream);border:1px solid rgba(22,22,22,.08);padding:28px;border-radius:4px;}
+.promise-k{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:var(--red);color:#fff;font-size:14px;font-weight:800;letter-spacing:.08em;margin-bottom:18px;}
+.promise-card h3{font-family:var(--font-h);font-size:26px;line-height:1.05;margin-bottom:10px;}
+.promise-card p{font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.62);}
+
+.register{background:var(--cream);padding:clamp(72px,8vw,112px) 0;position:relative;overflow:hidden;}
+.register-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:28px;align-items:start;}
+.register-card,.sidebar-card{background:#fff;border:1px solid rgba(22,22,22,.08);border-radius:4px;box-shadow:0 14px 40px rgba(22,22,22,.04);}
+.register-card{padding:30px;}
+.section-intro{margin-bottom:26px;}
+.section-intro h2{font-family:var(--font-h);font-size:34px;line-height:1.05;margin:10px 0;}
+.section-intro p{font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.62);max-width:680px;}
+.field{margin-bottom:16px;}
+.field label{display:block;font-size:11px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,22,22,.5);margin-bottom:8px;}
+.field input,.field select,.field textarea{width:100%;border:1px solid rgba(22,22,22,.14);padding:14px 16px;font-size:14px;font-weight:300;color:var(--ink);background:#fff;border-radius:2px;outline:none;transition:border-color .2s,box-shadow .2s;}
+.field input:focus,.field select:focus,.field textarea:focus{border-color:var(--red);box-shadow:0 0 0 3px rgba(221,64,64,.08);}
+.field-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;}
+.form-divider{height:1px;background:rgba(22,22,22,.08);margin:26px 0;}
+.occasion-toolbar{display:flex;align-items:center;justify-content:space-between;gap:16px;flex-wrap:wrap;margin-bottom:18px;}
+.occasion-toolbar .count{font-size:12px;font-weight:700;letter-spacing:.14em;text-transform:uppercase;color:rgba(22,22,22,.48);}
+.occasion-list{display:grid;gap:16px;}
+.occasion-card{border:1px solid rgba(22,22,22,.1);background:#fffdf9;border-radius:4px;padding:20px;}
+.occasion-card-head{display:flex;align-items:center;justify-content:space-between;gap:12px;margin-bottom:14px;}
+.occasion-card-head h3{font-family:var(--font-h);font-size:26px;line-height:1;}
+.remove-occasion{background:none;border:none;color:var(--red);font-size:11px;font-weight:800;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;padding:0;}
+.remove-occasion[disabled]{visibility:hidden;pointer-events:none;}
+.helper{font-size:12px;font-weight:300;line-height:1.7;color:rgba(22,22,22,.5);}
+.form-actions{display:flex;flex-wrap:wrap;align-items:center;gap:14px;margin-top:24px;}
+.form-status{display:none;padding:14px 16px;border-radius:3px;font-size:14px;line-height:1.7;margin-top:18px;}
+.form-status.show{display:block;}
+.form-status.success{background:#edf7dc;color:#31501a;}
+.form-status.error{background:#fde8e8;color:#9c2929;}
+
+.sidebar-card{padding:28px;position:sticky;top:148px;}
+.sidebar-card + .sidebar-card{margin-top:16px;}
+.sidebar-card h3{font-family:var(--font-h);font-size:30px;line-height:1.02;margin-bottom:12px;}
+.sidebar-card p{font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.62);}
+.checklist{display:grid;gap:12px;margin-top:22px;}
+.checklist li{display:flex;gap:12px;align-items:flex-start;font-size:14px;font-weight:300;line-height:1.7;color:rgba(22,22,22,.7);}
+.checklist li::before{content:'+';display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--sage);color:var(--ink);font-size:14px;font-weight:800;flex-shrink:0;margin-top:1px;}
+.timeline{display:grid;gap:12px;margin-top:18px;}
+.timeline-item{padding:14px 16px;background:var(--cream);border-radius:3px;border:1px solid rgba(22,22,22,.06);}
+.timeline-item strong{display:block;font-size:11px;font-weight:800;letter-spacing:.16em;text-transform:uppercase;color:var(--red);margin-bottom:6px;}
+.timeline-item span{display:block;font-size:14px;font-weight:300;line-height:1.7;color:rgba(22,22,22,.65);}
+
+.faq{background:#fff;padding:clamp(72px,8vw,108px) 0;}
+.faq-wrap{display:grid;grid-template-columns:minmax(0,.8fr) minmax(0,1.2fr);gap:34px;align-items:start;}
+.faq-list{display:grid;gap:16px;}
+.faq-item{background:var(--cream);border:1px solid rgba(22,22,22,.08);padding:24px;border-radius:4px;}
+.faq-item h3{font-family:var(--font-h);font-size:24px;line-height:1.08;margin-bottom:10px;}
+.faq-item p{font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.62);}
+
+.footer{background:var(--sage);color:var(--ink);position:relative;overflow:hidden;}
+.footer-mark{position:absolute;bottom:-40px;left:-40px;width:360px;height:360px;opacity:.1;pointer-events:none;}
+.footer-mark img{width:100%;height:100%;object-fit:contain;}
+.footer-top{display:grid;grid-template-columns:2fr 1fr 1fr 1fr 1.5fr;align-items:start;gap:40px;padding:64px 0 48px;border-bottom:1px solid rgba(22,22,22,.12);position:relative;z-index:1;}
+.f-logo{margin-bottom:6px;}
+.f-logo img{height:120px;width:auto;object-fit:contain;display:block;margin-left:-8px;}
+.f-desc{font-size:13px;font-weight:300;line-height:1.8;color:#000;margin-bottom:22px;}
+.f-soc{display:flex;gap:10px;}
+.f-s{width:33px;height:33px;border-radius:50%;border:1px solid rgba(22,22,22,.2);display:flex;align-items:center;justify-content:center;color:var(--ink);transition:background .2s,border-color .2s,color .2s;}
+.f-s:hover{background:var(--red);border-color:var(--red);color:#fff;}
+.f-ct{font-size:10px;font-weight:700;letter-spacing:.2em;text-transform:uppercase;color:#000;margin-bottom:16px;}
+.f-links{display:flex;flex-direction:column;gap:9px;}
+.f-links a{font-size:13px;font-weight:300;color:#000;transition:color .2s;}
+.f-links a:hover{color:var(--red);}
+.f-nl-form{display:flex;align-items:stretch;max-width:380px;}
+.f-nl-i{flex:1;min-width:0;height:46px;box-sizing:border-box;background:rgba(255,255,255,.6);border:1px solid rgba(22,22,22,.15);border-right:none;padding:0 14px;color:var(--ink);font-family:var(--font-b);font-size:12px;line-height:1;outline:none;}
+.f-nl-i::placeholder{color:rgba(22,22,22,.4);}
+.f-nl-b{flex-shrink:0;height:46px;box-sizing:border-box;display:inline-flex;align-items:center;justify-content:center;background:var(--red);border:1px solid var(--red);padding:0 22px;margin:0;color:#fff;font-family:var(--font-b);font-size:10px;font-weight:800;line-height:1;letter-spacing:.14em;text-transform:uppercase;cursor:pointer;transition:background .2s;white-space:nowrap;}
+.f-nl-b:hover{background:var(--red-d);}
+.f-nl-note{font-size:11px;color:#000;margin-top:7px;line-height:1.5;}
+.footer-bot{display:flex;align-items:center;justify-content:space-between;gap:20px;padding:20px 0;position:relative;z-index:1;}
+.f-copy{font-size:12px;font-weight:300;color:#000;}
+.f-legal{display:flex;gap:20px;}
+.f-legal a{font-size:12px;font-weight:300;color:#000;transition:color .2s;}
+.f-legal a:hover{color:var(--ink);}
+
+@media (max-width: 1100px){
+  .hero-grid,.register-grid,.faq-wrap{grid-template-columns:1fr;}
+  .hero-media{max-width:620px;}
+  .sidebar-card{position:static;}
+}
+@media (max-width: 860px){
+  .promise-grid{grid-template-columns:1fr;}
+  .field-row{grid-template-columns:1fr;}
+  .hero-mini{grid-template-columns:1fr 1fr 1fr;}
+}
+@media (max-width: 640px){
+  .hero-title{font-size:clamp(40px,14vw,58px);}
+  .hero-sub,.sec-body,.section-intro p,.faq-item p,.promise-card p,.sidebar-card p{font-size:15px;}
+  .hero-actions,.form-actions{flex-direction:column;align-items:stretch;}
+  .hero-mini{grid-template-columns:1fr;gap:10px;}
+  .register-card,.sidebar-card,.faq-item,.promise-card{padding:22px;}
+  .occasion-card{padding:18px;}
+  .occasion-card-head{align-items:flex-start;flex-direction:column;}
+  .footer-top{grid-template-columns:1fr;gap:30px;padding-top:52px;padding-bottom:36px;}
+  .footer-bot,.f-legal{flex-direction:column;align-items:flex-start;}
+  .f-nl-form{width:100%;max-width:none;}
+  .f-nl-b{padding:0 18px;}
+}
+</style>
+<link rel="stylesheet" href="./site-responsive.css">
+</head>
+<body>
+
+<div class="announce">Free delivery above <strong>₦45,000</strong> within Abuja · Same day delivery on orders placed before <strong>noon</strong></div>
+<div class="nav-shell">
+  <div class="wrap">
+    <nav class="nav">
+      <ul class="nav-links">
+        <li class="nav-dd"><a href="./shop.html">Shop</a>
+          <div class="nav-dd-menu">
+            <div class="nav-dd-menu-inner">
+              <a href="./shop.html">All Products</a>
+              <div class="dd-divider"></div>
+              <a href="./shop.html?filter=Greeting%20Cards#shop-results">Greeting Cards</a>
+              <a href="./shop.html?filter=Little%20Luxes#shop-results">Little Luxes</a>
+              <a href="./shop.html?filter=Stationery#shop-results">Stationery</a>
+              <a href="./shop.html?filter=Corporate%20Gifts#shop-results">Corporate Gifts</a>
+            </div>
+          </div>
+        </li>
+        <li><a href="./corporate.html">Corporate Gifting</a></li>
+        <li><a href="./concierge.html">Concierge Gifting</a></li>
+      </ul>
+      <a href="./index.html" class="nav-logo"><img src="./Png Files/Logo.png" alt="Barefoot Gifting"></a>
+      <div class="nav-r">
+        <ul class="nav-links">
+          <li><a href="./thc.html">Husbands Club</a></li>
+          <li><a href="./journal.html">Keepsake Edit</a></li>
+          <li><a href="./contact.html">Contact</a></li>
+        </ul>
+        <a href="./account/index.html" aria-label="My Account" style="display:flex;align-items:center;margin-right:8px"><svg class="ico" viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2"><path d="M20 21v-2a4 4 0 00-4-4H8a4 4 0 00-4 4v2"/><circle cx="12" cy="7" r="4"/></svg></a>
+        <a href="./cart.html" class="cart-w" aria-label="View cart">
+          <svg class="ico" viewBox="0 0 24 24"><path d="M6 2L3 6v14a2 2 0 002 2h14a2 2 0 002-2V6l-3-4z"/><line x1="3" y1="6" x2="21" y2="6"/><path d="M16 10a4 4 0 01-8 0"/></svg>
+          <span class="cart-badge">0</span>
+        </a>
+      </div>
+    </nav>
+  </div>
+</div>
+
+<section class="hero">
+  <div class="hero-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="hero-grid">
+      <div class="hero-copy">
+        <span class="label label-red">Barefoot Remembers</span>
+        <h1 class="hero-title">Never miss a <em>meaningful</em><br>date again.</h1>
+        <p class="hero-sub">Tell us the birthdays, anniversaries, milestones, and special moments you want to stay ahead of. Add up to 10 occasions under one email, and the Barefoot team will personally remind you before each one comes up.</p>
+        <div class="hero-actions">
+          <a href="#remembers-form" class="btn btn-p">Save Your Dates <span class="arr">→</span></a>
+          <a href="./concierge.html" class="btn btn-o">See Concierge Gifting</a>
+        </div>
+        <p class="hero-note">One email. Up to 10 dates. Real reminders from our team.</p>
+      </div>
+      <div class="hero-media">
+        <div class="hero-image"><img src="./mockup/optimized/flowers-home.webp" alt="Barefoot Gifting flowers and thoughtful gift styling"></div>
+        <div class="hero-mini">
+          <div class="hero-chip"><strong>10</strong><span>Dates Per Email</span></div>
+          <div class="hero-chip"><strong>Real</strong><span>Human Follow-Up</span></div>
+          <div class="hero-chip"><strong>Easy</strong><span>Update Anytime</span></div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<div class="wave" style="background:var(--peach)">
+  <svg viewBox="0 0 1440 90" preserveAspectRatio="none" xmlns="http://www.w3.org/2000/svg"><path d="M0,76 C44,76 76,56 120,56 C164,56 196,76 240,76 C284,76 316,56 360,56 C404,56 436,76 480,76 C524,76 556,56 600,56 C644,56 676,76 720,76 C764,76 796,56 840,56 C884,56 916,76 960,76 C1004,76 1036,56 1080,56 C1124,56 1156,76 1200,76 C1244,76 1276,56 1320,56 C1364,56 1396,76 1440,76 L1440,90 L0,90 Z" fill="#ffffff"/></svg>
+</div>
+
+<section class="promise">
+  <div class="wrap">
+    <div class="promise-head">
+      <span class="label label-red">How It Works</span>
+      <h2 class="sec-h">We help you stay thoughtful without relying on memory.</h2>
+      <p class="sec-body" style="max-width:640px;margin:0 auto;">Barefoot Remembers is for people who never want a special date to sneak up on them again. Submit your list once, and we keep watch with you.</p>
+    </div>
+    <div class="promise-grid">
+      <article class="promise-card">
+        <div class="promise-k">01</div>
+        <h3>Add your dates</h3>
+        <p>Share up to 10 moments that matter, along with who they are for and why they matter to you.</p>
+      </article>
+      <article class="promise-card">
+        <div class="promise-k">02</div>
+        <h3>We keep the list</h3>
+        <p>We save your reminder profile under your email so your dates live in one thoughtful, organized place.</p>
+      </article>
+      <article class="promise-card">
+        <div class="promise-k">03</div>
+        <h3>We remind you</h3>
+        <p>When a date is approaching, the Barefoot team reaches out so you have enough time to plan the right gesture.</p>
+      </article>
+    </div>
+  </div>
+</section>
+
+<section class="register" id="remembers-form">
+  <div class="wrap">
+    <div class="register-grid">
+      <div class="register-card">
+        <div class="section-intro">
+          <span class="label label-red">Registration</span>
+          <h2>Set up your reminder list</h2>
+          <p>Use the same email whenever you want to update your list. A new submission under an existing email will replace the saved dates for that reminder profile.</p>
+        </div>
+        <form id="remember-form">
+          <div class="field-row">
+            <div class="field">
+              <label for="full-name">Full Name</label>
+              <input id="full-name" name="fullName" type="text" placeholder="Chiamaka Okafor" required>
+            </div>
+            <div class="field">
+              <label for="email">Email Address</label>
+              <input id="email" name="email" type="email" placeholder="hello@you.com" required>
+            </div>
+          </div>
+          <div class="field">
+            <label for="phone">Phone Number</label>
+            <input id="phone" name="phone" type="tel" placeholder="+234 901 128 7992" required>
+          </div>
+
+          <div class="form-divider"></div>
+
+          <div class="occasion-toolbar">
+            <div>
+              <span class="label label-red">Special Occasions</span>
+              <p class="helper" style="margin-top:8px;max-width:560px;">Add birthdays, anniversaries, graduations, and the little dates you always want to remember.</p>
+            </div>
+            <div class="count" id="occasion-count">1 of 10 dates added</div>
+          </div>
+
+          <div class="occasion-list" id="occasion-list"></div>
+
+          <div class="form-actions">
+            <button type="button" class="btn btn-o" id="add-occasion">Add Another Date</button>
+            <button type="submit" class="btn btn-p" id="submit-btn">Save My Dates <span class="arr">→</span></button>
+          </div>
+          <p class="helper" style="margin-top:14px;">Tip: for recurring moments like birthdays and anniversaries, the month and day are what matter most. Use the date that best helps us remind you in time.</p>
+          <div class="form-status" id="form-status" role="status" aria-live="polite"></div>
+        </form>
+      </div>
+
+      <div>
+        <aside class="sidebar-card">
+          <span class="label label-red">What We Keep</span>
+          <h3>Your reminder profile</h3>
+          <p>We store the basics we need to help you stay on top of special moments and contact you before they arrive.</p>
+          <ul class="checklist">
+            <li>Your full name, email address, and phone number</li>
+            <li>Up to 10 occasions per email address</li>
+            <li>The person's name, the type of occasion, the date, and why it matters</li>
+          </ul>
+        </aside>
+
+        <aside class="sidebar-card">
+          <span class="label label-red">Our Reminder Rhythm</span>
+          <h3>How we show up</h3>
+          <div class="timeline">
+            <div class="timeline-item">
+              <strong>Before the date</strong>
+              <span>We check your saved occasions and reach out when it is time to start thinking ahead.</span>
+            </div>
+            <div class="timeline-item">
+              <strong>When you're ready</strong>
+              <span>We can point you to the right gift, card, or concierge support for the moment.</span>
+            </div>
+            <div class="timeline-item">
+              <strong>Need changes?</strong>
+              <span>Just resubmit this form with the same email whenever you want to refresh or replace your list.</span>
+            </div>
+          </div>
+        </aside>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section class="faq">
+  <div class="wrap">
+    <div class="faq-wrap">
+      <div>
+        <span class="label label-red">Questions</span>
+        <h2 class="sec-h">A calmer way to stay ahead of every milestone.</h2>
+        <p class="sec-body" style="max-width:440px;">If you are already gifting through Barefoot, this becomes the memory layer behind it. If you are new here, it is an easy place to start.</p>
+      </div>
+      <div class="faq-list">
+        <article class="faq-item">
+          <h3>Can I save fewer than 10 dates?</h3>
+          <p>Yes. You can save as few as one date. The 10-date limit is just the maximum allowed under one email registration.</p>
+        </article>
+        <article class="faq-item">
+          <h3>What if I need to change a date later?</h3>
+          <p>Use the same email address and submit the form again. We will update your saved reminder profile with the latest list you send in.</p>
+        </article>
+        <article class="faq-item">
+          <h3>Will Barefoot also help me choose the gift?</h3>
+          <p>Yes. That is part of the idea. When we remind you, we can also guide you toward the right gift, card, or concierge option for the moment.</p>
+        </article>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="footer-mark"><img src="./SVG/Artboard 1 copy.svg" alt="" aria-hidden="true"></div>
+  <div class="wrap">
+    <div class="footer-top">
+      <div>
+        <div class="f-logo"><img src="./Png Files/Logo-cropped.png" alt="Barefoot Gifting"></div>
+        <p class="f-desc">Thoughtful gifts for every milestone, celebration, and just-because moment. Based in Abuja - delivering meaning across Nigeria.</p>
+        <div class="f-soc">
+          <a href="https://instagram.com/barefootgifting" class="f-s" aria-label="Instagram" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="2" width="20" height="20" rx="5" ry="5"/><circle cx="12" cy="12" r="4"/><circle cx="17.5" cy="6.5" r="1" fill="currentColor" stroke="none"/></svg></a>
+          <a href="#" class="f-s" aria-label="Twitter / X"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-4.714-6.231-5.401 6.231H2.746l7.73-8.835L2.25 2.25h6.093l4.26 5.635 5.641-5.635Zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg></a>
+          <a href="#" class="f-s" aria-label="Facebook"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M24 12.073c0-6.627-5.373-12-12-12s-12 5.373-12 12c0 5.99 4.388 10.954 10.125 11.854v-8.385H7.078v-3.47h3.047V9.43c0-3.007 1.792-4.669 4.533-4.669 1.312 0 2.686.235 2.686.235v2.953H15.83c-1.491 0-1.956.925-1.956 1.874v2.25h3.328l-.532 3.47h-2.796v8.385C19.612 23.027 24 18.062 24 12.073z"/></svg></a>
+          <a href="https://wa.me/2349011287992" class="f-s" aria-label="WhatsApp" target="_blank" rel="noopener"><svg width="16" height="16" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg></a>
+        </div>
+      </div>
+      <div>
+        <div class="f-ct">Shop</div>
+        <div class="f-links">
+          <a href="./shop.html">All Products</a>
+          <a href="./shop.html?filter=Greeting%20Cards#shop-results">Greeting Cards</a>
+          <a href="./shop.html?filter=Little%20Luxes#shop-results">Little Luxes</a>
+        </div>
+      </div>
+      <div>
+        <div class="f-ct">Services</div>
+        <div class="f-links">
+          <a href="./corporate.html">Corporate</a>
+          <a href="./concierge.html">Concierge</a>
+          <a href="./thc.html">Husbands Club</a>
+        </div>
+      </div>
+      <div>
+        <div class="f-ct">Company</div>
+        <div class="f-links">
+          <a href="./about.html">About</a>
+          <a href="./journal.html">Keepsake Edit</a>
+          <a href="./remembers.html">Barefoot Remembers</a>
+          <a href="./contact.html">Contact</a>
+        </div>
+      </div>
+      <div>
+        <div class="f-ct">Stay in the Loop</div>
+        <p class="f-desc" style="margin-bottom:14px">Gift guides, new arrivals, and seasonal edits.</p>
+        <form class="f-nl-form">
+          <input class="f-nl-i" type="email" placeholder="Your email address">
+          <button class="f-nl-b" type="submit">Join</button>
+        </form>
+        <p class="f-nl-note">We send the good stuff, not noise.</p>
+      </div>
+    </div>
+    <div class="footer-bot">
+      <div class="f-copy">© 2026 Barefoot Gifting. All rights reserved.</div>
+      <div class="f-legal">
+        <a href="./faqs.html">FAQs</a>
+        <a href="./contact.html">Support</a>
+      </div>
+    </div>
+  </div>
+</footer>
+
+<script src="./site-shell.js"></script>
+<script>
+(function () {
+  const MAX_OCCASIONS = 10;
+  const form = document.getElementById('remember-form');
+  const occasionList = document.getElementById('occasion-list');
+  const addOccasionButton = document.getElementById('add-occasion');
+  const countLabel = document.getElementById('occasion-count');
+  const submitButton = document.getElementById('submit-btn');
+  const statusBox = document.getElementById('form-status');
+
+  function renderStatus(message, type) {
+    statusBox.textContent = message;
+    statusBox.className = `form-status show ${type}`;
+  }
+
+  function clearStatus() {
+    statusBox.textContent = '';
+    statusBox.className = 'form-status';
+  }
+
+  function occasionCount() {
+    return occasionList.querySelectorAll('.occasion-card').length;
+  }
+
+  function updateOccasionUI() {
+    const cards = [...occasionList.querySelectorAll('.occasion-card')];
+    countLabel.textContent = `${cards.length} of ${MAX_OCCASIONS} dates added`;
+    addOccasionButton.disabled = cards.length >= MAX_OCCASIONS;
+
+    cards.forEach((card, index) => {
+      card.querySelector('[data-occasion-number]').textContent = `Date ${index + 1}`;
+      const removeButton = card.querySelector('.remove-occasion');
+      removeButton.disabled = cards.length === 1;
+    });
+  }
+
+  function createOccasionCard(values = {}) {
+    const card = document.createElement('div');
+    card.className = 'occasion-card';
+    card.innerHTML = `
+      <div class="occasion-card-head">
+        <h3 data-occasion-number>Date</h3>
+        <button type="button" class="remove-occasion">Remove</button>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Who Is This For?</label>
+          <input type="text" name="personName" placeholder="Ada, Mum, The Okafors..." value="${values.personName || ''}" required>
+        </div>
+        <div class="field">
+          <label>Occasion Type</label>
+          <select name="occasionType" required>
+            <option value="">Select an occasion...</option>
+            <option${values.occasionType === 'Birthday' ? ' selected' : ''}>Birthday</option>
+            <option${values.occasionType === 'Anniversary' ? ' selected' : ''}>Anniversary</option>
+            <option${values.occasionType === 'Wedding' ? ' selected' : ''}>Wedding</option>
+            <option${values.occasionType === 'Graduation' ? ' selected' : ''}>Graduation</option>
+            <option${values.occasionType === 'Naming Ceremony' ? ' selected' : ''}>Naming Ceremony</option>
+            <option${values.occasionType === 'Promotion' ? ' selected' : ''}>Promotion</option>
+            <option${values.occasionType === 'Just Because' ? ' selected' : ''}>Just Because</option>
+            <option${values.occasionType === 'Other' ? ' selected' : ''}>Other</option>
+          </select>
+        </div>
+      </div>
+      <div class="field-row">
+        <div class="field">
+          <label>Date</label>
+          <input type="date" name="occasionDate" value="${values.occasionDate || ''}" required>
+        </div>
+        <div class="field">
+          <label>Relevance</label>
+          <input type="text" name="relevance" placeholder="Wife, best friend, client, sister..." value="${values.relevance || ''}" required>
+        </div>
+      </div>
+    `;
+
+    card.querySelector('.remove-occasion').addEventListener('click', () => {
+      card.remove();
+      updateOccasionUI();
+      clearStatus();
+    });
+
+    occasionList.appendChild(card);
+    updateOccasionUI();
+  }
+
+  addOccasionButton.addEventListener('click', () => {
+    if (occasionCount() >= MAX_OCCASIONS) return;
+    createOccasionCard();
+  });
+
+  function collectOccasions() {
+    return [...occasionList.querySelectorAll('.occasion-card')].map((card) => ({
+      personName: card.querySelector('[name="personName"]').value.trim(),
+      occasionType: card.querySelector('[name="occasionType"]').value.trim(),
+      occasionDate: card.querySelector('[name="occasionDate"]').value,
+      relevance: card.querySelector('[name="relevance"]').value.trim(),
+    }));
+  }
+
+  form.addEventListener('submit', async (event) => {
+    event.preventDefault();
+    clearStatus();
+
+    if (!form.reportValidity()) return;
+
+    const occasions = collectOccasions().filter((occasion) => (
+      occasion.personName ||
+      occasion.occasionType ||
+      occasion.occasionDate ||
+      occasion.relevance
+    ));
+
+    if (!occasions.length) {
+      renderStatus('Add at least one special occasion before saving your reminder list.', 'error');
+      return;
+    }
+
+    submitButton.disabled = true;
+    addOccasionButton.disabled = true;
+    const originalButtonMarkup = submitButton.innerHTML;
+    submitButton.textContent = 'Saving...';
+
+    try {
+      const response = await fetch('/api/remembers', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          fullName: form.fullName.value.trim(),
+          email: form.email.value.trim(),
+          phone: form.phone.value.trim(),
+          occasions,
+        }),
+      });
+
+      const payload = await response.json().catch(() => ({}));
+      if (!response.ok) {
+        throw new Error(payload.error || 'We could not save your dates right now. Please try again.');
+      }
+
+      renderStatus(payload.message || 'Your Barefoot Remembers dates have been saved.', 'success');
+    } catch (error) {
+      renderStatus(error.message || 'We could not save your dates right now. Please try again.', 'error');
+    } finally {
+      submitButton.disabled = false;
+      submitButton.innerHTML = originalButtonMarkup;
+      updateOccasionUI();
+    }
+  });
+
+  createOccasionCard();
+})();
+</script>
+</body>
+</html>
