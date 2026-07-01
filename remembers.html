@@ -27,6 +27,8 @@ button,input,select,textarea{font:inherit;}
 .btn-p:hover{background:var(--red-d);border-color:var(--red-d);}
 .btn-o{background:transparent;color:var(--ink);border-color:rgba(22,22,22,.16);}
 .btn-o:hover{background:var(--ink);border-color:var(--ink);color:#fff;}
+.btn-sage{background:var(--sage);color:var(--ink);border-color:var(--sage);}
+.btn-sage:hover{background:#c6da96;border-color:#c6da96;color:var(--ink);}
 .btn[disabled]{opacity:.68;cursor:not-allowed;pointer-events:none;}
 .arr{transition:transform .2s;}
 .btn:hover .arr{transform:translateX(4px);}
@@ -76,14 +78,15 @@ button,input,select,textarea{font:inherit;}
 .promise{background:#fff;padding:clamp(72px,8vw,110px) 0;}
 .promise-head{max-width:720px;margin:0 auto 42px;text-align:center;}
 .promise-grid{display:grid;grid-template-columns:repeat(3,minmax(0,1fr));gap:22px;}
-.promise-card{background:var(--cream);border:1px solid rgba(22,22,22,.08);padding:28px;border-radius:4px;}
-.promise-k{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:var(--red);color:#fff;font-size:14px;font-weight:800;letter-spacing:.08em;margin-bottom:18px;}
-.promise-card h3{font-family:var(--font-h);font-size:26px;line-height:1.05;margin-bottom:10px;}
-.promise-card p{font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.62);}
+.promise-card{background:var(--red);border:1px solid var(--red);padding:28px;border-radius:4px;color:var(--cream);box-shadow:0 18px 36px rgba(201,53,53,.12);}
+.promise-k{display:inline-flex;align-items:center;justify-content:center;width:42px;height:42px;border-radius:50%;background:rgba(255,240,227,.16);color:var(--cream);border:1px solid rgba(255,240,227,.26);font-size:14px;font-weight:800;letter-spacing:.08em;margin-bottom:18px;}
+.promise-card h3{font-family:var(--font-h);font-size:26px;line-height:1.05;margin-bottom:10px;color:var(--cream);}
+.promise-card p{font-size:14px;font-weight:300;line-height:1.8;color:rgba(255,240,227,.82);}
 
 .register{background:var(--cream);padding:clamp(72px,8vw,112px) 0;position:relative;overflow:hidden;}
 .register-grid{display:grid;grid-template-columns:minmax(0,1.2fr) minmax(300px,.8fr);gap:28px;align-items:start;}
 .register-card,.sidebar-card{background:#fff;border:1px solid rgba(22,22,22,.08);border-radius:4px;box-shadow:0 14px 40px rgba(22,22,22,.04);}
+.register-side{display:grid;gap:16px;position:sticky;top:148px;align-self:start;}
 .register-card{padding:30px;}
 .section-intro{margin-bottom:26px;}
 .section-intro h2{font-family:var(--font-h);font-size:34px;line-height:1.05;margin:10px 0;}
@@ -109,12 +112,12 @@ button,input,select,textarea{font:inherit;}
 .form-status.success{background:#edf7dc;color:#31501a;}
 .form-status.error{background:#fde8e8;color:#9c2929;}
 
-.sidebar-card{padding:28px;position:sticky;top:148px;}
-.sidebar-card + .sidebar-card{margin-top:16px;}
-.sidebar-card h3{font-family:var(--font-h);font-size:30px;line-height:1.02;margin-bottom:12px;}
+.sidebar-card{padding:28px;}
+.sidebar-card h3{font-family:var(--font-h);font-size:clamp(26px,2.4vw,30px);line-height:1.05;margin-bottom:12px;text-wrap:balance;}
 .sidebar-card p{font-size:14px;font-weight:300;line-height:1.8;color:rgba(22,22,22,.62);}
 .checklist{display:grid;gap:12px;margin-top:22px;}
 .checklist li{display:flex;gap:12px;align-items:flex-start;font-size:14px;font-weight:300;line-height:1.7;color:rgba(22,22,22,.7);}
+.checklist li span{flex:1;min-width:0;}
 .checklist li::before{content:'+';display:inline-flex;align-items:center;justify-content:center;width:22px;height:22px;border-radius:50%;background:var(--sage);color:var(--ink);font-size:14px;font-weight:800;flex-shrink:0;margin-top:1px;}
 .timeline{display:grid;gap:12px;margin-top:18px;}
 .timeline-item{padding:14px 16px;background:var(--cream);border-radius:3px;border:1px solid rgba(22,22,22,.06);}
@@ -157,7 +160,7 @@ button,input,select,textarea{font:inherit;}
 @media (max-width: 1100px){
   .hero-grid,.register-grid,.faq-wrap{grid-template-columns:1fr;}
   .hero-media{max-width:620px;}
-  .sidebar-card{position:static;}
+  .register-side{position:static;}
 }
 @media (max-width: 860px){
   .promise-grid{grid-template-columns:1fr;}
@@ -229,7 +232,7 @@ button,input,select,textarea{font:inherit;}
         <p class="hero-sub">Tell us the birthdays, anniversaries, milestones, and special moments you want to stay ahead of. Add up to 10 occasions under one email, and the Barefoot team will personally remind you before each one comes up.</p>
         <div class="hero-actions">
           <a href="#remembers-form" class="btn btn-p">Save Your Dates <span class="arr">→</span></a>
-          <a href="./concierge.html" class="btn btn-o">See Concierge Gifting</a>
+          <a href="./concierge.html" class="btn btn-sage">See Concierge Gifting</a>
         </div>
         <p class="hero-note">One email. Up to 10 dates. Real reminders from our team.</p>
       </div>
@@ -322,15 +325,15 @@ button,input,select,textarea{font:inherit;}
         </form>
       </div>
 
-      <div>
+      <div class="register-side">
         <aside class="sidebar-card">
           <span class="label label-red">What We Keep</span>
           <h3>Your reminder profile</h3>
           <p>We store the basics we need to help you stay on top of special moments and contact you before they arrive.</p>
           <ul class="checklist">
-            <li>Your full name, email address, and phone number</li>
-            <li>Up to 10 occasions per email address</li>
-            <li>The person's name, the type of occasion, the date, and why it matters</li>
+            <li><span>Your full name, email address, and phone number</span></li>
+            <li><span>Up to 10 occasions per email address</span></li>
+            <li><span>The person's name, the type of occasion, the date, and why it matters</span></li>
           </ul>
         </aside>
 
