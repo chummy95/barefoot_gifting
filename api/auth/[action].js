@@ -2,6 +2,7 @@ const bcrypt = require('bcryptjs');
 const { sql } = require('../_lib/db');
 const { cors } = require('../_lib/cors');
 const { signToken, requireAuth } = require('../_lib/auth');
+const { syncSubscriber } = require('../_lib/mailerlite');
 
 function getAction(queryValue) {
   return Array.isArray(queryValue) ? queryValue[0] : queryValue;
@@ -54,6 +55,19 @@ module.exports = async (req, res) => {
     `;
     const user = rows[0];
     const token = signToken(user);
+
+    try {
+      await syncSubscriber({
+        email: user.email,
+        name,
+        phone,
+        source: 'customer',
+        statusWhenNew: 'unconfirmed',
+      });
+    } catch (error) {
+      console.error('MailerLite customer sync failed during registration:', error.message);
+    }
+
     return res.status(201).json({ token, user });
   }
 

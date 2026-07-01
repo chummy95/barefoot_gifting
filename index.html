@@ -2021,6 +2021,7 @@ body.nav-open .nav-drawer { transform: translateX(0); }
   </div>
 </footer>
 
+<script src="./subscribe-forms.js"></script>
 <script>
 const BFCart = {
   key: 'bfg_cart',
@@ -2165,6 +2166,7 @@ function renderHomeInstagramPosts(posts) {
 
 document.addEventListener('DOMContentLoaded', () => {
   BFCart.updateBadge();
+  window.BarefootSubscribeForms?.init(document);
 
   const navToggle = document.querySelector('[data-nav-toggle]');
   const navDrawer = document.querySelector('[data-nav-drawer]');
@@ -2254,11 +2256,6 @@ document.addEventListener('DOMContentLoaded', () => {
   document.getElementById('mood-popup').addEventListener('click', e => {
     if (e.target === document.getElementById('mood-popup')) document.getElementById('mood-popup').classList.remove('open');
   });
-  document.getElementById('popup-form').addEventListener('submit', e => {
-    e.preventDefault();
-    document.getElementById('popup-form-wrap').style.display = 'none';
-    document.getElementById('popup-success').style.display = 'block';
-  });
 });
 </script>
 <!-- ============================================================
@@ -2305,7 +2302,7 @@ document.addEventListener('DOMContentLoaded', () => {
     <div class="popup-success" id="popup-success">
       <div class="popup-success-ico">🎁</div>
       <h3>You're in!</h3>
-      <p>Check your inbox — your 10% off code is on its way.</p>
+      <p>Keep an eye on your inbox for thoughtful updates from Barefoot Gifting.</p>
     </div>
   </div>
 </div>

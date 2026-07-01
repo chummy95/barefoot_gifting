@@ -2,6 +2,7 @@ const { sql } = require('../_lib/db');
 const { requireAuth, verifyToken, getTokenFromReq } = require('../_lib/auth');
 const { cors } = require('../_lib/cors');
 const { getSegments } = require('../_lib/path-segments');
+const { syncSubscriber } = require('../_lib/mailerlite');
 
 function normalizeProductId(value) {
   if (value === null || value === undefined || value === '') return null;
@@ -66,6 +67,21 @@ module.exports = async (req, res) => {
           INSERT INTO order_items (order_id, product_id, name, price, qty, image, customization)
           VALUES (${order.id}, ${productId}, ${it.name}, ${it.price}, ${it.qty || 1}, ${it.img || null}, ${it.customization ? JSON.stringify(it.customization) : null})
         `;
+      }
+
+      try {
+        await syncSubscriber({
+          email,
+          name,
+          phone,
+          city,
+          state,
+          country,
+          source: 'customer',
+          statusWhenNew: 'unconfirmed',
+        });
+      } catch (error) {
+        console.error('MailerLite customer sync failed during order creation:', error.message);
       }
 
       return res.status(201).json(order);

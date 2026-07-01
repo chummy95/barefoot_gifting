@@ -2,6 +2,7 @@ const { sql } = require('../_lib/db');
 const { requireAuth } = require('../_lib/auth');
 const { cors } = require('../_lib/cors');
 const { getSegments } = require('../_lib/path-segments');
+const { syncSubscriber } = require('../_lib/mailerlite');
 
 let schemaPromise = null;
 
@@ -11,6 +12,12 @@ function cleanText(value) {
 
 function normalizeEmail(value) {
   return cleanText(value).toLowerCase();
+}
+
+function getRequestIp(req) {
+  const forwarded = String(req.headers['x-forwarded-for'] || '').split(',')[0].trim();
+  if (forwarded) return forwarded;
+  return cleanText(req.headers['x-real-ip']);
 }
 
 function isValidIsoDate(value) {
@@ -259,6 +266,23 @@ module.exports = async (req, res) => {
             ${occasion.position}
           )
         `;
+      }
+
+      try {
+        await syncSubscriber({
+          email,
+          name: fullName,
+          phone,
+          source: 'remembers',
+          status: 'active',
+          resubscribe: true,
+          optedInAt: new Date(),
+          subscribedAt: new Date(),
+          optinIp: getRequestIp(req),
+          ipAddress: getRequestIp(req),
+        });
+      } catch (error) {
+        console.error('MailerLite sync failed during Barefoot Remembers save:', error.message);
       }
 
       const [saved] = await attachOccasions([registration]);

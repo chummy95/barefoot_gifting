@@ -120,6 +120,7 @@ module.exports = async (req, res) => {
     }
     if (isAdmin) {
       out.paystack_secret_key_set = !!process.env.PAYSTACK_SECRET_KEY;
+      out.mailerlite_api_key_set = !!process.env.MAILERLITE_API_KEY;
     }
     return res.status(200).json(out);
   }

@@ -15,6 +15,23 @@
     });
   }
 
+  function initSubscribeForms() {
+    if (window.BarefootSubscribeForms) {
+      window.BarefootSubscribeForms.init(document);
+      return;
+    }
+
+    if (document.querySelector('script[data-barefoot-subscribe]')) return;
+
+    const script = document.createElement('script');
+    script.src = './subscribe-forms.js';
+    script.dataset.barefootSubscribe = 'true';
+    script.onload = () => {
+      window.BarefootSubscribeForms?.init(document);
+    };
+    document.body.appendChild(script);
+  }
+
   function enhanceAccountLinks() {
     document.querySelectorAll('.nav-shell a[aria-label="My Account"], .nav-shell a.nav-account-link').forEach((link) => {
       link.href = '/account/index.html';
@@ -163,5 +180,6 @@
     ensureRemembersLinks();
     setupNavDrawer();
     updateCartBadges();
+    initSubscribeForms();
   });
 })();

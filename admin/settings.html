@@ -79,6 +79,28 @@
       </div>
 
       <div class="panel">
+        <h2>MailerLite CRM &amp; Newsletter</h2>
+        <p class="muted" style="font-size:13px">
+          Newsletter signups, customer accounts, guest checkouts, and Barefoot Remembers entries can sync to MailerLite.
+          Add the API key and group variables in your Vercel project settings for secure server-side syncing.
+        </p>
+        <p class="muted" style="font-size:12px;margin-bottom:14px" id="mailerLiteStatus">Checking...</p>
+        <table>
+          <thead><tr><th>Environment Variable</th><th>Purpose</th></tr></thead>
+          <tbody>
+            <tr><td><code>MAILERLITE_API_KEY</code></td><td>Required API token from MailerLite</td></tr>
+            <tr><td><code>MAILERLITE_GROUP_ALL_CONTACTS</code></td><td>Optional master group for every synced contact</td></tr>
+            <tr><td><code>MAILERLITE_GROUP_SUBSCRIBERS</code></td><td>Optional group for newsletter and popup signups</td></tr>
+            <tr><td><code>MAILERLITE_GROUP_CUSTOMERS</code></td><td>Optional group for account signups and order customers</td></tr>
+            <tr><td><code>MAILERLITE_GROUP_REMEMBERS</code></td><td>Optional group for Barefoot Remembers registrations</td></tr>
+          </tbody>
+        </table>
+        <p class="muted" style="font-size:12px;margin-top:12px">
+          Group values can be MailerLite group IDs or exact group names. If you provide a group name that does not exist yet, the site will create it automatically.
+        </p>
+      </div>
+
+      <div class="panel">
         <h2>API &amp; Integrations</h2>
         <p class="muted" style="font-size:13px">This dashboard is backed by a REST API at <code>/api/*</code>, secured with a JWT bearer token. Use these endpoints to connect other tools (e.g. inventory software, a mobile app):</p>
         <table>
@@ -91,6 +113,7 @@
             <tr><td><code>GET/POST /api/orders</code></td><td>Order history / create order</td></tr>
             <tr><td><code>PATCH /api/orders/:id</code></td><td>Update order status</td></tr>
             <tr><td><code>GET/POST /api/comments</code></td><td>Reviews &amp; blog comments</td></tr>
+            <tr><td><code>POST /api/subscribe</code></td><td>Newsletter and popup email signup</td></tr>
             <tr><td><code>POST /api/paystack/initialize</code></td><td>Start a Paystack transaction</td></tr>
             <tr><td><code>GET /api/paystack/verify</code></td><td>Verify payment after redirect</td></tr>
             <tr><td><code>POST /api/paystack/webhook</code></td><td>Paystack server-to-server webhook</td></tr>
@@ -118,6 +141,9 @@ if (AdminAPI.requireAuth()) {
     document.getElementById('secret-status').textContent = s.paystack_secret_key_set
       ? '✓ Secret key is configured on the server.'
       : '✗ Secret key is NOT set yet — add PAYSTACK_SECRET_KEY in Vercel project settings.';
+    document.getElementById('mailerLiteStatus').textContent = s.mailerlite_api_key_set
+      ? '✓ MailerLite API key is configured on the server.'
+      : '✗ MailerLite API key is NOT set yet — add MAILERLITE_API_KEY in Vercel project settings.';
   });
 
   document.getElementById('save-store').addEventListener('click', async () => {
