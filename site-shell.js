@@ -19,10 +19,10 @@
     document.querySelectorAll('.nav-shell a[aria-label="My Account"], .nav-shell a.nav-account-link').forEach((link) => {
       link.href = '/account/index.html';
       link.classList.add('nav-account-link');
-      link.setAttribute('aria-label', 'Customer Sign In');
-      link.setAttribute('title', 'Customer sign in or create an account');
+      link.setAttribute('aria-label', 'Customer Account');
+      link.setAttribute('title', 'Customer account');
       link.removeAttribute('style');
-      link.innerHTML = '<span>Sign In</span>';
+      link.innerHTML = '<svg class="ico" viewBox="0 0 24 24" style="width:20px;height:20px;fill:none;stroke:currentColor;stroke-width:2"><path d="M20 21v-2a4 4 0 0 0-4-4H8a4 4 0 0 0-4 4v2"/><circle cx="12" cy="7" r="4"/></svg>';
     });
   }
 
@@ -39,10 +39,13 @@
       if (isRemembersPage) link.classList.add('hi');
       item.appendChild(link);
 
-      const contactLink = [...list.querySelectorAll('a')].find((anchor) => anchor.textContent.trim().toLowerCase() === 'contact');
-      const contactItem = contactLink ? contactLink.closest('li') : null;
-      if (contactItem) list.insertBefore(item, contactItem);
-      else list.appendChild(item);
+      list.appendChild(item);
+    });
+
+    document.querySelectorAll('.nav-shell .nav-r .nav-links a').forEach((link) => {
+      if (link.textContent.trim().toLowerCase() === 'contact') {
+        link.closest('li')?.remove();
+      }
     });
   }
 
@@ -85,14 +88,13 @@
               <a href="./thc.html">Husbands Club</a>
               <a href="./journal.html">Keepsake Edit</a>
               <a href="./remembers.html">Barefoot Remembers</a>
-              <a href="./contact.html">Contact</a>
               <a href="./faqs.html">FAQs</a>
             </div>
           </div>
           <div class="nav-drawer-group">
             <div class="nav-drawer-label">Quick Access</div>
             <div class="nav-drawer-utility">
-              <a class="nav-drawer-chip" href="/account/index.html">Sign In</a>
+              <a class="nav-drawer-chip" href="/account/index.html">Account</a>
               <a class="nav-drawer-chip" href="./cart.html">Cart <span class="cart-badge">0</span></a>
             </div>
           </div>
