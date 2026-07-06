@@ -44,6 +44,24 @@
       </div>
 
       <div class="panel">
+        <div class="panel-head">
+          <div>
+            <h2 style="margin-bottom:6px;">Website Visibility</h2>
+            <p class="muted" style="font-size:13px;max-width:620px;">
+              Use one button to switch the storefront between live and private. When private, every public page redirects to a branded
+              “Website Coming Soon” screen. Your <code>/admin</code> area stays available.
+            </p>
+          </div>
+          <span class="tag tag-draft" id="site-visibility-badge">Public</span>
+        </div>
+        <div class="error-msg" id="site-visibility-err"></div>
+        <p id="site-visibility-copy" style="font-size:14px;line-height:1.7;margin:0 0 18px;">
+          The storefront is live and visible to visitors right now.
+        </p>
+        <button class="btn btn-p" id="toggle-site-visibility">Make Website Private</button>
+      </div>
+
+      <div class="panel">
         <h2>Paystack Payment Gateway</h2>
         <p class="muted" style="font-size:13px">
           To accept card / bank / transfer payments, get your API keys from
@@ -131,6 +149,22 @@ if (AdminAPI.requireAuth()) {
   renderAdminShell('settings');
 
   document.getElementById('webhook-url').value = location.origin + '/api/paystack/webhook';
+  let sitePrivateMode = false;
+
+  function syncSiteVisibilityUI() {
+    const badge = document.getElementById('site-visibility-badge');
+    const copy = document.getElementById('site-visibility-copy');
+    const button = document.getElementById('toggle-site-visibility');
+
+    badge.textContent = sitePrivateMode ? 'Private' : 'Public';
+    badge.className = `tag ${sitePrivateMode ? 'tag-unpaid' : 'tag-published'}`;
+    copy.textContent = sitePrivateMode
+      ? 'The storefront is currently private. Visitors will only see the branded Website Coming Soon page until you switch the site back on.'
+      : 'The storefront is live and visible to visitors right now.';
+    button.textContent = sitePrivateMode ? 'Make Website Public' : 'Make Website Private';
+    button.classList.toggle('btn-o', sitePrivateMode);
+    button.classList.toggle('btn-p', !sitePrivateMode);
+  }
 
   AdminAPI.get('/settings').then(s => {
     document.getElementById('s-store-name').value = s.store_name || '';
@@ -138,6 +172,8 @@ if (AdminAPI.requireAuth()) {
     document.getElementById('s-free-threshold').value = s.free_delivery_threshold || 0;
     document.getElementById('s-paystack-public').value = s.paystack_public_key || '';
     document.getElementById('s-paystack-enabled').value = s.paystack_enabled || 'false';
+    sitePrivateMode = String(s.site_private_mode || 'false') === 'true';
+    syncSiteVisibilityUI();
     document.getElementById('secret-status').textContent = s.paystack_secret_key_set
       ? '✓ Secret key is configured on the server.'
       : '✗ Secret key is NOT set yet — add PAYSTACK_SECRET_KEY in Vercel project settings.';
@@ -170,6 +206,33 @@ if (AdminAPI.requireAuth()) {
     } catch (e) {
       const el = document.getElementById('paystack-err');
       el.textContent = e.message; el.classList.add('show');
+    }
+  });
+
+  document.getElementById('toggle-site-visibility').addEventListener('click', async () => {
+    const button = document.getElementById('toggle-site-visibility');
+    const error = document.getElementById('site-visibility-err');
+    const nextMode = !sitePrivateMode;
+    const originalLabel = button.textContent;
+
+    error.classList.remove('show');
+    button.disabled = true;
+    button.textContent = 'Saving...';
+
+    try {
+      const saved = await AdminAPI.put('/settings', {
+        site_private_mode: String(nextMode),
+      });
+      sitePrivateMode = String(saved.site_private_mode || 'false') === 'true';
+      syncSiteVisibilityUI();
+      alert(sitePrivateMode ? 'Website is now private.' : 'Website is now public.');
+    } catch (e) {
+      button.textContent = originalLabel;
+      error.textContent = e.message;
+      error.classList.add('show');
+    } finally {
+      button.disabled = false;
+      syncSiteVisibilityUI();
     }
   });
 }

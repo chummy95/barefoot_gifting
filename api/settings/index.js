@@ -5,7 +5,14 @@ const { cors } = require('../_lib/cors');
 // Public, non-secret settings the storefront needs (e.g. Paystack public key,
 // delivery fees). The Paystack SECRET key is never stored/returned here — it
 // only ever lives in the PAYSTACK_SECRET_KEY environment variable.
-const PUBLIC_KEYS = ['paystack_public_key', 'paystack_enabled', 'free_delivery_threshold', 'delivery_fee', 'store_name'];
+const PUBLIC_KEYS = [
+  'paystack_public_key',
+  'paystack_enabled',
+  'free_delivery_threshold',
+  'delivery_fee',
+  'store_name',
+  'site_private_mode',
+];
 const INSTAGRAM_APP_ID = '936619743392459';
 const DEFAULT_INSTAGRAM_USERNAME = 'barefootgifting';
 
@@ -122,6 +129,7 @@ module.exports = async (req, res) => {
       out.paystack_secret_key_set = !!process.env.PAYSTACK_SECRET_KEY;
       out.mailerlite_api_key_set = !!process.env.MAILERLITE_API_KEY;
     }
+    res.setHeader('Cache-Control', 'no-store');
     return res.status(200).json(out);
   }
 
