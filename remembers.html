@@ -570,7 +570,7 @@ button,input,select,textarea{font:inherit;}
     submitButton.textContent = 'Saving...';
 
     try {
-      const response = await fetch('/api/remembers', {
+      const response = await fetch('/api/remembers/__root__', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({

@@ -188,7 +188,7 @@ if (AdminAPI.requireAuth()) {
     if (event.target.id === 'modal-bg') closeModal();
   });
 
-  AdminAPI.get('/remembers').then((result) => {
+  AdminAPI.get('/remembers/__root__').then((result) => {
     items = result;
     renderRows();
   }).catch((error) => {
