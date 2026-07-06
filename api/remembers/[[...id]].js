@@ -21,8 +21,17 @@ function getRequestIp(req) {
 }
 
 function normalizeIsoDate(value) {
-  const raw = cleanText(value).slice(0, 10);
-  return /^\d{4}-\d{2}-\d{2}$/.test(raw) ? raw : '';
+  if (value instanceof Date && !Number.isNaN(value.getTime())) {
+    return value.toISOString().slice(0, 10);
+  }
+
+  const raw = cleanText(value);
+  const prefixedIsoDate = raw.match(/^(\d{4}-\d{2}-\d{2})/);
+  if (prefixedIsoDate) return prefixedIsoDate[1];
+
+  const parsed = new Date(raw);
+  if (Number.isNaN(parsed.getTime())) return '';
+  return parsed.toISOString().slice(0, 10);
 }
 
 function isValidIsoDate(value) {
