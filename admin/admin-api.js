@@ -5,6 +5,7 @@ const AdminAPI = {
 
   getToken() { return localStorage.getItem(this.tokenKey); },
   getUser() { try { return JSON.parse(localStorage.getItem(this.userKey) || 'null'); } catch { return null; } },
+  getApiBase() { return window.location.protocol === 'file:' ? 'https://www.barefootgifting.com' : ''; },
 
   login(token, user) {
     localStorage.setItem(this.tokenKey, token);
@@ -40,7 +41,7 @@ const AdminAPI = {
 
     let res;
     try {
-      res = await fetch(`/api${path}`, {
+      res = await fetch(`${this.getApiBase()}/api${path}`, {
         ...options,
         headers,
         body: hasBody ? (isFormData ? options.body : JSON.stringify(options.body)) : undefined,

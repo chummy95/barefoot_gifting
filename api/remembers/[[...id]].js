@@ -20,10 +20,16 @@ function getRequestIp(req) {
   return cleanText(req.headers['x-real-ip']);
 }
 
+function normalizeIsoDate(value) {
+  const raw = cleanText(value).slice(0, 10);
+  return /^\d{4}-\d{2}-\d{2}$/.test(raw) ? raw : '';
+}
+
 function isValidIsoDate(value) {
-  if (!/^\d{4}-\d{2}-\d{2}$/.test(String(value || ''))) return false;
-  const parsed = new Date(`${value}T00:00:00Z`);
-  return !Number.isNaN(parsed.getTime());
+  const normalized = normalizeIsoDate(value);
+  if (!normalized) return false;
+  const parsed = new Date(`${normalized}T00:00:00Z`);
+  return !Number.isNaN(parsed.getTime()) && parsed.toISOString().slice(0, 10) === normalized;
 }
 
 function normalizeOccasions(rawOccasions) {
@@ -51,9 +57,10 @@ function startOfTodayUtc() {
 }
 
 function getNextOccurrence(dateValue, today = startOfTodayUtc()) {
-  if (!isValidIsoDate(String(dateValue || ''))) return null;
+  const normalizedDate = normalizeIsoDate(dateValue);
+  if (!isValidIsoDate(normalizedDate)) return null;
 
-  const source = new Date(`${String(dateValue).slice(0, 10)}T00:00:00Z`);
+  const source = new Date(`${normalizedDate}T00:00:00Z`);
   let next = new Date(Date.UTC(
     today.getUTCFullYear(),
     source.getUTCMonth(),

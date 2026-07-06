@@ -546,6 +546,10 @@ button,input,select,textarea{font:inherit;}
     }));
   }
 
+  const remembersApiUrl = `${
+    window.location.protocol === 'file:' ? 'https://www.barefootgifting.com' : ''
+  }/api/remembers/__root__`;
+
   form.addEventListener('submit', async (event) => {
     event.preventDefault();
     clearStatus();
@@ -570,7 +574,7 @@ button,input,select,textarea{font:inherit;}
     submitButton.textContent = 'Saving...';
 
     try {
-      const response = await fetch('/api/remembers/__root__', {
+      const response = await fetch(remembersApiUrl, {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
