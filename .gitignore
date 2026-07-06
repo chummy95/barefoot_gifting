@@ -7,3 +7,4 @@ node_modules/
 .claude/
 BFG.ai
 barefoot guidelines and strategy.pdf
+.env*
