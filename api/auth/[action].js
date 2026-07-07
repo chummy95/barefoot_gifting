@@ -102,5 +102,40 @@ module.exports = async (req, res) => {
     return res.status(405).json({ error: 'Method not allowed' });
   }
 
+  if (action === 'admin-create') {
+    const payload = requireAuth(req, res, ['admin']);
+    if (!payload) return;
+
+    if (req.method !== 'POST') return res.status(405).json({ error: 'Method not allowed' });
+
+    const { name, email, password } = req.body || {};
+    if (!email || !password) {
+      return res.status(400).json({ error: 'Email and password are required' });
+    }
+    if (String(password).length < 8) {
+      return res.status(400).json({ error: 'Password must be at least 8 characters' });
+    }
+
+    const normalizedEmail = String(email).trim().toLowerCase();
+    const displayName = String(name || 'Admin').trim() || 'Admin';
+    const hash = await bcrypt.hash(password, 10);
+
+    const { rows } = await sql`
+      INSERT INTO users (name, email, password_hash, role)
+      VALUES (${displayName}, ${normalizedEmail}, ${hash}, 'admin')
+      ON CONFLICT (email) DO UPDATE
+      SET
+        name = EXCLUDED.name,
+        password_hash = EXCLUDED.password_hash,
+        role = 'admin'
+      RETURNING id, name, email, role
+    `;
+
+    return res.status(200).json({
+      message: 'Admin account is ready.',
+      user: rows[0],
+    });
+  }
+
   return res.status(404).json({ error: 'Not found' });
 };
